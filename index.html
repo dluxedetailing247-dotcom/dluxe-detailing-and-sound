@@ -7,40 +7,27 @@
 let sb=null;function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='requests')loadRequests();if(id==='settings')loadConfig()}
 function cfg(){return JSON.parse(localStorage.getItem('dluxeSupabase')||'{}')}async function init(); {
   try {
-    // First check whether this device already has a saved connection
-    let c = cfg();
+    const response = await fetch('public-config.json');
 
-    // If not, load the shared public configuration
-    if (!c.url || !c.key) {
-      const response = await fetch('public-config.json');
-
-      if (!response.ok) {
-        throw new Error('Could not load configuration.');
-      }
-
-      const publicConfig = await response.json();
-
-      c = {
-        url: publicConfig.supabaseUrl,
-        key: publicConfig.supabaseAnonKey
-      };
+    if (!response.ok) {
+      throw new Error('Could not load configuration.');
     }
 
-    if (!c.url || !c.key) {
-      throw new Error('Configuration details are missing.');
-    }
+    const c = await response.json();
 
-    sb = window.supabase.createClient(c.url, c.key);
+    sb = window.supabase.createClient(
+      c.supabaseUrl,
+      c.supabaseAnonKey
+    );
 
     connection.textContent = '● Supabase configured';
-    summary.textContent =
-      'D-LUXE is connected. Log in under Settings to manage your live business data.';
+    summary.textContent = 'D-LUXE is connected.';
 
   } catch (error) {
     connection.textContent = '● Connection not configured';
-    summary.textContent =
-      'Unable to load the Supabase connection: ' + error.message;
+    summary.textContent = 'Unable to load connection: ' + error.message;
   }
+}
 }
 function loadConfig(){let c=cfg();sbUrl.value=c.url||'';sbKey.value=c.key||''}function saveConfig(){if(!sbUrl.value.trim()||!sbKey.value.trim())return alert('Enter both details.');localStorage.setItem('dluxeSupabase',JSON.stringify({url:sbUrl.value.trim(),key:sbKey.value.trim()}));init();alert('Saved on this device.')}
 async function login(){if(!sb)return alert('Configure Supabase first.');let r=await sb.auth.signInWithPassword({email:loginEmail.value,password:loginPassword.value});authStatus.textContent=r.error?'Login error: '+r.error.message:'Logged in successfully.'}
