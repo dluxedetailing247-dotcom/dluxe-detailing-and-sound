@@ -1,24 +1,25 @@
-<!doctype html>
+n:0;font-size:20px}
+
+<!DOCTYPE html>
 <html lang="en">
- 
-<link rel="manifest" href="./manifest.json">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#090b10">
+<meta name="description" content="D-LUXE DETAILING & SOUND business management platform">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="D-LUXE">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090b10">
-<meta name="description" content="D-LUXE Detailing and Sound Business Platform">
-<link rel="manifest" href="manifest.json">
+
+<link rel="manifest" href="./manifest.json">
 <title>D-LUXE DETAILING & SOUND</title>
 
 <style>
 *{box-sizing:border-box}
 body{
  margin:0;background:#090b10;color:#fff;
- font-family:Arial,sans-serif
+ font-family:Arial,sans-serif;
+ padding-bottom:25px
 }
 header{
  padding:18px;background:#151922;
@@ -26,6 +27,7 @@ header{
  border-bottom:1px solid #30394a
 }
 h1{margin:0;font-size:20px}
+h2,h3{margin-top:5px}
 .tag{color:#f5b700;font-size:11px;font-weight:bold;margin-top:5px}
 nav{
  padding:10px;background:#0d1119;
@@ -37,7 +39,8 @@ button{
  cursor:pointer
 }
 button:disabled{opacity:.5}
-.primary{background:#f5b700;color:#111}
+button.primary{background:#f5b700;color:#111}
+button.install{background:#d4a84e;color:#111}
 main{max-width:1050px;margin:auto;padding:16px}
 .page{display:none}
 .page.active{display:block}
@@ -69,426 +72,545 @@ textarea{min-height:90px}
 .status{color:#3ddc97;font-size:12px}
 .error{color:#ff8585}
 .item button{margin-top:9px}
-h2,h3{margin-top:5px}
+.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+#installAppBtn[hidden]{display:none}
+footer{
+ text-align:center;color:#778196;
+ font-size:11px;padding:20px
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>D-LUXE DETAILING & SOUND</h1>
-<div class="tag">DETAIL • SOUND • STANCE CULTURE 🇿🇦</div>
+  <h1>D-LUXE DETAILING & SOUND</h1>
+  <div class="tag">DETAIL • SOUND • STANCE CULTURE 🇿🇦</div>
+  <div class="top-actions">
+    <button id="installAppBtn" class="install" hidden>
+      📲 Install D-LUXE App
+    </button>
+    <span id="appMode" class="small">D-LUXE Business Platform</span>
+  </div>
 </header>
 
 <nav>
-<button onclick="show('home')">🏠 Dashboard</button>
-<button onclick="show('requests')">📨 Requests</button>
-<button onclick="show('tools')">🔧 Tools</button>
-<button onclick="show('settings')">⚙ Settings</button>
+  <button onclick="show('home')">🏠 Dashboard</button>
+  <button onclick="show('requests')">📨 Requests</button>
+  <button onclick="show('tools')">🔧 Tools</button>
+  <button onclick="show('settings')">⚙ Settings</button>
 </nav>
 
 <main>
 
 <section id="home" class="page active">
-<div class="grid">
+  <div class="grid">
 
-<div class="card">
-<h2>Business Dashboard</h2>
-<p id="connection" class="status">Checking configuration...</p>
-<div id="summary" class="out"></div>
-<button class="primary" onclick="show('requests')">
-View client requests
-</button>
-</div>
+    <div class="card">
+      <h2>Business Dashboard</h2>
+      <p id="connection" class="status">Checking configuration...</p>
+      <div id="summary" class="out"></div>
+      <button class="primary" onclick="show('requests')">
+        View client requests
+      </button>
+    </div>
 
-<div class="card">
-<h3>📱 D-LUXE Mobile App</h3>
-<p class="small">
-Install this platform using Chrome's Install app
-or Add to Home screen option.
-</p>
-<p class="small">Your business platform, wherever you go.</p>
-</div>
+    <div class="card">
+      <h3>📱 D-LUXE Mobile App</h3>
+      <p class="small">
+        Install D-LUXE on your Android phone for a standalone
+        app experience.
+      </p>
+      <button class="install" onclick="installApp()">
+        Install D-LUXE
+      </button>
+      <p id="installStatus" class="small">
+        Installation availability will be checked by Chrome.
+      </p>
+    </div>
 
-<div class="card">
-<h3>🔐 Admin Account</h3>
-<p id="authStatus" class="small">Checking login...</p>
-<button onclick="show('settings')">Account settings</button>
-</div>
+    <div class="card">
+      <h3>🔐 Admin Account</h3>
+      <p id="authStatus" class="small">Checking login...</p>
+      <button onclick="show('settings')">Account settings</button>
+    </div>
 
-</div>
+  </div>
 </section>
 
 <section id="requests" class="page">
-<div class="grid">
+  <div class="grid">
+    <div class="card">
+      <h2>Live Client Requests</h2>
+      <button class="primary" onclick="loadRequests()">↻ Refresh</button>
+      <div id="requestList" class="out">
+        Log in to view client requests.
+      </div>
+    </div>
 
-<div class="card">
-<h2>Live Client Requests</h2>
-<button class="primary" onclick="loadRequests()">↻ Refresh</button>
-<div id="requestList"></div>
-</div>
-
-<div class="card">
-<h2>Request Details</h2>
-<div id="requestDetail" class="out">Select a request.</div>
-</div>
-
-</div>
+    <div class="card">
+      <h2>Request Details</h2>
+      <div id="requestDetail" class="out">Select a request.</div>
+    </div>
+  </div>
 </section>
 
 <section id="tools" class="page">
-<div class="grid">
+  <div class="grid">
 
-<div class="card">
-<h2>Custom Box Wizard</h2>
+    <div class="card">
+      <h2>Custom Box Wizard</h2>
 
-<label>Subwoofer model *</label>
-<input id="subModel">
+      <label>Subwoofer model *</label>
+      <input id="subModel" placeholder="Enter subwoofer model">
 
-<label>Verified manufacturer net volume (L) *</label>
-<input id="boxVol" type="number" step="0.1">
+      <label>Verified manufacturer net volume (L) *</label>
+      <input id="boxVol" type="number" step="0.1">
 
-<label>Verified manufacturer tuning (Hz) *</label>
-<input id="boxTune" type="number">
+      <label>Verified manufacturer tuning (Hz) *</label>
+      <input id="boxTune" type="number">
 
-<label>Build goal</label>
-<select id="goal">
-<option>Hard-hitting daily bass</option>
-<option>Deep low bass daily</option>
-<option>Clean musical bass</option>
-<option>Stance/show build</option>
-</select>
+      <label>Build goal</label>
+      <select id="goal">
+        <option>Hard-hitting daily bass</option>
+        <option>Deep low bass daily</option>
+        <option>Clean musical bass</option>
+        <option>Stance/show build</option>
+      </select>
 
-<button class="primary" onclick="boxPlan()">Create planning brief</button>
-<div id="boxResult" class="out"></div>
-</div>
+      <button class="primary" onclick="boxPlan()">
+        Create planning brief
+      </button>
+      <div id="boxResult" class="out"></div>
+    </div>
 
-<div class="card">
-<h2>Amplifier Voltage Target</h2>
+    <div class="card">
+      <h2>Amplifier Voltage Target</h2>
 
-<label>Target RMS power</label>
-<input id="rms" type="number" value="500">
+      <label>Target RMS power</label>
+      <input id="rms" type="number" value="500">
 
-<label>Final impedance (Ω)</label>
-<input id="ohms" type="number" value="2" step="0.1">
+      <label>Final impedance (Ω)</label>
+      <input id="ohms" type="number" value="2" step="0.1">
 
-<button class="primary" onclick="voltage()">Calculate</button>
-<div id="voltResult" class="out"></div>
-</div>
+      <button class="primary" onclick="voltage()">Calculate</button>
+      <div id="voltResult" class="out"></div>
+    </div>
 
-</div>
+  </div>
 </section>
 
 <section id="settings" class="page">
-<div class="grid">
+  <div class="grid">
 
-<div class="card">
-<h2>Supabase Connection</h2>
-<p class="small">
-Connection is loaded automatically from public-config.json.
-Never enter your database password or service-role key.
-</p>
+    <div class="card">
+      <h2>Supabase Connection</h2>
+      <p class="small">
+        Connection loads automatically from public-config.json.
+        Never enter your database password or service-role key.
+      </p>
+      <p id="settingsConnection" class="status">Checking...</p>
 
-<p id="settingsConnection" class="status">Checking...</p>
+      <h3>Admin Login</h3>
 
-<h3>Admin Login</h3>
+      <label>Email</label>
+      <input id="loginEmail" type="email" autocomplete="username">
 
-<label>Email</label>
-<input id="loginEmail" type="email" autocomplete="username">
+      <label>Password</label>
+      <input id="loginPassword" type="password"
+             autocomplete="current-password">
 
-<label>Password</label>
-<input id="loginPassword" type="password" autocomplete="current-password">
+      <div class="top-actions">
+        <button class="primary" onclick="login()">Log in</button>
+        <button onclick="logout()">Log out</button>
+      </div>
 
-<button class="primary" onclick="login()">Log in</button>
-<button onclick="logout()">Log out</button>
+      <p id="settingsAuth" class="small"></p>
+    </div>
 
-<p id="settingsAuth" class="small"></p>
-</div>
+    <div class="card">
+      <h2>Security</h2>
+      <p class="small">
+        Admin access is controlled through Supabase Authentication
+        and database Row Level Security policies.
+      </p>
+      <p class="small">
+        Public visitors should only be able to submit new service
+        requests. Only authorised administrators should be able
+        to view client information.
+      </p>
+    </div>
 
-<div class="card">
-<h2>Security</h2>
-<p class="small">
-Admin access is controlled through Supabase Authentication
-and database Row Level Security policies.
-</p>
-<p class="small">
-Public visitors should only be able to submit new service
-requests. Only authorised administrators should be able
-to view and manage client information.
-</p>
-</div>
-
-</div>
+  </div>
 </section>
 
 </main>
 
+<footer>
+  D-LUXE DETAILING & SOUND · BUSINESS MANAGEMENT PLATFORM
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+"use strict";
 
 let sb = null;
 let currentRequests = [];
+let deferredInstallPrompt = null;
 
 const el = id => document.getElementById(id);
 
 function show(id) {
- document.querySelectorAll('.page').forEach(
-  x => x.classList.remove('active')
- );
+  document.querySelectorAll(".page").forEach(page =>
+    page.classList.remove("active")
+  );
 
- el(id).classList.add('active');
+  el(id).classList.add("active");
 
- if(id === 'requests') loadRequests();
- if(id === 'settings') checkAuth();
+  if (id === "requests") loadRequests();
+  if (id === "settings") checkAuth();
 }
 
-function setConnection(message, error=false) {
- el('connection').textContent = message;
- el('settingsConnection').textContent = message;
+function setConnection(message, error = false) {
+  el("connection").textContent = message;
+  el("settingsConnection").textContent = message;
 
- el('connection').className = error ? 'status error' : 'status';
- el('settingsConnection').className = error ? 'status error' : 'status';
+  el("connection").className =
+    error ? "status error" : "status";
+
+  el("settingsConnection").className =
+    error ? "status error" : "status";
 }
+
+/* SUPABASE CONNECTION */
 
 async function init() {
- try {
-  setConnection('Checking configuration...');
+  try {
+    setConnection("Checking configuration...");
 
-  if(!window.supabase) {
-   throw new Error('Supabase library did not load.');
+    if (!window.supabase) {
+      throw new Error("Supabase library did not load.");
+    }
+
+    const response = await fetch(
+      "./public-config.json?v=3",
+      { cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      throw new Error("public-config.json could not be loaded.");
+    }
+
+    const config = await response.json();
+
+    if (!config.supabaseUrl || !config.supabaseAnonKey) {
+      throw new Error("Supabase URL or publishable key is missing.");
+    }
+
+    sb = window.supabase.createClient(
+      config.supabaseUrl,
+      config.supabaseAnonKey
+    );
+
+    setConnection("● Supabase configured");
+
+    el("summary").textContent =
+      "D-LUXE is connected. Log in to manage your business data.";
+
+    sb.auth.onAuthStateChange(() => {
+      checkAuth();
+    });
+
+    await checkAuth();
+
+  } catch (error) {
+    sb = null;
+
+    setConnection(
+      "● Connection not configured: " + error.message,
+      true
+    );
+
+    el("summary").textContent =
+      "Check public-config.json and your internet connection.";
   }
-
-  const response = await fetch(
-   'public-config.json?version=1',
-   {cache:'no-store'}
-  );
-
-  if(!response.ok) {
-   throw new Error('Configuration file could not be loaded.');
-  }
-
-  const config = await response.json();
-
-  if(!config.supabaseUrl || !config.supabaseAnonKey) {
-   throw new Error('Project URL or publishable key is missing.');
-  }
-
-  sb = window.supabase.createClient(
-   config.supabaseUrl,
-   config.supabaseAnonKey
-  );
-
-  setConnection('● Supabase configured');
-
-  el('summary').textContent =
-   'D-LUXE is connected. Log in to manage your business data.';
-
-  checkAuth();
-
- } catch(error) {
-  sb = null;
-  setConnection('● Connection not configured: '+error.message,true);
-
-  el('summary').textContent =
-   'Check public-config.json and your internet connection.';
- }
 }
 
+/* ADMIN AUTHENTICATION */
+
 async function checkAuth() {
- if(!sb) return;
+  if (!sb) return;
 
- try {
-  const {data,error} = await sb.auth.getSession();
+  try {
+    const { data, error } = await sb.auth.getSession();
 
-  if(error) throw error;
+    if (error) throw error;
 
-  const message = data.session
-   ? '● Admin logged in'
-   : '● Admin login required';
+    const message = data.session
+      ? "● Admin logged in"
+      : "● Admin login required";
 
-  el('authStatus').textContent = message;
-  el('settingsAuth').textContent = message;
+    el("authStatus").textContent = message;
+    el("settingsAuth").textContent = message;
 
- } catch(error) {
-  el('settingsAuth').textContent = error.message;
- }
+  } catch (error) {
+    el("settingsAuth").textContent = error.message;
+  }
 }
 
 async function login() {
- if(!sb) {
-  alert('Supabase connection is not configured.');
-  return;
- }
+  if (!sb) {
+    alert("Supabase connection is not configured.");
+    return;
+  }
 
- const email = el('loginEmail').value.trim();
- const password = el('loginPassword').value;
+  const email = el("loginEmail").value.trim();
+  const password = el("loginPassword").value;
 
- if(!email || !password) {
-  el('settingsAuth').textContent = 'Enter your email and password.';
-  return;
- }
+  if (!email || !password) {
+    el("settingsAuth").textContent =
+      "Enter your email and password.";
+    return;
+  }
 
- el('settingsAuth').textContent = 'Logging in...';
+  el("settingsAuth").textContent = "Logging in...";
 
- try {
-  const {data,error} = await sb.auth.signInWithPassword({
-   email,
-   password
-  });
+  try {
+    const { error } = await sb.auth.signInWithPassword({
+      email,
+      password
+    });
 
-  if(error) throw error;
+    if (error) throw error;
 
-  el('settingsAuth').textContent = 'Logged in successfully.';
-  el('authStatus').textContent = '● Admin logged in';
-  el('loginPassword').value = '';
+    el("settingsAuth").textContent = "Logged in successfully.";
+    el("loginPassword").value = "";
 
- } catch(error) {
-  el('settingsAuth').textContent = 'Login error: '+error.message;
- }
+    await checkAuth();
+
+  } catch (error) {
+    el("settingsAuth").textContent =
+      "Login error: " + error.message;
+  }
 }
 
 async function logout() {
- if(!sb) return;
+  if (!sb) return;
 
- const {error} = await sb.auth.signOut();
+  const { error } = await sb.auth.signOut();
 
- el('settingsAuth').textContent =
-  error ? error.message : 'Logged out.';
+  el("settingsAuth").textContent =
+    error ? error.message : "Logged out.";
 
- checkAuth();
+  el("requestList").textContent =
+    "Log in to view client requests.";
+
+  el("requestDetail").textContent = "Select a request.";
+
+  await checkAuth();
 }
+
+/* SAFE TEXT DISPLAY */
 
 function esc(value) {
- return String(value ?? '').replace(/[&<>"']/g, c => ({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#39;'
- })[c]);
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]);
 }
 
+/* CLIENT REQUESTS */
+
 async function loadRequests() {
- if(!sb) {
-  el('requestList').textContent = 'Configure Supabase first.';
-  return;
- }
-
- el('requestList').textContent = 'Loading requests...';
-
- try {
-  const {data,error} = await sb
-   .from('service_requests')
-   .select('*')
-   .order('created_at',{ascending:false});
-
-  if(error) throw error;
-
-  currentRequests = data || [];
-
-  if(!currentRequests.length) {
-   el('requestList').textContent = 'No requests yet.';
-   return;
+  if (!sb) {
+    el("requestList").textContent =
+      "Configure Supabase first.";
+    return;
   }
 
-  el('requestList').innerHTML = currentRequests.map(
-   (request,index) => `
-    <div class="item">
-     <b>${esc(request.client_name)}</b>
-     — ${esc(request.service)}
-     <br>
-     <span class="small">
-      ${esc(request.vehicle || 'Vehicle not supplied')}
-     </span>
-     <br>
-     <button onclick="viewRequest(${index})">View details</button>
-    </div>
-   `
-  ).join('');
+  const { data: sessionData, error: sessionError } =
+    await sb.auth.getSession();
 
- } catch(error) {
-  el('requestList').textContent =
-   'Unable to load requests: '+error.message+
-   '\nCheck your admin login and SELECT security policy.';
- }
+  if (sessionError || !sessionData.session) {
+    el("requestList").textContent =
+      "Please log in as an administrator to view requests.";
+    return;
+  }
+
+  el("requestList").textContent = "Loading requests...";
+
+  try {
+    const { data, error } = await sb
+      .from("service_requests")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    currentRequests = data || [];
+
+    if (!currentRequests.length) {
+      el("requestList").textContent = "No requests yet.";
+      return;
+    }
+
+    el("requestList").innerHTML = currentRequests.map(
+      (request, index) => `
+        <div class="item">
+          <b>${esc(request.client_name)}</b>
+          — ${esc(request.service)}
+          <br>
+          <span class="small">
+            ${esc(request.vehicle || "Vehicle not supplied")}
+          </span>
+          <br>
+          <button onclick="viewRequest(${index})">
+            View details
+          </button>
+        </div>
+      `
+    ).join("");
+
+  } catch (error) {
+    el("requestList").textContent =
+      "Unable to load requests: " + error.message +
+      "\nCheck your admin login and SELECT security policy.";
+  }
 }
 
 function viewRequest(index) {
- const x = currentRequests[index];
+  const request = currentRequests[index];
 
- if(!x) return;
+  if (!request) return;
 
- el('requestDetail').textContent =
-  'CLIENT: '+(x.client_name || '-')+
-  '\nPHONE: '+(x.phone || '-')+
-  '\nVEHICLE: '+(x.vehicle || '-')+
-  '\nSERVICE: '+(x.service || '-')+
-  '\nSTATUS: '+(x.status || 'New')+
-  '\nDATE: '+(x.created_at || '-')+
-  '\n\nREQUEST:\n'+(x.request_details || '-');
+  el("requestDetail").textContent =
+    "CLIENT: " + (request.client_name || "-") +
+    "\nPHONE: " + (request.phone || "-") +
+    "\nVEHICLE: " + (request.vehicle || "-") +
+    "\nSERVICE: " + (request.service || "-") +
+    "\nSTATUS: " + (request.status || "New") +
+    "\nDATE: " + (request.created_at || "-") +
+    "\n\nREQUEST:\n" + (request.request_details || "-");
 }
+
+/* SUBWOOFER BOX PLANNING */
 
 function boxPlan() {
- const model = el('subModel').value.trim();
- const volume = Number(el('boxVol').value);
- const tuning = Number(el('boxTune').value);
+  const model = el("subModel").value.trim();
+  const volume = Number(el("boxVol").value);
+  const tuning = Number(el("boxTune").value);
 
- if(!model || volume <= 0 || tuning <= 0) {
-  el('boxResult').textContent =
-   'Enter verified subwoofer specifications first.';
-  return;
- }
+  if (!model || volume <= 0 || tuning <= 0) {
+    el("boxResult").textContent =
+      "Enter verified subwoofer specifications first.";
+    return;
+  }
 
- el('boxResult').textContent =
-  'CUSTOM BOX PLANNING BRIEF\n'+
-  'Subwoofer: '+model+
-  '\nNet volume: '+volume+' L'+
-  '\nTuning: '+tuning+' Hz'+
-  '\nGoal: '+el('goal').value+
-  '\n\nNext: verify vehicle space, driver displacement, '+
-  'port displacement and port dimensions before construction.';
+  el("boxResult").textContent =
+    "CUSTOM BOX PLANNING BRIEF\n" +
+    "Subwoofer: " + model +
+    "\nNet volume: " + volume + " L" +
+    "\nTuning: " + tuning + " Hz" +
+    "\nGoal: " + el("goal").value +
+    "\n\nNext: verify vehicle space, driver displacement, " +
+    "port displacement and port dimensions before construction.";
 }
+
+/* AMPLIFIER VOLTAGE CALCULATOR */
 
 function voltage() {
- const power = Number(el('rms').value);
- const impedance = Number(el('ohms').value);
+  const power = Number(el("rms").value);
+  const impedance = Number(el("ohms").value);
 
- if(power <= 0 || impedance <= 0) {
-  el('voltResult').textContent = 'Enter valid RMS and impedance values.';
-  return;
- }
+  if (power <= 0 || impedance <= 0) {
+    el("voltResult").textContent =
+      "Enter valid RMS and impedance values.";
+    return;
+  }
 
- const target = Math.sqrt(power * impedance);
+  const target = Math.sqrt(power * impedance);
 
- el('voltResult').textContent =
-  'Starting unclipped voltage target: '+
-  target.toFixed(2)+' V AC\n\n'+
-  'Verify actual amplifier output with a clean test signal. '+
-  'This calculation does not guarantee safe speaker operation.';
+  el("voltResult").textContent =
+    "Starting unclipped voltage target: " +
+    target.toFixed(2) + " V AC\n\n" +
+    "Verify actual amplifier output with a clean test signal. " +
+    "This calculation does not guarantee safe speaker operation.";
 }
 
-init();
+/* PWA INSTALLATION */
 
-if('serviceWorker' in navigator) {
- navigator.serviceWorker.register('service-worker.js')
-  .catch(error => console.warn('Service worker:',error));
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+
+  deferredInstallPrompt = event;
+
+  el("installAppBtn").hidden = false;
+  el("installStatus").textContent =
+    "D-LUXE is ready to install.";
+});
+
+async function installApp() {
+  if (!deferredInstallPrompt) {
+    el("installStatus").textContent =
+      "If Chrome does not show the install prompt, open Chrome menu ⋮ and select Install app.";
+    return;
+  }
+
+  deferredInstallPrompt.prompt();
+
+  const result = await deferredInstallPrompt.userChoice;
+
+  if (result.outcome === "accepted") {
+    el("installStatus").textContent =
+      "D-LUXE installation accepted.";
+  } else {
+    el("installStatus").textContent =
+      "Installation cancelled. You can install later.";
+  }
+
+  deferredInstallPrompt = null;
+  el("installAppBtn").hidden = true;
 }
 
-</script>
- 
-<script>
+el("installAppBtn").addEventListener("click", installApp);
+
+window.addEventListener("appinstalled", () => {
+  el("installAppBtn").hidden = true;
+  el("installStatus").textContent =
+    "D-LUXE has been installed successfully.";
+  el("appMode").textContent = "Installed D-LUXE App";
+});
+
+if (
+  window.matchMedia("(display-mode: standalone)").matches ||
+  window.navigator.standalone === true
+) {
+  el("appMode").textContent = "Running as D-LUXE App";
+  el("installAppBtn").hidden = true;
+}
+
+/* REGISTER SERVICE WORKER ONCE */
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./service-worker.js", {
       scope: "./"
     }).then(() => {
-      console.log("D-LUXE PWA registered successfully");
+      console.log("D-LUXE PWA registered successfully.");
     }).catch(error => {
       console.error("PWA registration failed:", error);
     });
   });
 }
+
+/* START APPLICATION */
+
+init();
 </script>
+
 </body>
 </html>
