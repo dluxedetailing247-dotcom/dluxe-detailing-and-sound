@@ -1,0 +1,10 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="90" fill="#090b10"/>
+  <rect x="28" y="28" width="456" height="456" rx="65" fill="none" stroke="#c69b50" stroke-width="8"/>
+  <path d="M105 145 H407" stroke="#c69b50" stroke-width="7"/>
+  <text x="256" y="260" text-anchor="middle" font-family="Arial,sans-serif" font-size="91" font-weight="bold" fill="#e2be69">D-LUXE</text>
+  <path d="M145 292 H367" stroke="#c69b50" stroke-width="5"/>
+  <text x="256" y="345" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="bold" fill="#ffffff">DETAILING</text>
+  <text x="256" y="385" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="bold" fill="#ffffff">&amp; SOUND</text>
+</svg>
