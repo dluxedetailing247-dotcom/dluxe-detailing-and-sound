@@ -1,40 +1,474 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111827"><link rel="manifest" href="manifest.json"><title>D-LUXE DETAILING & SOUND</title><style>body{margin:0;background:#090b10;color:#fff;font-family:Arial}header{padding:17px;background:#151922;position:sticky;top:0}h1{margin:0;font-size:20px}.tag{color:#f5b700;font-size:11px;font-weight:bold;margin-top:4px}nav{padding:10px;background:#0d1119;display:flex;gap:7px;overflow:auto}button{padding:10px 13px;border:0;border-radius:10px;background:#273043;color:#fff;font-weight:bold}.primary{background:#f5b700;color:#111}main{max-width:1050px;margin:auto;padding:16px}.page{display:none}.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}.card{background:#151922;border:1px solid #30394a;border-radius:16px;padding:16px}.out,.item{background:#0b0f16;padding:12px;border-radius:10px;margin-top:10px;white-space:pre-line}label{display:block;color:#aab3c3;font-size:12px;margin:10px 0 5px}input,textarea,select{width:100%;box-sizing:border-box;padding:11px;background:#0b0f16;color:#fff;border:1px solid #394354;border-radius:9px}textarea{min-height:90px}.small{font-size:12px;color:#aab3c3}.status{color:#3ddc97;font-size:12px}</style></head><body><header><h1>D-LUXE DETAILING & SOUND</h1><div class="tag">DETAIL • SOUND • STANCE CULTURE 🇿🇦</div></header><nav><button onclick="show('home')">🏠 Dashboard</button><button onclick="show('requests')">📨 Requests</button><button onclick="show('tools')">🔧 Tools</button><button onclick="show('settings')">⚙ Settings</button></nav><main>
-<section id="home" class="page active"><div class="grid"><div class="card"><h2>Business Dashboard</h2><p id="connection" class="status">Checking configuration...</p><div id="summary" class="out"></div><button class="primary" onclick="show('requests')">View client requests</button></div><div class="card"><h3>📱 Home-screen app</h3><p class="small">Once hosted online, install this platform using your browser's “Install app” or “Add to Home screen” option.</p></div></div></section>
-<section id="requests" class="page"><div class="grid"><div class="card"><h2>Live Client Requests</h2><button class="primary" onclick="loadRequests()">↻ Refresh</button><div id="requestList"></div></div><div class="card"><h2>Details</h2><div id="requestDetail" class="out">Select a request.</div></div></div></section>
-<section id="tools" class="page"><div class="grid"><div class="card"><h2>Custom Box Wizard</h2><label>Subwoofer model *</label><input id="subModel"><label>Verified manufacturer net volume (L) *</label><input id="boxVol" type="number"><label>Verified manufacturer tuning (Hz) *</label><input id="boxTune" type="number"><label>Build goal</label><select id="goal"><option>Hard-hitting daily bass</option><option>Deep low bass daily</option><option>Clean musical bass</option><option>Stance/show build</option></select><button class="primary" onclick="boxPlan()">Create planning brief</button><div id="boxResult" class="out"></div></div><div class="card"><h2>Amplifier Voltage Target</h2><label>Target RMS power</label><input id="rms" type="number" value="500"><label>Final impedance (Ω)</label><input id="ohms" type="number" value="2" step="0.1"><button class="primary" onclick="voltage()">Calculate</button><div id="voltResult" class="out"></div></div></div></section>
-<section id="settings" class="page"><div class="grid"><div class="card"><h2>Supabase Connection</h2><p class="small">Use only your Project URL and publishable/anon key. Never enter your database password or service-role key.</p><label>Project URL</label><input id="sbUrl"><label>Publishable / Anon Key</label><textarea id="sbKey"></textarea><button class="primary" onclick="saveConfig()">Save connection</button><h3>Admin Login</h3><label>Email</label><input id="loginEmail" type="email"><label>Password</label><input id="loginPassword" type="password"><button class="primary" onclick="login()">Log in</button><button onclick="logout()">Log out</button><p id="authStatus" class="small"></p></div><div class="card"><h2>Security</h2><p class="small">Create your admin user in Supabase Authentication, then run the included SQL policy file.</p></div></div></section></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-let sb=null;function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='requests')loadRequests();if(id==='settings')loadConfig()}
-function cfg(){return JSON.parse(localStorage.getItem('dluxeSupabase')||'{}')}async function init(); {
-  try {
-    const response = await fetch('public-config.json');
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b10">
+<meta name="description" content="D-LUXE Detailing and Sound Business Platform">
+<link rel="manifest" href="manifest.json">
+<title>D-LUXE DETAILING & SOUND</title>
 
-    if (!response.ok) {
-      throw new Error('Could not load configuration.');
-    }
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090b10;color:#fff;
+ font-family:Arial,sans-serif
+}
+header{
+ padding:18px;background:#151922;
+ position:sticky;top:0;z-index:5;
+ border-bottom:1px solid #30394a
+}
+h1{margin:0;font-size:20px}
+.tag{color:#f5b700;font-size:11px;font-weight:bold;margin-top:5px}
+nav{
+ padding:10px;background:#0d1119;
+ display:flex;gap:7px;overflow-x:auto
+}
+button{
+ padding:11px 14px;border:0;border-radius:9px;
+ background:#273043;color:#fff;font-weight:bold;
+ cursor:pointer
+}
+button:disabled{opacity:.5}
+.primary{background:#f5b700;color:#111}
+main{max-width:1050px;margin:auto;padding:16px}
+.page{display:none}
+.page.active{display:block}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+ gap:15px
+}
+.card{
+ background:#151922;border:1px solid #30394a;
+ border-radius:16px;padding:16px;min-width:0
+}
+.out,.item{
+ background:#0b0f16;padding:12px;
+ border-radius:10px;margin-top:10px;
+ white-space:pre-line;overflow-wrap:anywhere
+}
+label{
+ display:block;color:#aab3c3;
+ font-size:12px;margin:12px 0 5px
+}
+input,textarea,select{
+ width:100%;padding:12px;
+ background:#0b0f16;color:#fff;
+ border:1px solid #394354;border-radius:9px
+}
+textarea{min-height:90px}
+.small{font-size:12px;color:#aab3c3}
+.status{color:#3ddc97;font-size:12px}
+.error{color:#ff8585}
+.item button{margin-top:9px}
+h2,h3{margin-top:5px}
+</style>
+</head>
 
-    const c = await response.json();
+<body>
 
-    sb = window.supabase.createClient(
-      c.supabaseUrl,
-      c.supabaseAnonKey
-    );
+<header>
+<h1>D-LUXE DETAILING & SOUND</h1>
+<div class="tag">DETAIL • SOUND • STANCE CULTURE 🇿🇦</div>
+</header>
 
-    connection.textContent = '● Supabase configured';
-    summary.textContent = 'D-LUXE is connected.';
+<nav>
+<button onclick="show('home')">🏠 Dashboard</button>
+<button onclick="show('requests')">📨 Requests</button>
+<button onclick="show('tools')">🔧 Tools</button>
+<button onclick="show('settings')">⚙ Settings</button>
+</nav>
 
-  } catch (error) {
-    connection.textContent = '● Connection not configured';
-    summary.textContent = 'Unable to load connection: ' + error.message;
+<main>
+
+<section id="home" class="page active">
+<div class="grid">
+
+<div class="card">
+<h2>Business Dashboard</h2>
+<p id="connection" class="status">Checking configuration...</p>
+<div id="summary" class="out"></div>
+<button class="primary" onclick="show('requests')">
+View client requests
+</button>
+</div>
+
+<div class="card">
+<h3>📱 D-LUXE Mobile App</h3>
+<p class="small">
+Install this platform using Chrome's Install app
+or Add to Home screen option.
+</p>
+<p class="small">Your business platform, wherever you go.</p>
+</div>
+
+<div class="card">
+<h3>🔐 Admin Account</h3>
+<p id="authStatus" class="small">Checking login...</p>
+<button onclick="show('settings')">Account settings</button>
+</div>
+
+</div>
+</section>
+
+<section id="requests" class="page">
+<div class="grid">
+
+<div class="card">
+<h2>Live Client Requests</h2>
+<button class="primary" onclick="loadRequests()">↻ Refresh</button>
+<div id="requestList"></div>
+</div>
+
+<div class="card">
+<h2>Request Details</h2>
+<div id="requestDetail" class="out">Select a request.</div>
+</div>
+
+</div>
+</section>
+
+<section id="tools" class="page">
+<div class="grid">
+
+<div class="card">
+<h2>Custom Box Wizard</h2>
+
+<label>Subwoofer model *</label>
+<input id="subModel">
+
+<label>Verified manufacturer net volume (L) *</label>
+<input id="boxVol" type="number" step="0.1">
+
+<label>Verified manufacturer tuning (Hz) *</label>
+<input id="boxTune" type="number">
+
+<label>Build goal</label>
+<select id="goal">
+<option>Hard-hitting daily bass</option>
+<option>Deep low bass daily</option>
+<option>Clean musical bass</option>
+<option>Stance/show build</option>
+</select>
+
+<button class="primary" onclick="boxPlan()">Create planning brief</button>
+<div id="boxResult" class="out"></div>
+</div>
+
+<div class="card">
+<h2>Amplifier Voltage Target</h2>
+
+<label>Target RMS power</label>
+<input id="rms" type="number" value="500">
+
+<label>Final impedance (Ω)</label>
+<input id="ohms" type="number" value="2" step="0.1">
+
+<button class="primary" onclick="voltage()">Calculate</button>
+<div id="voltResult" class="out"></div>
+</div>
+
+</div>
+</section>
+
+<section id="settings" class="page">
+<div class="grid">
+
+<div class="card">
+<h2>Supabase Connection</h2>
+<p class="small">
+Connection is loaded automatically from public-config.json.
+Never enter your database password or service-role key.
+</p>
+
+<p id="settingsConnection" class="status">Checking...</p>
+
+<h3>Admin Login</h3>
+
+<label>Email</label>
+<input id="loginEmail" type="email" autocomplete="username">
+
+<label>Password</label>
+<input id="loginPassword" type="password" autocomplete="current-password">
+
+<button class="primary" onclick="login()">Log in</button>
+<button onclick="logout()">Log out</button>
+
+<p id="settingsAuth" class="small"></p>
+</div>
+
+<div class="card">
+<h2>Security</h2>
+<p class="small">
+Admin access is controlled through Supabase Authentication
+and database Row Level Security policies.
+</p>
+<p class="small">
+Public visitors should only be able to submit new service
+requests. Only authorised administrators should be able
+to view and manage client information.
+</p>
+</div>
+
+</div>
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+let sb = null;
+let currentRequests = [];
+
+const el = id => document.getElementById(id);
+
+function show(id) {
+ document.querySelectorAll('.page').forEach(
+  x => x.classList.remove('active')
+ );
+
+ el(id).classList.add('active');
+
+ if(id === 'requests') loadRequests();
+ if(id === 'settings') checkAuth();
+}
+
+function setConnection(message, error=false) {
+ el('connection').textContent = message;
+ el('settingsConnection').textContent = message;
+
+ el('connection').className = error ? 'status error' : 'status';
+ el('settingsConnection').className = error ? 'status error' : 'status';
+}
+
+async function init() {
+ try {
+  setConnection('Checking configuration...');
+
+  if(!window.supabase) {
+   throw new Error('Supabase library did not load.');
   }
+
+  const response = await fetch(
+   'public-config.json?version=1',
+   {cache:'no-store'}
+  );
+
+  if(!response.ok) {
+   throw new Error('Configuration file could not be loaded.');
+  }
+
+  const config = await response.json();
+
+  if(!config.supabaseUrl || !config.supabaseAnonKey) {
+   throw new Error('Project URL or publishable key is missing.');
+  }
+
+  sb = window.supabase.createClient(
+   config.supabaseUrl,
+   config.supabaseAnonKey
+  );
+
+  setConnection('● Supabase configured');
+
+  el('summary').textContent =
+   'D-LUXE is connected. Log in to manage your business data.';
+
+  checkAuth();
+
+ } catch(error) {
+  sb = null;
+  setConnection('● Connection not configured: '+error.message,true);
+
+  el('summary').textContent =
+   'Check public-config.json and your internet connection.';
+ }
 }
+
+async function checkAuth() {
+ if(!sb) return;
+
+ try {
+  const {data,error} = await sb.auth.getSession();
+
+  if(error) throw error;
+
+  const message = data.session
+   ? '● Admin logged in'
+   : '● Admin login required';
+
+  el('authStatus').textContent = message;
+  el('settingsAuth').textContent = message;
+
+ } catch(error) {
+  el('settingsAuth').textContent = error.message;
+ }
 }
-function loadConfig(){let c=cfg();sbUrl.value=c.url||'';sbKey.value=c.key||''}function saveConfig(){if(!sbUrl.value.trim()||!sbKey.value.trim())return alert('Enter both details.');localStorage.setItem('dluxeSupabase',JSON.stringify({url:sbUrl.value.trim(),key:sbKey.value.trim()}));init();alert('Saved on this device.')}
-async function login(){if(!sb)return alert('Configure Supabase first.');let r=await sb.auth.signInWithPassword({email:loginEmail.value,password:loginPassword.value});authStatus.textContent=r.error?'Login error: '+r.error.message:'Logged in successfully.'}
-async function logout(){if(sb){await sb.auth.signOut();authStatus.textContent='Logged out.'}}
-async function loadRequests(){if(!sb){requestList.innerHTML='<div class="out">Configure Supabase first.</div>';return}requestList.innerHTML='Loading...';let r=await sb.from('service_requests').select('*').order('created_at',{ascending:false});if(r.error){requestList.innerHTML='<div class="out">Unable to load requests: '+esc(r.error.message)+'\n\nLog in and ensure the admin security policy has been added.</div>';return}requestList.innerHTML=r.data.length?r.data.map((x,i)=>'<div class="item"><b>'+esc(x.client_name)+'</b> — '+esc(x.service)+'<br><span class="small">'+esc(x.vehicle||'Vehicle not supplied')+'</span><br><button onclick="viewRequest('+i+')">View</button></div>').join(''):'<p class="small">No requests yet.</p>';window.currentRequests=r.data}
-function viewRequest(i){let x=window.currentRequests[i];requestDetail.textContent='CLIENT: '+x.client_name+'\nPHONE: '+(x.phone||'-')+'\nVEHICLE: '+(x.vehicle||'-')+'\nSERVICE: '+x.service+'\nSTATUS: '+x.status+'\n\nREQUEST:\n'+(x.request_details||'-')}
-function boxPlan(){let m=subModel.value.trim(),v=+boxVol.value,t=+boxTune.value;if(!m||!v||!t){boxResult.textContent='Enter verified subwoofer specifications first.';return}boxResult.textContent='CUSTOM BOX PLANNING BRIEF\nSubwoofer: '+m+'\nNet volume: '+v+' L\nTuning: '+t+' Hz\nGoal: '+goal.value+'\n\nNext: measure vehicle space, driver displacement and port requirements before cutting material.'}
-function voltage(){let p=+rms.value,z=+ohms.value;if(!p||!z)return;voltResult.textContent='Starting unclipped voltage target: '+Math.sqrt(p*z).toFixed(1)+' V AC\n\nUse verified clean signals and appropriate test equipment. Gain is not a volume control.'}
-function esc(s){return String(s||'').replace(/[&<>]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&gt;')}init();if('serviceWorker'in navigator)navigator.serviceWorker.register('service-worker.js');
-</script></body></html>
+
+async function login() {
+ if(!sb) {
+  alert('Supabase connection is not configured.');
+  return;
+ }
+
+ const email = el('loginEmail').value.trim();
+ const password = el('loginPassword').value;
+
+ if(!email || !password) {
+  el('settingsAuth').textContent = 'Enter your email and password.';
+  return;
+ }
+
+ el('settingsAuth').textContent = 'Logging in...';
+
+ try {
+  const {data,error} = await sb.auth.signInWithPassword({
+   email,
+   password
+  });
+
+  if(error) throw error;
+
+  el('settingsAuth').textContent = 'Logged in successfully.';
+  el('authStatus').textContent = '● Admin logged in';
+  el('loginPassword').value = '';
+
+ } catch(error) {
+  el('settingsAuth').textContent = 'Login error: '+error.message;
+ }
+}
+
+async function logout() {
+ if(!sb) return;
+
+ const {error} = await sb.auth.signOut();
+
+ el('settingsAuth').textContent =
+  error ? error.message : 'Logged out.';
+
+ checkAuth();
+}
+
+function esc(value) {
+ return String(value ?? '').replace(/[&<>"']/g, c => ({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+ })[c]);
+}
+
+async function loadRequests() {
+ if(!sb) {
+  el('requestList').textContent = 'Configure Supabase first.';
+  return;
+ }
+
+ el('requestList').textContent = 'Loading requests...';
+
+ try {
+  const {data,error} = await sb
+   .from('service_requests')
+   .select('*')
+   .order('created_at',{ascending:false});
+
+  if(error) throw error;
+
+  currentRequests = data || [];
+
+  if(!currentRequests.length) {
+   el('requestList').textContent = 'No requests yet.';
+   return;
+  }
+
+  el('requestList').innerHTML = currentRequests.map(
+   (request,index) => `
+    <div class="item">
+     <b>${esc(request.client_name)}</b>
+     — ${esc(request.service)}
+     <br>
+     <span class="small">
+      ${esc(request.vehicle || 'Vehicle not supplied')}
+     </span>
+     <br>
+     <button onclick="viewRequest(${index})">View details</button>
+    </div>
+   `
+  ).join('');
+
+ } catch(error) {
+  el('requestList').textContent =
+   'Unable to load requests: '+error.message+
+   '\nCheck your admin login and SELECT security policy.';
+ }
+}
+
+function viewRequest(index) {
+ const x = currentRequests[index];
+
+ if(!x) return;
+
+ el('requestDetail').textContent =
+  'CLIENT: '+(x.client_name || '-')+
+  '\nPHONE: '+(x.phone || '-')+
+  '\nVEHICLE: '+(x.vehicle || '-')+
+  '\nSERVICE: '+(x.service || '-')+
+  '\nSTATUS: '+(x.status || 'New')+
+  '\nDATE: '+(x.created_at || '-')+
+  '\n\nREQUEST:\n'+(x.request_details || '-');
+}
+
+function boxPlan() {
+ const model = el('subModel').value.trim();
+ const volume = Number(el('boxVol').value);
+ const tuning = Number(el('boxTune').value);
+
+ if(!model || volume <= 0 || tuning <= 0) {
+  el('boxResult').textContent =
+   'Enter verified subwoofer specifications first.';
+  return;
+ }
+
+ el('boxResult').textContent =
+  'CUSTOM BOX PLANNING BRIEF\n'+
+  'Subwoofer: '+model+
+  '\nNet volume: '+volume+' L'+
+  '\nTuning: '+tuning+' Hz'+
+  '\nGoal: '+el('goal').value+
+  '\n\nNext: verify vehicle space, driver displacement, '+
+  'port displacement and port dimensions before construction.';
+}
+
+function voltage() {
+ const power = Number(el('rms').value);
+ const impedance = Number(el('ohms').value);
+
+ if(power <= 0 || impedance <= 0) {
+  el('voltResult').textContent = 'Enter valid RMS and impedance values.';
+  return;
+ }
+
+ const target = Math.sqrt(power * impedance);
+
+ el('voltResult').textContent =
+  'Starting unclipped voltage target: '+
+  target.toFixed(2)+' V AC\n\n'+
+  'Verify actual amplifier output with a clean test signal. '+
+  'This calculation does not guarantee safe speaker operation.';
+}
+
+init();
+
+if('serviceWorker' in navigator) {
+ navigator.serviceWorker.register('service-worker.js')
+  .catch(error => console.warn('Service worker:',error));
+}
+
+</script>
+</body>
+</html>
