@@ -1,1 +1,171 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>D-LUXE Client Portal</title><style>body{background:#090b10;color:#fff;font-family:Arial;margin:0}main{max-width:600px;margin:auto;padding:20px}.card{background:#151922;border:1px solid #30394a;border-radius:16px;padding:20px}h1{color:#f5b700}input,textarea,select{width:100%;box-sizing:border-box;padding:12px;margin:7px 0 14px;background:#0b0f16;color:#fff;border:1px solid #394354;border-radius:9px}textarea{min-height:110px}button{width:100%;padding:13px;border:0;border-radius:10px;background:#f5b700;font-weight:bold}.small{font-size:12px;color:#aab3c3}</style></head><body><main><div class="card"><h1>D-LUXE DETAILING & SOUND</h1><p>Send us your vehicle or service request.</p><input id="name" placeholder="Your name *"><input id="phone" placeholder="Contact number"><input id="vehicle" placeholder="Vehicle: make, model and year"><select id="service"><option>Car Sound Installation</option><option>Sound System Assessment</option><option>Custom Subwoofer Box</option><option>Vehicle Detailing</option><option>Stance / Show Build</option></select><textarea id="details" placeholder="Tell us what you need *"></textarea><button onclick="send()">Submit Request</button><p id="msg" class="small"></p></div></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>let sb;async function init(){try{let c=await (await fetch('public-config.json')).json();sb=window.supabase.createClient(sb=window.supabase.createClient(c.supabaseUrl,c.supabaseAnonKey)}catch(e){msg.textContent='Portal setup is incomplete.'}}async function send(){if(!name.value.trim()||!details.value.trim())return msg.textContent='Please complete your name and request.';if(!sb)return msg.textContent='Portal is not connected yet.';let r = await sb.from('service_requests').insert({client_name:name.value.trim(),phone:phone.value.trim(),vehicle:vehicle.value.trim(),service:service.value,request_details:details.value.trim()});msg.textContent=r.error?'Unable to submit: '+r.error.message:'Thank you! Your request has been sent to D-LUXE.';if(!r.error)name.value=phone.value=vehicle.value=details.value=''}init();</script></body></html>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>D-LUXE Client Portal</title>
+
+  <style>
+    body {
+      background: #090b10;
+      color: #fff;
+      font-family: Arial;
+      margin: 0;
+    }
+
+    main {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #151922;
+      border: 1px solid #30394a;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #f5b700;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 7px 0 14px;
+      background: #0b0f16;
+      color: #fff;
+      border: 1px solid #394354;
+      border-radius: 9px;
+    }
+
+    textarea {
+      min-height: 110px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 10px;
+      background: #f5b700;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .small {
+      font-size: 12px;
+      color: #aab3c3;
+    }
+  </style>
+</head>
+
+<body>
+
+<main>
+  <div class="card">
+
+    <h1>D-LUXE DETAILING & SOUND</h1>
+
+    <p>Send us your vehicle or service request.</p>
+
+    <input id="name" placeholder="Your name *">
+
+    <input id="phone" placeholder="Contact number">
+
+    <input id="vehicle" placeholder="Vehicle: make, model and year">
+
+    <select id="service">
+      <option>Car Sound Installation</option>
+      <option>Sound System Assessment</option>
+      <option>Custom Subwoofer Box</option>
+      <option>Vehicle Detailing</option>
+      <option>Stance / Show Build</option>
+    </select>
+
+    <textarea id="details" placeholder="Tell us what you need *"></textarea>
+
+    <button onclick="send()">Submit Request</button>
+
+    <p id="msg" class="small"></p>
+
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+let sb;
+
+async function init() {
+  try {
+    const response = await fetch('public-config.json');
+    const c = await response.json();
+
+    sb = window.supabase.createClient(
+      c.supabaseUrl,
+      c.supabaseAnonKey
+    );
+
+    document.getElementById('msg').textContent =
+      'Portal connected successfully.';
+
+  } catch (e) {
+    document.getElementById('msg').textContent =
+      'Portal setup is incomplete: ' + e.message;
+  }
+}
+
+async function send() {
+
+  const name = document.getElementById('name');
+  const phone = document.getElementById('phone');
+  const vehicle = document.getElementById('vehicle');
+  const service = document.getElementById('service');
+  const details = document.getElementById('details');
+  const msg = document.getElementById('msg');
+
+  if (!name.value.trim() || !details.value.trim()) {
+    msg.textContent = 'Please complete your name and request.';
+    return;
+  }
+
+  if (!sb) {
+    msg.textContent = 'Portal is not connected yet.';
+    return;
+  }
+
+  msg.textContent = 'Sending your request...';
+
+  const { error } = await sb
+    .from('service_requests')
+    .insert({
+      client_name: name.value.trim(),
+      phone: phone.value.trim(),
+      vehicle: vehicle.value.trim(),
+      service: service.value,
+      request_details: details.value.trim()
+    });
+
+  if (error) {
+    msg.textContent = 'Unable to submit: ' + error.message;
+  } else {
+    msg.textContent =
+      'Thank you! Your request has been sent to D-LUXE.';
+
+    name.value = '';
+    phone.value = '';
+    vehicle.value = '';
+    details.value = '';
+  }
+}
+
+init();
+
+</script>
+
+</body>
+</html>
