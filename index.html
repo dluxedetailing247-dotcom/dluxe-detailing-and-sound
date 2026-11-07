@@ -1,5 +1,11 @@
 <!doctype html>
 <html lang="en">
+ 
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#090b10">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="D-LUXE">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -469,6 +475,20 @@ if('serviceWorker' in navigator) {
   .catch(error => console.warn('Service worker:',error));
 }
 
+</script>
+ 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js", {
+      scope: "./"
+    }).then(() => {
+      console.log("D-LUXE PWA registered successfully");
+    }).catch(error => {
+      console.error("PWA registration failed:", error);
+    });
+  });
+}
 </script>
 </body>
 </html>
