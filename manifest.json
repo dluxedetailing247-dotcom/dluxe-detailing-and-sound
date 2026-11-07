@@ -1,1 +1,25 @@
-{"name": "D-LUXE DETAILING & SOUND", "short_name": "D-LUXE", "start_url": "./index.html", "display": "standalone", "background_color": "#090b10", "theme_color": "#111827"}
+
+{
+  "id": "./",
+  "name": "D-LUXE DETAILING & SOUND",
+  "short_name": "D-LUXE",
+  "description": "D-LUXE business management app",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#090b10",
+  "theme_color": "#090b10",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
