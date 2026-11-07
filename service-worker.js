@@ -1,11 +1,12 @@
 
-const CACHE_NAME = "dluxe-app-v1";
+const CACHE_NAME = "dluxe-pwa-v2";
 
 const APP_FILES = [
   "./",
   "./index.html",
   "./client-portal.html",
-  "./manifest.json"
+  "./manifest.json",
+  "./icons/icon.svg"
 ];
 
 self.addEventListener("install", event => {
@@ -20,8 +21,9 @@ self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys.filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
+        keys.filter(key =>
+          key.startsWith("dluxe-pwa-") && key !== CACHE_NAME
+        ).map(key => caches.delete(key))
       )
     ).then(() => self.clients.claim())
   );
