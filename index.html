@@ -2,27 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta name="theme-color" content="#090b10">
-
   <meta name="description" content="D-LUXE DETAILING & SOUND Business Platform">
 
   <meta name="mobile-web-app-capable" content="yes">
-
   <meta name="apple-mobile-web-app-capable" content="yes">
-
   <meta name="apple-mobile-web-app-title" content="D-LUXE">
 
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="manifest.json">
 
   <title>D-LUXE DETAILING & SOUND</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -40,10 +34,7 @@
       border-bottom: 1px solid #30394a;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 20px;
-    }
+    h1 { margin: 0; font-size: 20px; }
 
     .tag {
       color: #f5b700;
@@ -70,16 +61,12 @@
       cursor: pointer;
     }
 
-    .primary {
+    .primary, .install {
       background: #f5b700;
       color: #111111;
     }
 
-    .install {
-      background: #f5b700;
-      color: #111111;
-      margin-top: 10px;
-    }
+    .install { margin-top: 10px; }
 
     main {
       max-width: 1050px;
@@ -87,13 +74,8 @@
       padding: 16px;
     }
 
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
+    .page { display: none; }
+    .page.active { display: block; }
 
     .grid {
       display: grid;
@@ -108,8 +90,7 @@
       padding: 16px;
     }
 
-    .out,
-    .item {
+    .out, .item {
       background: #0b0f16;
       padding: 12px;
       border-radius: 10px;
@@ -125,11 +106,8 @@
       margin: 10px 0 5px;
     }
 
-    input,
-    textarea,
-    select {
+    input, textarea, select {
       width: 100%;
-      box-sizing: border-box;
       padding: 11px;
       background: #0b0f16;
       color: #ffffff;
@@ -137,9 +115,7 @@
       border-radius: 9px;
     }
 
-    textarea {
-      min-height: 90px;
-    }
+    textarea { min-height: 90px; }
 
     .small {
       font-size: 12px;
@@ -151,9 +127,7 @@
       font-size: 12px;
     }
 
-    .error {
-      color: #ff7777;
-    }
+    .error { color: #ff7777; }
 
     #installAppBtn[hidden] {
       display: none;
@@ -177,201 +151,126 @@
 
 <main>
 
-  <!-- HOME -->
-
   <section id="home" class="page active">
-
     <div class="grid">
 
       <div class="card">
-
         <h2>Business Dashboard</h2>
-
-        <p id="connection" class="status">
-          Checking configuration...
-        </p>
-
-        <div id="summary" class="out">
-          Starting D-LUXE...
-        </div>
+        <p id="connection" class="status">Checking configuration...</p>
+        <div id="summary" class="out">Starting D-LUXE...</div>
 
         <button class="primary" onclick="show('requests')">
           View client requests
         </button>
-
       </div>
 
       <div class="card">
-
         <h3>📱 D-LUXE Mobile App</h3>
-
         <p class="small">
           Install D-LUXE on your device for a standalone app experience.
         </p>
 
-        <!-- Hidden until Chrome confirms the PWA is installable -->
-
-        <button
-          id="installAppBtn"
-          class="install"
-          hidden>
+        <button id="installAppBtn" class="install" hidden>
           📲 Install D-LUXE App
         </button>
 
         <p id="installStatus" class="small">
-          Checking whether D-LUXE can be installed...
+          Checking installation availability...
         </p>
-
       </div>
 
     </div>
-
   </section>
 
 
-  <!-- REQUESTS -->
-
   <section id="requests" class="page">
-
     <div class="grid">
 
       <div class="card">
-
         <h2>Live Client Requests</h2>
 
-        <button
-          class="primary"
-          onclick="loadRequests()">
+        <button class="primary" onclick="loadRequests()">
           ↻ Refresh
         </button>
 
         <div id="requestList" class="out">
-          Loading requests...
+          Open this page to load requests.
         </div>
-
       </div>
 
       <div class="card">
-
         <h2>Details</h2>
-
         <div id="requestDetail" class="out">
           Select a request.
         </div>
-
       </div>
 
     </div>
-
   </section>
 
 
-  <!-- TOOLS -->
-
   <section id="tools" class="page">
-
     <div class="grid">
 
       <div class="card">
-
         <h2>Custom Box Wizard</h2>
 
         <label>Subwoofer model *</label>
+        <input id="subModel">
 
-        <input
-          id="subModel"
-          placeholder="Enter subwoofer model">
+        <label>Verified manufacturer net volume (L) *</label>
+        <input id="boxVol" type="number">
 
-        <label>
-          Verified manufacturer net volume (L) *
-        </label>
-
-        <input
-          id="boxVol"
-          type="number"
-          step="0.1">
-
-        <label>
-          Verified manufacturer tuning (Hz) *
-        </label>
-
-        <input
-          id="boxTune"
-          type="number">
+        <label>Verified manufacturer tuning (Hz) *</label>
+        <input id="boxTune" type="number">
 
         <label>Build goal</label>
-
         <select id="goal">
-
           <option>Hard-hitting daily bass</option>
           <option>Deep low bass daily</option>
           <option>Clean musical bass</option>
           <option>Stance/show build</option>
-
         </select>
 
         <br><br>
 
-        <button
-          class="primary"
-          onclick="boxPlan()">
+        <button class="primary" onclick="boxPlan()">
           Create planning brief
         </button>
 
         <div id="boxResult" class="out"></div>
-
       </div>
 
 
       <div class="card">
-
         <h2>Amplifier Voltage Target</h2>
 
         <label>Target RMS power</label>
-
-        <input
-          id="rms"
-          type="number"
-          value="500">
+        <input id="rms" type="number" value="500">
 
         <label>Final impedance (Ω)</label>
-
-        <input
-          id="ohms"
-          type="number"
-          value="2"
-          step="0.1">
+        <input id="ohms" type="number" value="2" step="0.1">
 
         <br><br>
 
-        <button
-          class="primary"
-          onclick="voltage()">
+        <button class="primary" onclick="voltage()">
           Calculate
         </button>
 
         <div id="voltResult" class="out"></div>
-
       </div>
 
     </div>
-
   </section>
 
 
-  <!-- SETTINGS -->
-
   <section id="settings" class="page">
-
     <div class="grid">
 
       <div class="card">
-
         <h2>Supabase Connection</h2>
-
         <p class="small">
-          D-LUXE automatically loads its connection from
-          public-config.json.
+          The connection is loaded automatically from public-config.json.
         </p>
 
         <p id="settingsConnection" class="status">
@@ -381,57 +280,248 @@
         <h3>Admin Login</h3>
 
         <label>Email</label>
-
-        <input
-          id="loginEmail"
-          type="email"
-          autocomplete="username">
+        <input id="loginEmail" type="email">
 
         <label>Password</label>
-
-        <input
-          id="loginPassword"
-          type="password"
-          autocomplete="current-password">
+        <input id="loginPassword" type="password">
 
         <br><br>
 
-        <button
-          class="primary"
-          onclick="login()">
+        <button class="primary" onclick="login()">
           Log in
         </button>
 
-        <button onclick="logout()">
-          Log out
-        </button>
+        <button onclick="logout()">Log out</button>
 
         <p id="authStatus" class="small"></p>
-
       </div>
 
-
       <div class="card">
-
         <h2>Security</h2>
-
         <p class="small">
-          Admin access is protected through Supabase Authentication
-          and your database security policies.
+          Admin access is controlled through Supabase Authentication
+          and database security policies.
         </p>
-
       </div>
 
     </div>
-
   </section>
 
 </main>
 
-
-<!-- SUPABASE -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+"use strict";
 
-<script
+let sb = null;
+let currentRequests = [];
+let deferredInstallPrompt = null;
+
+/* PAGE NAVIGATION */
+function show(id) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+
+  if (id === "requests") {
+    loadRequests();
+  }
+}
+
+/* SUPABASE CONNECTION */
+async function init() {
+  const connection = document.getElementById("connection");
+  const settingsConnection = document.getElementById("settingsConnection");
+  const summary = document.getElementById("summary");
+
+  try {
+    if (!window.supabase) {
+      throw new Error("Supabase library failed to load.");
+    }
+
+    const response = await fetch("./public-config.json", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("Could not load public-config.json.");
+    }
+
+    const config = await response.json();
+
+    if (!config.supabaseUrl || !config.supabaseAnonKey) {
+      throw new Error("Supabase URL or anon key is missing.");
+    }
+
+    sb = window.supabase.createClient(
+      config.supabaseUrl,
+      config.supabaseAnonKey
+    );
+
+    connection.textContent = "● Supabase configured";
+    settingsConnection.textContent = "● Supabase configured";
+    summary.textContent = "D-LUXE is connected and ready.";
+
+    await checkAuth();
+
+  } catch (error) {
+    connection.textContent = "● Connection error";
+    connection.classList.add("error");
+
+    settingsConnection.textContent =
+      "Connection error: " + error.message;
+    settingsConnection.classList.add("error");
+
+    summary.textContent =
+      "Unable to connect: " + error.message;
+  }
+}
+
+/* AUTH */
+async function checkAuth() {
+  if (!sb) return;
+
+  const result = await sb.auth.getSession();
+
+  document.getElementById("authStatus").textContent =
+    result.data.session
+      ? "● Admin logged in"
+      : "● Admin login required";
+}
+
+async function login() {
+  if (!sb) {
+    alert("Supabase is not configured.");
+    return;
+  }
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  if (!email || !password) {
+    document.getElementById("authStatus").textContent =
+      "Enter your email and password.";
+    return;
+  }
+
+  const result = await sb.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  document.getElementById("authStatus").textContent =
+    result.error
+      ? "Login error: " + result.error.message
+      : "Logged in successfully.";
+
+  if (!result.error) await checkAuth();
+}
+
+async function logout() {
+  if (!sb) return;
+
+  await sb.auth.signOut();
+  document.getElementById("authStatus").textContent = "Logged out.";
+}
+
+/* CLIENT REQUESTS */
+async function loadRequests() {
+  const requestList = document.getElementById("requestList");
+
+  if (!sb) {
+    requestList.textContent = "Supabase is not configured.";
+    return;
+  }
+
+  requestList.textContent = "Loading requests...";
+
+  const result = await sb
+    .from("service_requests")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (result.error) {
+    requestList.textContent =
+      "Unable to load requests: " + result.error.message;
+    return;
+  }
+
+  currentRequests = result.data || [];
+
+  if (!currentRequests.length) {
+    requestList.textContent = "No requests yet.";
+    return;
+  }
+
+  requestList.innerHTML = currentRequests.map((request, index) => `
+    <div class="item">
+      <b>${escapeHtml(request.client_name)}</b>
+      — ${escapeHtml(request.service)}
+      <br>
+      <span class="small">
+        ${escapeHtml(request.vehicle || "Vehicle not supplied")}
+      </span>
+      <br><br>
+      <button onclick="viewRequest(${index})">
+        View details
+      </button>
+    </div>
+  `).join("");
+}
+
+function viewRequest(index) {
+  const request = currentRequests[index];
+  if (!request) return;
+
+  document.getElementById("requestDetail").textContent =
+    "CLIENT: " + (request.client_name || "-") +
+    "\nPHONE: " + (request.phone || "-") +
+    "\nVEHICLE: " + (request.vehicle || "-") +
+    "\nSERVICE: " + (request.service || "-") +
+    "\nSTATUS: " + (request.status || "New") +
+    "\n\nREQUEST:\n" + (request.request_details || "-");
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/* BOX PLANNER */
+function boxPlan() {
+  const model = document.getElementById("subModel").value.trim();
+  const volume = Number(document.getElementById("boxVol").value);
+  const tuning = Number(document.getElementById("boxTune").value);
+
+  if (!model || volume <= 0 || tuning <= 0) {
+    document.getElementById("boxResult").textContent =
+      "Enter verified subwoofer specifications first.";
+    return;
+  }
+
+  document.getElementById("boxResult").textContent =
+    "CUSTOM BOX PLANNING BRIEF\n\n" +
+    "Subwoofer: " + model +
+    "\nNet volume: " + volume + " L" +
+    "\nTuning: " + tuning + " Hz" +
+    "\nGoal: " + document.getElementById("goal").value +
+    "\n\nNext: verify vehicle space, driver displacement and port requirements before construction.";
+}
+
+/* VOLTAGE CALCULATOR */
+function voltage() {
+  const power = Number(document.getElementById("rms").value);
+  const impedance = Number(document.getElementById("ohms").value);
+
+  if (power <= 0 || impedance <= 0) return;
+
+  const target = Math.sqrt(power * impedance);
+
+  document.getElementById("voltResult").textContent =
+   
