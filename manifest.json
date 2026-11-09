@@ -1,34 +1,26 @@
-
 {
   "id": "./",
   "name": "D-LUXE DETAILING & SOUND",
   "short_name": "D-LUXE",
-  "description": "Professional detailing and car sound business management platform",
-  "start_url": "./index.html",
+  "description": "D-LUXE DETAILING & SOUND Business Platform",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "display_override": [
-    "standalone",
-    "minimal-ui"
-  ],
-  "orientation": "portrait",
   "background_color": "#090b10",
   "theme_color": "#090b10",
-  "prefer_related_applications": false,
-  
-"icons": [
-  {
-    "src": "./icons/icon-192.png",
-    "sizes": "192x192",
-    "type": "image/png",
-    "purpose": "any"
-  },
-  {
-    "src": "./icons/icon-512.png",
-    "sizes": "512x512",
-    "type": "image/png",
-    "purpose": "any"
-  }
-]
-
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
