@@ -1,70 +1,141 @@
-
-const CACHE_NAME = "dluxe-pwa-v3";
+const CACHE_NAME = "dluxe-pwa-v10";
 
 const APP_FILES = [
   "./",
   "./index.html",
-  "./client-portal.html",
   "./manifest.json",
   "./icons/icon-192.png",
-"./icons/icon-512.png"
+  "./icons/icon-512.png"
 ];
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_FILES))
-      .then(() => self.skipWaiting())
-  );
-});
 
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys =>
-        Promise.all(
-          keys
-            .filter(key =>
-              key.startsWith("dluxe-pwa-") &&
-              key !== CACHE_NAME
-            )
-            .map(key => caches.delete(key))
-        )
-      )
-      .then(() => self.clients.claim())
-  );
-});
+/* INSTALL */
 
-self.addEventListener("fetch", event => {
-  const request = event.request;
+self.addEventListener(
+  "install",
 
-  if (request.method !== "GET") return;
+  event => {
 
-  const url = new URL(request.url);
+    event.waitUntil(
 
-  if (url.origin !== self.location.origin) return;
+      caches
+        .open(CACHE_NAME)
 
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          if (response.ok) {
-            const copy = response.clone();
+        .then(cache => {
 
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(request, copy);
-            });
-          }
-
-          return response;
-        })
-        .catch(async () => {
-          return (
-            await caches.match(request) ||
-            await caches.match("./index.html") ||
-            Response.error()
+          return cache.addAll(
+            APP_FILES
           );
+
         })
+
+        .then(() => {
+
+          return self.skipWaiting();
+
+        })
+
     );
+
   }
-});
+
+);
+
+
+/* ACTIVATE */
+
+self.addEventListener(
+  "activate",
+
+  event => {
+
+    event.waitUntil(
+
+      caches
+        .keys()
+
+        .then(keys => {
+
+          return Promise.all(
+
+            keys
+              .filter(
+                key =>
+                  key !== CACHE_NAME
+              )
+
+              .map(
+                key =>
+                  caches.delete(key)
+              )
+
+          );
+
+        })
+
+        .then(() => {
+
+          return self.clients.claim();
+
+        })
+
+    );
+
+  }
+
+);
+
+
+/* FETCH */
+
+self.addEventListener(
+  "fetch",
+
+  event => {
+
+    if (
+      event.request.method !==
+      "GET"
+    ) return;
+
+
+    event.respondWith(
+
+      fetch(
+        event.request
+      )
+
+      .then(response => {
+
+        const copy =
+          response.clone();
+
+        caches
+          .open(CACHE_NAME)
+
+          .then(cache => {
+
+            cache.put(
+              event.request,
+              copy
+            );
+
+          });
+
+        return response;
+
+      })
+
+      .catch(() => {
+
+        return caches.match(
+          event.request
+        );
+
+      })
+
+    );
+
+  }
+
+);
