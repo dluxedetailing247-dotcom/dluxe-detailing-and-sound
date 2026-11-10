@@ -1,0 +1,1156 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b10">
+<link rel="manifest" href="./manifest.json">
+<title>D-LUXE | Premium Command Centre</title>
+
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#090b10;
+  --card:#151923;
+  --gold:#e5b84d;
+  --line:#303644;
+  --muted:#aeb6c4;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at top right,#302719,#090b10 48%);
+  color:#f7f8fa;
+  font:15px system-ui,Arial,sans-serif;
+}
+header{
+  padding:20px 18px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+h1{font-size:22px;margin:3px 0}
+h2{font-size:20px}
+h3{font-size:16px}
+.gold{color:var(--gold)}
+.muted,small{color:var(--muted)}
+main{max-width:1120px;margin:auto;padding:18px}
+.card{
+  background:linear-gradient(145deg,#191e29,#11141c);
+  border:1px solid var(--line);
+  border-radius:19px;
+  padding:19px;
+  margin:12px 0;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+}
+.grid .card{margin:0}
+.stat{
+  font-size:28px;
+  font-weight:800;
+  color:var(--gold);
+}
+button,input,select,textarea{
+  font:inherit;
+  border-radius:11px;
+  padding:12px;
+}
+button{
+  border:0;
+  background:var(--gold);
+  color:#17120a;
+  font-weight:750;
+  cursor:pointer;
+}
+button.secondary{
+  background:#303746;
+  color:white;
+}
+button:disabled{opacity:.55;cursor:wait}
+input,select,textarea{
+  width:100%;
+  background:#0c0f16;
+  color:white;
+  border:1px solid #3a4250;
+  margin:6px 0 12px;
+}
+label{
+  display:block;
+  font-size:13px;
+  color:var(--muted);
+}
+textarea{min-height:90px}
+nav{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:12px 18px;
+  border-bottom:1px solid var(--line);
+}
+nav button{
+  white-space:nowrap;
+  background:#222733;
+  color:white;
+}
+nav button.active{
+  background:var(--gold);
+  color:#17120a;
+}
+.hidden{display:none!important}
+.request{
+  border:1px solid #3b424d;
+  border-radius:13px;
+  padding:14px;
+  margin:10px 0;
+  background:#10141c;
+}
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+}
+.tag{color:var(--gold);font-weight:700}
+.photos{display:flex;gap:10px;flex-wrap:wrap}
+.photos img{
+  width:135px;
+  height:110px;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid var(--line);
+}
+.message{
+  min-height:22px;
+  color:var(--gold);
+  overflow-wrap:anywhere;
+}
+a{color:var(--gold)}
+.split{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:14px;
+}
+.note{
+  font-size:12px;
+  line-height:1.6;
+  color:var(--muted);
+}
+.authScreen{
+  min-height:calc(100dvh - 80px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.authCard{
+  width:100%;
+  max-width:430px;
+  background:linear-gradient(150deg,#20202a,#101219);
+  border:1px solid #56482d;
+  border-radius:25px;
+  padding:27px;
+  box-shadow:0 20px 70px #0008;
+}
+.lockIcon{
+  width:76px;
+  height:76px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 20px;
+  border-radius:22px;
+  background:#3b301b;
+  color:var(--gold);
+  font-size:37px;
+}
+.authCard h2{text-align:center}
+.authCard p{text-align:center}
+.authCard button{width:100%;margin-top:6px}
+.brand{
+  color:var(--gold);
+  letter-spacing:2px;
+  font-size:11px;
+  font-weight:750;
+}
+.authEmail{
+  background:#11151d;
+  border:1px solid var(--line);
+  padding:12px;
+  border-radius:10px;
+  overflow-wrap:anywhere;
+  margin-bottom:15px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <div class="brand">D-LUXE DETAILING & SOUND</div>
+    <h1>Command Centre</h1>
+  </div>
+  <button id="logout" class="secondary hidden">
+    Sign out
+  </button>
+</header>
+
+<section id="authView" class="authScreen">
+  <div class="authCard">
+    <div class="lockIcon">◆</div>
+
+    <p class="brand">PRIVATE ADMINISTRATOR ACCESS</p>
+    <h2 id="authTitle">D-LUXE Secure Access</h2>
+    <p id="authDescription" class="muted">
+      Connecting to your secure business platform…
+    </p>
+
+    <div id="savedEmail" class="authEmail hidden"></div>
+
+    <form id="authForm" class="hidden">
+      <label id="emailLabel">
+        Administrator email
+        <input id="authEmail" type="email"
+          autocomplete="username">
+      </label>
+
+      <label>
+        Administrator password
+        <input id="authPassword"
+          type="password"
+          autocomplete="current-password"
+          required>
+      </label>
+
+      <button id="authSubmit" type="submit">
+        Unlock Command Centre
+      </button>
+    </form>
+
+    <button id="switchAccount"
+      class="secondary hidden">
+      Sign out and change account
+    </button>
+
+    <p id="authStatus" class="message"
+      role="status"></p>
+
+    <p class="note">
+      Protected by Supabase Authentication
+      and administrator-only access policies.
+    </p>
+  </div>
+</section>
+
+<div id="appView" class="hidden">
+
+<nav id="tabs">
+  <button data-page="dashboard" class="active">Overview</button>
+  <button data-page="requests">Client requests</button>
+  <button data-page="quote">Quotation</button>
+  <button data-page="sound">Sound tools</button>
+  <button data-page="business">Business</button>
+</nav>
+
+<main>
+
+<section id="dashboard" class="page">
+  <h2>Business overview</h2>
+
+  <div class="grid">
+    <div class="card">
+      New requests
+      <div id="statNew" class="stat">—</div>
+    </div>
+    <div class="card">
+      Active jobs
+      <div id="statActive" class="stat">—</div>
+    </div>
+    <div class="card">
+      Completed
+      <div id="statDone" class="stat">—</div>
+    </div>
+    <div class="card">
+      Quoted starting value
+      <div id="statValue" class="stat">—</div>
+      <small>Not confirmed revenue</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Recent requests</h3>
+    <div id="recent"></div>
+    <button id="refresh">Refresh data</button>
+  </div>
+</section>
+
+<section id="requests" class="page hidden">
+  <div class="row">
+    <h2>Client requests</h2>
+    <button id="refreshRequests">Refresh</button>
+  </div>
+
+  <label>Filter by status
+    <select id="statusFilter">
+      <option value="">All requests</option>
+      <option>New</option>
+      <option>Contacted</option>
+      <option>Booked</option>
+      <option>In Progress</option>
+      <option>Completed</option>
+      <option>Cancelled</option>
+    </select>
+  </label>
+
+  <div id="requestList"></div>
+</section>
+
+<section id="quote" class="page hidden">
+  <h2>Quotation calculator</h2>
+
+  <div class="card split">
+    <div>
+      <label>Service price (R)
+        <input type="number" min="0"
+          id="qService" value="500">
+      </label>
+
+      <label>Billable travel distance (km)
+        <input type="number" min="0"
+          id="qKm" value="0">
+      </label>
+
+      <label>Other charges (R)
+        <input type="number" min="0"
+          id="qExtra" value="0">
+      </label>
+    </div>
+
+    <div>
+      <label>Materials cost (R)
+        <input type="number" min="0"
+          id="qMaterials" value="100">
+      </label>
+
+      <label>Other job costs (R)
+        <input type="number" min="0"
+          id="qCosts" value="0">
+      </label>
+
+      <label>Travel cost to business (R)
+        <input type="number" min="0"
+          id="qTravelCost" value="0">
+      </label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="qTotal"></h3>
+    <p id="qProfit"></p>
+    <p class="note">
+      Travel charged at R3.20 per billable kilometre.
+      Estimated gross profit excludes tax, overhead
+      and labour unless entered as costs.
+      This calculator is not a formal invoice.
+    </p>
+  </div>
+</section>
+
+<section id="sound" class="page hidden">
+  <h2>Sound installation tools</h2>
+
+  <div class="card">
+    <h3>Amplifier gain voltage reference</h3>
+
+    <div class="split">
+      <label>Target RMS watts
+        <input id="watts" type="number"
+          min="1" value="300">
+      </label>
+
+      <label>Load impedance (ohms)
+        <input id="ohms" type="number"
+          min="0.1" step="0.1" value="4">
+      </label>
+    </div>
+
+    <p id="voltage" class="gold"></p>
+
+    <p class="note">
+      V = √(RMS watts × ohms).
+      This is a theoretical reference only.
+      Confirm actual RMS ratings, final impedance,
+      amplifier limits and distortion using
+      appropriate test equipment.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Custom subwoofer box planning</h3>
+
+    <div class="split">
+      <label>Subwoofer brand and model
+        <input id="subModel"
+          placeholder="Exact manufacturer and model">
+      </label>
+
+      <label>Number of subwoofers
+        <input id="subQty" type="number"
+          min="1" max="8" value="1">
+      </label>
+
+      <label>Subwoofer size (inches)
+        <input id="subDiameter" type="number"
+          min="4" value="12">
+      </label>
+
+      <label>Available width (cm)
+        <input id="bootW" type="number" min="1">
+      </label>
+
+      <label>Available height (cm)
+        <input id="bootH" type="number" min="1">
+      </label>
+
+      <label>Available depth (cm)
+        <input id="bootD" type="number" min="1">
+      </label>
+
+      <label>Bass preference
+        <select id="bass">
+          <option>Deep daily bass</option>
+          <option>Hard-hitting daily bass</option>
+          <option>Balanced / SQL</option>
+          <option>Show / SPL</option>
+        </select>
+      </label>
+
+      <label>Preferred enclosure
+        <select id="boxType">
+          <option>Ported</option>
+          <option>Sealed</option>
+          <option>Not decided</option>
+        </select>
+      </label>
+    </div>
+
+    <button id="boxPlan">
+      Generate planning brief
+    </button>
+
+    <pre id="boxResult"
+      style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
+
+    <p class="note">
+      Final enclosure dimensions require
+      manufacturer T/S parameters, recommended
+      net air volume, displacement, port tuning
+      and clearance measurements.
+    </p>
+  </div>
+</section>
+
+<section id="business" class="page hidden">
+  <h2>Business information</h2>
+
+  <div class="card">
+    <h3>D-LUXE DETAILING & SOUND</h3>
+
+    <p>
+      Call:
+      <a href="tel:0817663556">
+        081 766 3556
+      </a>
+    </p>
+
+    <p>
+      Email:
+      <a href="mailto:dluxedetailing247@gmail.com">
+        dluxedetailing247@gmail.com
+      </a>
+    </p>
+
+    <p>Travel rate: R3.20/km where applicable.</p>
+
+    <p>
+      Services: detailing, sound installations
+      and custom subwoofer boxes.
+    </p>
+  </div>
+</section>
+
+<p id="appStatus" class="message"
+  role="status"></p>
+
+</main>
+</div>
+
+<script type="module">
+import {createClient} from
+'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+const $ = id => document.getElementById(id);
+
+const money = n => new Intl.NumberFormat('en-ZA',{
+  style:'currency',
+  currency:'ZAR',
+  maximumFractionDigits:0
+}).format(Number(n)||0);
+
+const esc = s => String(s??'').replace(
+  /[&<>"']/g,
+  c => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[c])
+);
+
+let db;
+let rows=[];
+let unlocked=false;
+let authorized=false;
+let currentUser=null;
+let authBusy=false;
+let lockGeneration=0;
+
+function status(msg){
+  $('appStatus').textContent=msg;
+}
+
+function clearPrivateData(){
+  rows=[];
+  $('recent').replaceChildren();
+  $('requestList').replaceChildren();
+  ['statNew','statActive','statDone','statValue']
+    .forEach(id=>$(id).textContent='—');
+  status('');
+}
+
+function showLockedScreen(){
+  unlocked=false;
+  authorized=false;
+  lockGeneration++;
+
+  clearPrivateData();
+
+  $('appView').classList.add('hidden');
+  $('logout').classList.add('hidden');
+  $('authView').classList.remove('hidden');
+
+  $('authPassword').value='';
+  $('authStatus').textContent='';
+
+  if(currentUser){
+    $('authTitle').textContent='Command Centre Locked';
+    $('authDescription').textContent=
+      'Verify your administrator password to continue.';
+
+    $('savedEmail').textContent=currentUser.email||'Administrator';
+    $('savedEmail').classList.remove('hidden');
+
+    $('emailLabel').classList.add('hidden');
+    $('authEmail').required=false;
+
+    $('authSubmit').textContent='Unlock Command Centre';
+    $('switchAccount').classList.remove('hidden');
+  }else{
+    $('authTitle').textContent='Administrator Sign In';
+    $('authDescription').textContent=
+      'Sign in to access your private business dashboard.';
+
+    $('savedEmail').classList.add('hidden');
+
+    $('emailLabel').classList.remove('hidden');
+    $('authEmail').required=true;
+
+    $('authSubmit').textContent='Secure Sign In';
+    $('switchAccount').classList.add('hidden');
+  }
+
+  $('authForm').classList.remove('hidden');
+}
+
+function lockApp(){
+  if(!unlocked) return;
+  showLockedScreen();
+}
+
+async function getConfig(){
+  const response=await fetch('./public-config.json',{
+    cache:'no-store'
+  });
+
+  if(!response.ok){
+    throw Error('Cannot load public-config.json');
+  }
+
+  const c=await response.json();
+
+  const url=c.supabaseUrl||c.supabase_url;
+
+  const key=
+    c.supabaseAnonKey||
+    c.supabaseKey||
+    c.supabase_anon_key;
+
+  if(!url||!key||key.includes('insert here')){
+    throw Error('Supabase public configuration is incomplete.');
+  }
+
+  return {url,key};
+}
+
+async function init(){
+  try{
+    const {url,key}=await getConfig();
+
+    db=createClient(url,key,{
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:false
+      }
+    });
+
+    const {data,error}=await db.auth.getUser();
+
+    if(!error && data?.user){
+      currentUser=data.user;
+    }
+
+    db.auth.onAuthStateChange((event,session)=>{
+      if(event==='SIGNED_OUT'){
+        currentUser=null;
+        showLockedScreen();
+      }
+
+      if(event==='SIGNED_IN' && session?.user){
+        currentUser=session.user;
+      }
+
+      // Token refresh never unlocks the app.
+    });
+
+    showLockedScreen();
+
+  }catch(e){
+    $('authTitle').textContent='Connection Error';
+    $('authDescription').textContent=
+      'Unable to initialize the administrator app.';
+
+    $('authStatus').textContent=e.message;
+  }
+}
+
+async function verifyAdmin(){
+  const {data,error}=await db.rpc('dluxe_is_admin');
+
+  if(error) throw Error(error.message);
+
+  if(data!==true){
+    throw Error(
+      'This account is not authorized as a D-LUXE administrator.'
+    );
+  }
+}
+
+$('authForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+
+  if(authBusy||!db) return;
+
+  authBusy=true;
+
+  const attemptGeneration=lockGeneration;
+  const button=$('authSubmit');
+
+  button.disabled=true;
+  $('authStatus').textContent='Verifying administrator access…';
+
+  const password=$('authPassword').value;
+
+  const email=currentUser
+    ? currentUser.email
+    : $('authEmail').value.trim();
+
+  try{
+    if(!email||!password){
+      throw Error('Enter your administrator credentials.');
+    }
+
+    // A fresh password check is required for each unlock.
+    const {data,error}=await db.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if(error) throw Error(error.message);
+
+    if(!data?.user){
+      throw Error('Unable to verify administrator account.');
+    }
+
+    // Prevent a different account from silently replacing
+    // the account currently being unlocked.
+    if(currentUser && currentUser.id!==data.user.id){
+      await db.auth.signOut();
+      currentUser=null;
+      throw Error('Account changed. Please sign in again.');
+    }
+
+    currentUser=data.user;
+
+    await verifyAdmin();
+
+    // If the app went into the background during login,
+    // require a new unlock rather than showing private data.
+    if(
+      attemptGeneration!==lockGeneration ||
+      document.visibilityState==='hidden'
+    ){
+      showLockedScreen();
+      return;
+    }
+
+    authorized=true;
+    unlocked=true;
+
+    $('authPassword').value='';
+    $('authStatus').textContent='';
+
+    $('authView').classList.add('hidden');
+    $('appView').classList.remove('hidden');
+    $('logout').classList.remove('hidden');
+
+    await loadRequests();
+
+  }catch(err){
+    unlocked=false;
+    authorized=false;
+
+    $('authStatus').textContent=err.message;
+    $('authPassword').value='';
+  }finally{
+    authBusy=false;
+    button.disabled=false;
+  }
+});
+
+async function signOut(){
+  lockApp();
+
+  if(db){
+    await db.auth.signOut();
+  }
+
+  currentUser=null;
+  showLockedScreen();
+}
+
+$('logout').onclick=signOut;
+$('switchAccount').onclick=signOut;
+
+// Lock immediately whenever the PWA is backgrounded.
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='hidden'){
+    lockApp();
+  }
+});
+
+// Additional protection when the browser page is hidden.
+window.addEventListener('pagehide',()=>{
+  lockApp();
+});
+
+// Do not restore an unlocked dashboard from page history.
+window.addEventListener('pageshow',event=>{
+  if(event.persisted){
+    showLockedScreen();
+  }
+});
+
+$('tabs').addEventListener('click',e=>{
+  if(!unlocked) return;
+
+  const b=e.target.closest('button[data-page]');
+
+  if(!b) return;
+
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.toggle('hidden',p.id!==b.dataset.page);
+  });
+
+  document.querySelectorAll('#tabs button').forEach(x=>{
+    x.classList.toggle('active',x===b);
+  });
+});
+
+async function loadRequests(){
+  if(!unlocked||!authorized) return;
+
+  const generation=lockGeneration;
+
+  status('Loading requests…');
+
+  const {data,error}=await db
+    .from('dluxe_requests')
+    .select(
+      'id,created_at,client_name,phone,email,'+
+      'vehicle_make,vehicle_model,vehicle_size,'+
+      'services,estimated_price,client_notes,status,admin_notes'
+    )
+    .order('created_at',{ascending:false})
+    .limit(200);
+
+  if(
+    generation!==lockGeneration ||
+    !unlocked ||
+    !authorized
+  ) return;
+
+  if(error){
+    status('Could not load requests: '+error.message);
+    return;
+  }
+
+  rows=data||[];
+
+  renderDashboard();
+  renderRequests();
+
+  status('Updated '+new Date().toLocaleTimeString());
+}
+
+function renderDashboard(){
+  const n=s=>rows.filter(r=>r.status===s).length;
+
+  $('statNew').textContent=n('New');
+
+  $('statActive').textContent=rows.filter(
+    r=>['Contacted','Booked','In Progress'].includes(r.status)
+  ).length;
+
+  $('statDone').textContent=n('Completed');
+
+  $('statValue').textContent=money(
+    rows.reduce(
+      (sum,r)=>sum+(Number(r.estimated_price)||0),
+      0
+    )
+  );
+
+  $('recent').innerHTML=rows.slice(0,5).map(r=>`
+    <p>
+      ${esc(r.client_name)} ·
+      ${esc(r.vehicle_make)}
+      ${esc(r.vehicle_model)} ·
+      <span class="gold">${esc(r.status)}</span>
+    </p>
+  `).join('')||'<p class="muted">No requests yet.</p>';
+}
+
+function renderRequests(){
+  if(!unlocked) return;
+
+  const filter=$('statusFilter').value;
+
+  const items=rows.filter(
+    r=>!filter||r.status===filter
+  );
+
+  $('requestList').replaceChildren();
+
+  if(!items.length){
+    $('requestList').textContent='No matching requests.';
+    return;
+  }
+
+  for(const r of items){
+    const box=document.createElement('article');
+
+    box.className='request';
+
+    const services=Array.isArray(r.services)
+      ? r.services.map(s=>
+          typeof s==='string'
+            ? s
+            : s.name||'Service'
+        ).join(', ')
+      : '';
+
+    box.innerHTML=`
+      <div class="row">
+        <h3>${esc(r.client_name)}</h3>
+        <span class="tag">${esc(r.status)}</span>
+      </div>
+
+      <p>
+        ${esc(r.vehicle_make)}
+        ${esc(r.vehicle_model)} ·
+        ${esc(r.vehicle_size||'Size unspecified')}
+      </p>
+
+      <p>${esc(services)}</p>
+
+      <p>
+        <strong>${money(r.estimated_price)}</strong>
+        starting estimate
+      </p>
+
+      <p class="muted">
+        ${esc(new Date(r.created_at).toLocaleString())}
+      </p>
+
+      <details>
+        <summary>Open request details</summary>
+
+        <p>
+          Phone:
+          <a href="tel:${encodeURIComponent(r.phone||'')}">
+            ${esc(r.phone)}
+          </a>
+        </p>
+
+        <p>Email: ${esc(r.email||'Not provided')}</p>
+
+        <p style="white-space:pre-wrap">
+          ${esc(r.client_notes||'No notes')}
+        </p>
+
+        <label>Job status
+          <select class="jobStatus">
+            ${[
+              'New',
+              'Contacted',
+              'Booked',
+              'In Progress',
+              'Completed',
+              'Cancelled'
+            ].map(s=>`
+              <option ${s===r.status?'selected':''}>
+                ${s}
+              </option>
+            `).join('')}
+          </select>
+        </label>
+
+        <label>Private admin notes
+          <textarea class="adminNotes"></textarea>
+        </label>
+
+        <div class="row">
+          <button class="save">Save changes</button>
+          <button class="secondary viewPhotos">
+            Load private photos
+          </button>
+        </div>
+
+        <div class="photos"></div>
+        <p class="message"></p>
+      </details>
+    `;
+
+    box.querySelector('.adminNotes').value=
+      r.admin_notes||'';
+
+    box.querySelector('.save').onclick=async()=>{
+      if(!unlocked||!authorized) return;
+
+      const generation=lockGeneration;
+      const b=box.querySelector('.save');
+
+      b.disabled=true;
+
+      const {error}=await db
+        .from('dluxe_requests')
+        .update({
+          status:box.querySelector('.jobStatus').value,
+          admin_notes:box.querySelector('.adminNotes')
+            .value.slice(0,10000)
+        })
+        .eq('id',r.id);
+
+      if(generation!==lockGeneration||!unlocked) return;
+
+      box.querySelector('.message').textContent=
+        error?error.message:'Changes saved';
+
+      b.disabled=false;
+
+      if(!error){
+        await loadRequests();
+      }
+    };
+
+    box.querySelector('.viewPhotos').onclick=()=>{
+      if(!unlocked||!authorized) return;
+
+      loadPhotos(
+        r.id,
+        box.querySelector('.photos'),
+        box.querySelector('.message')
+      );
+    };
+
+    $('requestList').append(box);
+  }
+}
+
+async function loadPhotos(id,target,message){
+  if(!unlocked||!authorized) return;
+
+  const generation=lockGeneration;
+
+  target.replaceChildren();
+  message.textContent='Loading photos…';
+
+  const {data,error}=await db
+    .from('dluxe_request_images')
+    .select('file_path')
+    .eq('request_id',id)
+    .limit(20);
+
+  if(generation!==lockGeneration||!unlocked) return;
+
+  if(error){
+    message.textContent=error.message;
+    return;
+  }
+
+  if(!data?.length){
+    message.textContent='No photos attached.';
+    return;
+  }
+
+  let loaded=0;
+
+  for(const item of data){
+    if(generation!==lockGeneration||!unlocked) return;
+
+    const {data:link,error:linkError}=await db
+      .storage
+      .from('dluxe-request-images')
+      .createSignedUrl(item.file_path,120);
+
+    if(generation!==lockGeneration||!unlocked) return;
+
+    if(linkError||!link?.signedUrl) continue;
+
+    const a=document.createElement('a');
+
+    a.href=link.signedUrl;
+    a.target='_blank';
+    a.rel='noopener noreferrer';
+
+    const img=document.createElement('img');
+
+    img.src=link.signedUrl;
+    img.alt='Customer vehicle photo';
+
+    a.append(img);
+    target.append(a);
+
+    loaded++;
+  }
+
+  message.textContent=loaded
+    ? 'Photo links expire after 2 minutes.'
+    : 'Unable to open photos. Check storage permissions.';
+}
+
+$('refresh').onclick=loadRequests;
+$('refreshRequests').onclick=loadRequests;
+$('statusFilter').onchange=renderRequests;
+
+function calcQuote(){
+  const v=id=>Math.max(0,Number($(id).value)||0);
+
+  const total=
+    v('qService')+
+    v('qKm')*3.2+
+    v('qExtra');
+
+  const costs=
+    v('qMaterials')+
+    v('qCosts')+
+    v('qTravelCost');
+
+  $('qTotal').textContent=
+    'Estimated quote: '+money(total);
+
+  $('qProfit').textContent=
+    'Estimated gross profit: '+money(total-costs);
+}
+
+[
+  'qService','qKm','qExtra',
+  'qMaterials','qCosts','qTravelCost'
+].forEach(id=>{
+  $(id).oninput=calcQuote;
+});
+
+calcQuote();
+
+function calcVoltage(){
+  const p=Number($('watts').value);
+  const r=Number($('ohms').value);
+
+  $('voltage').textContent=
+    p>0&&r>0
+      ? `Theoretical target: ${Math.sqrt(p*r).toFixed(2)} V AC RMS`
+      : 'Enter positive RMS power and impedance';
+}
+
+$('watts').oninput=calcVoltage;
+$('ohms').oninput=calcVoltage;
+calcVoltage();
+
+$('boxPlan').onclick=()=>{
+  const w=Number($('bootW').value);
+  const h=Number($('bootH').value);
+  const d=Number($('bootD').value);
+
+  const lines=[
+    `Subwoofer: ${$('subModel').value||'Model not provided'}`,
+    `Quantity: ${$('subQty').value}`,
+    `Driver diameter: ${$('subDiameter').value} inches`,
+    `Preferred enclosure: ${$('boxType').value}`,
+    `Bass goal: ${$('bass').value}`
+  ];
+
+  if(w>0&&h>0&&d>0){
+    lines.push(
+      `Measured space: ${w} × ${h} × ${d} cm`,
+      `Maximum rectangular space: ${(w*h*d/1000).toFixed(1)} L`,
+      'This is gross space, NOT usable enclosure volume.'
+    );
+  }else{
+    lines.push(
+      'Measure available width, height and depth.'
+    );
+  }
+
+  lines.push(
+    'NEXT: Obtain manufacturer T/S parameters, '+
+    'recommended net air volume, driver/port displacement '+
+    'and target tuning before cutting panels.'
+  );
+
+  $('boxResult').textContent=lines.join('\n');
+};
+
+init();
+</script>
+</body>
+</html>
