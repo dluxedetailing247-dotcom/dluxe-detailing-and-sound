@@ -7,489 +7,408 @@
 <meta name="theme-color" content="#090b10">
 <link rel="manifest" href="./manifest.json">
 <title>D-LUXE | Premium Command Centre</title>
-
 <style>
 :root{
-  color-scheme:dark;
-  --bg:#090b10;
-  --card:#151923;
-  --gold:#e5b84d;
-  --line:#303644;
-  --muted:#aeb6c4;
+ color-scheme:dark;--bg:#090b10;--panel:#171b25;
+ --gold:#e5b84d;--muted:#aeb6c4;--line:#353c49
 }
 *{box-sizing:border-box}
 body{
-  margin:0;
-  min-height:100vh;
-  background:radial-gradient(circle at top right,#302719,#090b10 48%);
-  color:#f7f8fa;
-  font:15px system-ui,Arial,sans-serif;
+ margin:0;color:#f7f8fa;font:15px system-ui,Arial;
+ background:radial-gradient(circle at top right,#332818,#090b10 48%);
+ min-height:100vh
 }
 header{
-  padding:20px 18px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+ padding:20px 16px;border-bottom:1px solid var(--line);
+ display:flex;justify-content:space-between;align-items:center;gap:10px
 }
-h1{font-size:22px;margin:3px 0}
-h2{font-size:20px}
-h3{font-size:16px}
-.gold{color:var(--gold)}
-.muted,small{color:var(--muted)}
-main{max-width:1120px;margin:auto;padding:18px}
+h1{font-size:22px;margin:4px 0}
+h2{font-size:20px}h3{font-size:16px}
+.brand{color:var(--gold);letter-spacing:2px;font-size:11px;font-weight:800}
+.gold{color:var(--gold)}.muted,small{color:var(--muted)}
+main{max-width:1150px;margin:auto;padding:15px}
 .card{
-  background:linear-gradient(145deg,#191e29,#11141c);
-  border:1px solid var(--line);
-  border-radius:19px;
-  padding:19px;
-  margin:12px 0;
+ background:linear-gradient(145deg,#1b202b,#11151d);
+ border:1px solid var(--line);border-radius:18px;
+ padding:17px;margin:12px 0
 }
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:12px;
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:12px
 }
 .grid .card{margin:0}
-.stat{
-  font-size:28px;
-  font-weight:800;
-  color:var(--gold);
-}
+.stat{font-size:28px;font-weight:800;color:var(--gold)}
 button,input,select,textarea{
-  font:inherit;
-  border-radius:11px;
-  padding:12px;
+ font:inherit;border-radius:10px;padding:12px
 }
 button{
-  border:0;
-  background:var(--gold);
-  color:#17120a;
-  font-weight:750;
-  cursor:pointer;
+ background:var(--gold);border:0;color:#17120a;
+ font-weight:750;cursor:pointer
 }
-button.secondary{
-  background:#303746;
-  color:white;
-}
+button.secondary{background:#303746;color:white}
 button:disabled{opacity:.55;cursor:wait}
 input,select,textarea{
-  width:100%;
-  background:#0c0f16;
-  color:white;
-  border:1px solid #3a4250;
-  margin:6px 0 12px;
-}
-label{
-  display:block;
-  font-size:13px;
-  color:var(--muted);
+ width:100%;background:#0b0e15;color:white;
+ border:1px solid #424b5b;margin:6px 0 12px
 }
 textarea{min-height:90px}
+label{display:block;font-size:13px;color:var(--muted)}
 nav{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:12px 18px;
-  border-bottom:1px solid var(--line);
+ display:flex;gap:7px;overflow-x:auto;padding:12px 15px;
+ border-bottom:1px solid var(--line)
 }
-nav button{
-  white-space:nowrap;
-  background:#222733;
-  color:white;
-}
-nav button.active{
-  background:var(--gold);
-  color:#17120a;
-}
+nav button{white-space:nowrap;background:#242a35;color:white}
+nav button.active{background:var(--gold);color:#17120a}
 .hidden{display:none!important}
-.request{
-  border:1px solid #3b424d;
-  border-radius:13px;
-  padding:14px;
-  margin:10px 0;
-  background:#10141c;
-}
 .row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
+ display:flex;gap:10px;align-items:center;
+ justify-content:space-between;flex-wrap:wrap
 }
-.tag{color:var(--gold);font-weight:700}
+.split{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:13px
+}
+.entry{
+ background:#10141c;border:1px solid #3a424e;
+ border-radius:13px;padding:14px;margin:10px 0
+}
+.tag{color:var(--gold);font-weight:750}
+.note{font-size:12px;line-height:1.6;color:var(--muted)}
+.message{min-height:22px;color:var(--gold);overflow-wrap:anywhere}
 .photos{display:flex;gap:10px;flex-wrap:wrap}
 .photos img{
-  width:135px;
-  height:110px;
-  object-fit:cover;
-  border-radius:10px;
-  border:1px solid var(--line);
-}
-.message{
-  min-height:22px;
-  color:var(--gold);
-  overflow-wrap:anywhere;
+ width:130px;height:105px;object-fit:cover;
+ border:1px solid var(--line);border-radius:10px
 }
 a{color:var(--gold)}
-.split{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
-  gap:14px;
-}
-.note{
-  font-size:12px;
-  line-height:1.6;
-  color:var(--muted);
-}
 .authScreen{
-  min-height:calc(100dvh - 80px);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
+ min-height:calc(100dvh - 85px);display:flex;
+ align-items:center;justify-content:center;padding:20px
 }
 .authCard{
-  width:100%;
-  max-width:430px;
-  background:linear-gradient(150deg,#20202a,#101219);
-  border:1px solid #56482d;
-  border-radius:25px;
-  padding:27px;
-  box-shadow:0 20px 70px #0008;
+ width:100%;max-width:440px;padding:27px;
+ background:linear-gradient(150deg,#20212b,#101219);
+ border:1px solid #58482a;border-radius:25px;
+ box-shadow:0 20px 70px #0008
 }
-.lockIcon{
-  width:76px;
-  height:76px;
-  display:grid;
-  place-items:center;
-  margin:0 auto 20px;
-  border-radius:22px;
-  background:#3b301b;
-  color:var(--gold);
-  font-size:37px;
-}
-.authCard h2{text-align:center}
-.authCard p{text-align:center}
+.authCard h2,.authCard p{text-align:center}
 .authCard button{width:100%;margin-top:6px}
-.brand{
-  color:var(--gold);
-  letter-spacing:2px;
-  font-size:11px;
-  font-weight:750;
+.lockIcon{
+ width:76px;height:76px;margin:0 auto 20px;
+ display:grid;place-items:center;border-radius:22px;
+ background:#3b301b;color:var(--gold);font-size:36px
 }
 .authEmail{
-  background:#11151d;
-  border:1px solid var(--line);
-  padding:12px;
-  border-radius:10px;
-  overflow-wrap:anywhere;
-  margin-bottom:15px;
-  text-align:center;
+ background:#10141c;border:1px solid var(--line);
+ padding:12px;border-radius:10px;text-align:center;
+ overflow-wrap:anywhere;margin:15px 0
 }
+details{margin-top:12px}
+summary{cursor:pointer;color:var(--gold);padding:7px 0}
+hr{border:0;border-top:1px solid var(--line);margin:15px 0}
+pre{white-space:pre-wrap;overflow-wrap:anywhere}
 </style>
 </head>
-
 <body>
-
 <header>
-  <div>
-    <div class="brand">D-LUXE DETAILING & SOUND</div>
-    <h1>Command Centre</h1>
-  </div>
-  <button id="logout" class="secondary hidden">
-    Sign out
-  </button>
+ <div>
+  <div class="brand">D-LUXE DETAILING & SOUND</div>
+  <h1>Command Centre</h1>
+ </div>
+ <button id="logout" class="secondary hidden">Sign out</button>
 </header>
 
 <section id="authView" class="authScreen">
-  <div class="authCard">
-    <div class="lockIcon">◆</div>
-
-    <p class="brand">PRIVATE ADMINISTRATOR ACCESS</p>
-    <h2 id="authTitle">D-LUXE Secure Access</h2>
-    <p id="authDescription" class="muted">
-      Connecting to your secure business platform…
-    </p>
-
-    <div id="savedEmail" class="authEmail hidden"></div>
-
-    <form id="authForm" class="hidden">
-      <label id="emailLabel">
-        Administrator email
-        <input id="authEmail" type="email"
-          autocomplete="username">
-      </label>
-
-      <label>
-        Administrator password
-        <input id="authPassword"
-          type="password"
-          autocomplete="current-password"
-          required>
-      </label>
-
-      <button id="authSubmit" type="submit">
-        Unlock Command Centre
-      </button>
-    </form>
-
-    <button id="switchAccount"
-      class="secondary hidden">
-      Sign out and change account
-    </button>
-
-    <p id="authStatus" class="message"
-      role="status"></p>
-
-    <p class="note">
-      Protected by Supabase Authentication
-      and administrator-only access policies.
-    </p>
-  </div>
+ <div class="authCard">
+  <div class="lockIcon">◆</div>
+  <p class="brand">PRIVATE ADMINISTRATOR ACCESS</p>
+  <h2 id="authTitle">D-LUXE Secure Access</h2>
+  <p id="authDescription" class="muted">Connecting securely…</p>
+  <div id="savedEmail" class="authEmail hidden"></div>
+  <form id="authForm" class="hidden">
+   <label id="emailLabel">Administrator email
+    <input id="authEmail" type="email" autocomplete="username">
+   </label>
+   <label>Administrator password
+    <input id="authPassword" type="password"
+     autocomplete="current-password" required>
+   </label>
+   <button id="authSubmit" type="submit">Secure Sign In</button>
+  </form>
+  <button id="switchAccount" class="secondary hidden">
+   Sign out and change account
+  </button>
+  <p id="authStatus" class="message" role="status"></p>
+  <p class="note">
+   Protected by Supabase Authentication and
+   administrator-only database permissions.
+  </p>
+ </div>
 </section>
 
 <div id="appView" class="hidden">
-
 <nav id="tabs">
-  <button data-page="dashboard" class="active">Overview</button>
-  <button data-page="requests">Client requests</button>
-  <button data-page="quote">Quotation</button>
-  <button data-page="sound">Sound tools</button>
-  <button data-page="business">Business</button>
+ <button data-page="dashboard" class="active">Overview</button>
+ <button data-page="requests">Requests</button>
+ <button data-page="quotes">Quotations</button>
+ <button data-page="jobs">Job Cards</button>
+ <button data-page="pricing">Pricing</button>
+ <button data-page="sound">Sound Tools</button>
+ <button data-page="business">Business</button>
 </nav>
 
 <main>
-
 <section id="dashboard" class="page">
-  <h2>Business overview</h2>
-
-  <div class="grid">
-    <div class="card">
-      New requests
-      <div id="statNew" class="stat">—</div>
-    </div>
-    <div class="card">
-      Active jobs
-      <div id="statActive" class="stat">—</div>
-    </div>
-    <div class="card">
-      Completed
-      <div id="statDone" class="stat">—</div>
-    </div>
-    <div class="card">
-      Quoted starting value
-      <div id="statValue" class="stat">—</div>
-      <small>Not confirmed revenue</small>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>Recent requests</h3>
-    <div id="recent"></div>
-    <button id="refresh">Refresh data</button>
-  </div>
+ <h2>Business Overview</h2>
+ <div class="grid">
+  <div class="card">New Requests<div id="statNew" class="stat">—</div></div>
+  <div class="card">Active Jobs<div id="statActive" class="stat">—</div></div>
+  <div class="card">Completed Jobs<div id="statDone" class="stat">—</div></div>
+  <div class="card">Accepted Quotes<div id="statAccepted" class="stat">—</div></div>
+ </div>
+ <div class="card">
+  <h3>Business Pipeline</h3>
+  <p id="pipeline"></p>
+  <p class="note">
+   Accepted quotation value is not collected revenue.
+   Financial totals are calculated from saved records.
+  </p>
+  <button id="refreshAll">Refresh Dashboard</button>
+ </div>
+ <div class="card">
+  <h3>Recent Client Requests</h3>
+  <div id="recent"></div>
+ </div>
 </section>
 
 <section id="requests" class="page hidden">
-  <div class="row">
-    <h2>Client requests</h2>
-    <button id="refreshRequests">Refresh</button>
-  </div>
-
-  <label>Filter by status
-    <select id="statusFilter">
-      <option value="">All requests</option>
-      <option>New</option>
-      <option>Contacted</option>
-      <option>Booked</option>
-      <option>In Progress</option>
-      <option>Completed</option>
-      <option>Cancelled</option>
-    </select>
-  </label>
-
-  <div id="requestList"></div>
+ <div class="row">
+  <h2>Client Requests</h2>
+  <button id="refreshRequests">Refresh</button>
+ </div>
+ <label>Filter status
+  <select id="requestFilter">
+   <option value="">All</option>
+   <option>New</option><option>Contacted</option>
+   <option>Booked</option><option>In Progress</option>
+   <option>Completed</option><option>Cancelled</option>
+  </select>
+ </label>
+ <div id="requestList"></div>
 </section>
 
-<section id="quote" class="page hidden">
-  <h2>Quotation calculator</h2>
-
-  <div class="card split">
-    <div>
-      <label>Service price (R)
-        <input type="number" min="0"
-          id="qService" value="500">
-      </label>
-
-      <label>Billable travel distance (km)
-        <input type="number" min="0"
-          id="qKm" value="0">
-      </label>
-
-      <label>Other charges (R)
-        <input type="number" min="0"
-          id="qExtra" value="0">
-      </label>
-    </div>
-
-    <div>
-      <label>Materials cost (R)
-        <input type="number" min="0"
-          id="qMaterials" value="100">
-      </label>
-
-      <label>Other job costs (R)
-        <input type="number" min="0"
-          id="qCosts" value="0">
-      </label>
-
-      <label>Travel cost to business (R)
-        <input type="number" min="0"
-          id="qTravelCost" value="0">
-      </label>
-    </div>
+<section id="quotes" class="page hidden">
+ <h2>Quotation Builder</h2>
+ <div class="card">
+  <label>Import an existing client request
+   <select id="quoteRequest"><option value="">Manual quotation</option></select>
+  </label>
+  <div class="split">
+   <label>Client name
+    <input id="qName" maxlength="150">
+   </label>
+   <label>Phone
+    <input id="qPhone" type="tel" maxlength="40">
+   </label>
+   <label>Email
+    <input id="qEmail" type="email" maxlength="200">
+   </label>
+   <label>Vehicle make
+    <input id="qMake" maxlength="100">
+   </label>
+   <label>Vehicle model
+    <input id="qModel" maxlength="100">
+   </label>
+   <label>Registration
+    <input id="qReg" maxlength="40">
+   </label>
   </div>
-
-  <div class="card">
-    <h3 id="qTotal"></h3>
-    <p id="qProfit"></p>
-    <p class="note">
-      Travel charged at R3.20 per billable kilometre.
-      Estimated gross profit excludes tax, overhead
-      and labour unless entered as costs.
-      This calculator is not a formal invoice.
-    </p>
+  <hr>
+  <h3>Add Service</h3>
+  <div class="split">
+   <label>Service
+    <select id="qService"></select>
+   </label>
+   <label>Vehicle size
+    <select id="qSize">
+     <option>Small</option><option>Medium</option>
+     <option>Large</option><option>XL/Luxury</option>
+    </select>
+   </label>
+   <label>Quantity
+    <input id="qQty" type="number" min="1" max="99" value="1">
+   </label>
+   <label>Unit price (R)
+    <input id="qUnit" type="number" min="0" step="0.01">
+   </label>
   </div>
+  <button id="addItem">Add to Quotation</button>
+  <div id="quoteItems"></div>
+  <hr>
+  <div class="split">
+   <label>Materials cost (R)
+    <input id="qMaterials" type="number" min="0" value="0">
+   </label>
+   <label>Labour cost (R)
+    <input id="qLabour" type="number" min="0" value="0">
+   </label>
+   <label>Billable travel distance (km)
+    <input id="qKm" type="number" min="0" value="0">
+   </label>
+   <label>Discount (R)
+    <input id="qDiscount" type="number" min="0" value="0">
+   </label>
+   <label>Quote valid until
+    <input id="qValid" type="date">
+   </label>
+  </div>
+  <label>Quotation notes
+   <textarea id="qNotes" maxlength="5000"></textarea>
+  </label>
+  <h3 id="quoteTotal" class="gold">Total: R0</h3>
+  <p id="quoteProfit"></p>
+  <p class="note">
+   R3.20/km travel charge. Estimated profit deducts
+   entered material and labour costs, but not unentered
+   overhead, tax or other expenses. Check VAT treatment
+   before issuing a formal quotation.
+  </p>
+  <button id="saveQuote">Save Quotation</button>
+  <p id="quoteMessage" class="message"></p>
+ </div>
+ <div class="card">
+  <h3>Saved Quotations</h3>
+  <div id="quoteList"></div>
+ </div>
+</section>
+
+<section id="jobs" class="page hidden">
+ <h2>Job Management</h2>
+ <div class="card">
+  <h3>Create Job Card</h3>
+  <label>Accepted quotation
+   <select id="jobQuote">
+    <option value="">Select accepted quotation</option>
+   </select>
+  </label>
+  <label>Job type
+   <select id="jobType">
+    <option>Detailing</option>
+    <option>Sound Installation</option>
+    <option>Custom Subwoofer Box</option>
+    <option>Combined</option>
+   </select>
+  </label>
+  <label>Scheduled date
+   <input id="jobDate" type="date">
+  </label>
+  <label>Technician notes
+   <textarea id="jobNotes" maxlength="5000"></textarea>
+  </label>
+  <button id="createJob">Create Job Card</button>
+  <p id="jobMessage" class="message"></p>
+ </div>
+ <div class="card">
+  <h3>Saved Job Cards</h3>
+  <div id="jobList"></div>
+ </div>
+</section>
+
+<section id="pricing" class="page hidden">
+ <h2>Service Pricing</h2>
+ <p class="note">
+  These are your internal starting prices. Changes here
+  do not automatically update the public client website.
+ </p>
+ <div id="priceList"></div>
 </section>
 
 <section id="sound" class="page hidden">
-  <h2>Sound installation tools</h2>
-
-  <div class="card">
-    <h3>Amplifier gain voltage reference</h3>
-
-    <div class="split">
-      <label>Target RMS watts
-        <input id="watts" type="number"
-          min="1" value="300">
-      </label>
-
-      <label>Load impedance (ohms)
-        <input id="ohms" type="number"
-          min="0.1" step="0.1" value="4">
-      </label>
-    </div>
-
-    <p id="voltage" class="gold"></p>
-
-    <p class="note">
-      V = √(RMS watts × ohms).
-      This is a theoretical reference only.
-      Confirm actual RMS ratings, final impedance,
-      amplifier limits and distortion using
-      appropriate test equipment.
-    </p>
+ <h2>Professional Sound Tools</h2>
+ <div class="card">
+  <h3>Amplifier Voltage Reference</h3>
+  <div class="split">
+   <label>Target RMS power (W)
+    <input id="watts" type="number" min="1" value="300">
+   </label>
+   <label>Final load impedance (Ω)
+    <input id="ohms" type="number" min="0.1" step="0.1" value="4">
+   </label>
   </div>
-
-  <div class="card">
-    <h3>Custom subwoofer box planning</h3>
-
-    <div class="split">
-      <label>Subwoofer brand and model
-        <input id="subModel"
-          placeholder="Exact manufacturer and model">
-      </label>
-
-      <label>Number of subwoofers
-        <input id="subQty" type="number"
-          min="1" max="8" value="1">
-      </label>
-
-      <label>Subwoofer size (inches)
-        <input id="subDiameter" type="number"
-          min="4" value="12">
-      </label>
-
-      <label>Available width (cm)
-        <input id="bootW" type="number" min="1">
-      </label>
-
-      <label>Available height (cm)
-        <input id="bootH" type="number" min="1">
-      </label>
-
-      <label>Available depth (cm)
-        <input id="bootD" type="number" min="1">
-      </label>
-
-      <label>Bass preference
-        <select id="bass">
-          <option>Deep daily bass</option>
-          <option>Hard-hitting daily bass</option>
-          <option>Balanced / SQL</option>
-          <option>Show / SPL</option>
-        </select>
-      </label>
-
-      <label>Preferred enclosure
-        <select id="boxType">
-          <option>Ported</option>
-          <option>Sealed</option>
-          <option>Not decided</option>
-        </select>
-      </label>
-    </div>
-
-    <button id="boxPlan">
-      Generate planning brief
-    </button>
-
-    <pre id="boxResult"
-      style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
-
-    <p class="note">
-      Final enclosure dimensions require
-      manufacturer T/S parameters, recommended
-      net air volume, displacement, port tuning
-      and clearance measurements.
-    </p>
+  <h3 id="voltage" class="gold"></h3>
+  <p class="note">
+   Theoretical V = √(P × R). Verify actual RMS power,
+   coil wiring, impedance, amplifier stability and
+   clipping using appropriate measuring equipment.
+  </p>
+ </div>
+ <div class="card">
+  <h3>Custom Subwoofer Box Planning</h3>
+  <div class="split">
+   <label>Exact subwoofer model
+    <input id="subModel">
+   </label>
+   <label>Number of subwoofers
+    <input id="subQty" type="number" min="1" value="1">
+   </label>
+   <label>Subwoofer size (inches)
+    <input id="subDiameter" type="number" min="4" value="12">
+   </label>
+   <label>Available width (cm)
+    <input id="bootW" type="number" min="1">
+   </label>
+   <label>Available height (cm)
+    <input id="bootH" type="number" min="1">
+   </label>
+   <label>Available depth (cm)
+    <input id="bootD" type="number" min="1">
+   </label>
+   <label>Bass goal
+    <select id="bass">
+     <option>Deep daily bass</option>
+     <option>Hard-hitting daily bass</option>
+     <option>Balanced / SQL</option>
+     <option>Show / SPL</option>
+    </select>
+   </label>
+   <label>Enclosure type
+    <select id="boxType">
+     <option>Ported</option><option>Sealed</option>
+     <option>Not decided</option>
+    </select>
+   </label>
   </div>
+  <button id="boxPlan">Generate Planning Brief</button>
+  <pre id="boxResult"></pre>
+  <p class="note">
+   This is a planning tool, not a final cut list.
+   Manufacturer T/S data, net volume, port displacement,
+   tuning and vehicle clearances are required for a
+   safe final design.
+  </p>
+ </div>
 </section>
 
 <section id="business" class="page hidden">
-  <h2>Business information</h2>
-
-  <div class="card">
-    <h3>D-LUXE DETAILING & SOUND</h3>
-
-    <p>
-      Call:
-      <a href="tel:0817663556">
-        081 766 3556
-      </a>
-    </p>
-
-    <p>
-      Email:
-      <a href="mailto:dluxedetailing247@gmail.com">
-        dluxedetailing247@gmail.com
-      </a>
-    </p>
-
-    <p>Travel rate: R3.20/km where applicable.</p>
-
-    <p>
-      Services: detailing, sound installations
-      and custom subwoofer boxes.
-    </p>
-  </div>
+ <h2>Business Profile</h2>
+ <div class="card">
+  <h3>D-LUXE DETAILING & SOUND</h3>
+  <p>Phone: <a href="tel:0817663556">081 766 3556</a></p>
+  <p>Email:
+   <a href="mailto:dluxedetailing247@gmail.com">
+    dluxedetailing247@gmail.com
+   </a>
+  </p>
+  <p>Travel charge: R3.20 per billable kilometre.</p>
+  <p>Services: detailing, sound installations and custom boxes.</p>
+  <p class="note">
+   Prices are estimates subject to inspection and
+   confirmed job requirements.
+  </p>
+ </div>
 </section>
 
-<p id="appStatus" class="message"
-  role="status"></p>
-
+<p id="appStatus" class="message" role="status"></p>
 </main>
 </div>
 
@@ -497,659 +416,933 @@ a{color:var(--gold)}
 import {createClient} from
 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-const money = n => new Intl.NumberFormat('en-ZA',{
-  style:'currency',
-  currency:'ZAR',
-  maximumFractionDigits:0
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;',
+ '"':'&quot;',"'":'&#39;'
+}[c]));
+
+const money=n=>new Intl.NumberFormat('en-ZA',{
+ style:'currency',currency:'ZAR'
 }).format(Number(n)||0);
 
-const esc = s => String(s??'').replace(
-  /[&<>"']/g,
-  c => ({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#39;'
-  }[c])
-);
+const num=id=>{
+ const n=Number($(id).value);
+ return Number.isFinite(n)?Math.max(0,n):0;
+};
 
-let db;
-let rows=[];
-let unlocked=false;
-let authorized=false;
-let currentUser=null;
-let authBusy=false;
-let lockGeneration=0;
+const statuses=[
+ 'New','Contacted','Booked','In Progress',
+ 'Completed','Cancelled'
+];
 
-function status(msg){
-  $('appStatus').textContent=msg;
+let db,currentUser=null;
+let unlocked=false,authorized=false,authBusy=false;
+let generation=0;
+let requests=[],quotes=[],jobs=[],services=[],quoteItems=[];
+
+function clearPrivate(){
+ requests=[];quotes=[];jobs=[];services=[];quoteItems=[];
+ for(const id of [
+  'requestList','quoteList','jobList','priceList',
+  'recent','quoteItems'
+ ]) $(id).replaceChildren();
+ $('appStatus').textContent='';
 }
 
-function clearPrivateData(){
-  rows=[];
-  $('recent').replaceChildren();
-  $('requestList').replaceChildren();
-  ['statNew','statActive','statDone','statValue']
-    .forEach(id=>$(id).textContent='—');
-  status('');
-}
+function lockScreen(){
+ unlocked=false;authorized=false;generation++;
+ clearPrivate();
+ $('appView').classList.add('hidden');
+ $('logout').classList.add('hidden');
+ $('authView').classList.remove('hidden');
+ $('authPassword').value='';
+ $('authStatus').textContent='';
 
-function showLockedScreen(){
-  unlocked=false;
-  authorized=false;
-  lockGeneration++;
-
-  clearPrivateData();
-
-  $('appView').classList.add('hidden');
-  $('logout').classList.add('hidden');
-  $('authView').classList.remove('hidden');
-
-  $('authPassword').value='';
-  $('authStatus').textContent='';
-
-  if(currentUser){
-    $('authTitle').textContent='Command Centre Locked';
-    $('authDescription').textContent=
-      'Verify your administrator password to continue.';
-
-    $('savedEmail').textContent=currentUser.email||'Administrator';
-    $('savedEmail').classList.remove('hidden');
-
-    $('emailLabel').classList.add('hidden');
-    $('authEmail').required=false;
-
-    $('authSubmit').textContent='Unlock Command Centre';
-    $('switchAccount').classList.remove('hidden');
-  }else{
-    $('authTitle').textContent='Administrator Sign In';
-    $('authDescription').textContent=
-      'Sign in to access your private business dashboard.';
-
-    $('savedEmail').classList.add('hidden');
-
-    $('emailLabel').classList.remove('hidden');
-    $('authEmail').required=true;
-
-    $('authSubmit').textContent='Secure Sign In';
-    $('switchAccount').classList.add('hidden');
-  }
-
-  $('authForm').classList.remove('hidden');
+ if(currentUser){
+  $('authTitle').textContent='Command Centre Locked';
+  $('authDescription').textContent=
+   'Verify your administrator password to continue.';
+  $('savedEmail').textContent=currentUser.email||'Administrator';
+  $('savedEmail').classList.remove('hidden');
+  $('emailLabel').classList.add('hidden');
+  $('authEmail').required=false;
+  $('authSubmit').textContent='Unlock Command Centre';
+  $('switchAccount').classList.remove('hidden');
+ }else{
+  $('authTitle').textContent='Administrator Sign In';
+  $('authDescription').textContent=
+   'Sign in to your private business platform.';
+  $('savedEmail').classList.add('hidden');
+  $('emailLabel').classList.remove('hidden');
+  $('authEmail').required=true;
+  $('authSubmit').textContent='Secure Sign In';
+  $('switchAccount').classList.add('hidden');
+ }
+ $('authForm').classList.remove('hidden');
 }
 
 function lockApp(){
-  if(!unlocked) return;
-  showLockedScreen();
+ if(unlocked)lockScreen();
 }
 
-async function getConfig(){
-  const response=await fetch('./public-config.json',{
-    cache:'no-store'
-  });
-
-  if(!response.ok){
-    throw Error('Cannot load public-config.json');
-  }
-
-  const c=await response.json();
-
-  const url=c.supabaseUrl||c.supabase_url;
-
-  const key=
-    c.supabaseAnonKey||
-    c.supabaseKey||
-    c.supabase_anon_key;
-
-  if(!url||!key||key.includes('insert here')){
-    throw Error('Supabase public configuration is incomplete.');
-  }
-
-  return {url,key};
+function active(g){
+ return unlocked&&authorized&&generation===g&&
+  document.visibilityState!=='hidden';
 }
 
 async function init(){
-  try{
-    const {url,key}=await getConfig();
+ try{
+  const r=await fetch('./public-config.json',{cache:'no-store'});
+  if(!r.ok)throw Error('Cannot load public-config.json');
 
-    db=createClient(url,key,{
-      auth:{
-        persistSession:true,
-        autoRefreshToken:true,
-        detectSessionInUrl:false
-      }
-    });
+  const c=await r.json();
+  const url=c.supabaseUrl||c.supabase_url;
+  const key=c.supabaseAnonKey||c.supabaseKey||
+   c.supabase_anon_key;
 
-    const {data,error}=await db.auth.getUser();
+  if(!url||!key||key.includes('insert here'))
+   throw Error('Incomplete public Supabase configuration.');
 
-    if(!error && data?.user){
-      currentUser=data.user;
-    }
+  db=createClient(url,key,{
+   auth:{
+    persistSession:true,
+    autoRefreshToken:true,
+    detectSessionInUrl:false
+   }
+  });
 
-    db.auth.onAuthStateChange((event,session)=>{
-      if(event==='SIGNED_OUT'){
-        currentUser=null;
-        showLockedScreen();
-      }
+  const {data,error}=await db.auth.getUser();
+  if(!error&&data?.user)currentUser=data.user;
 
-      if(event==='SIGNED_IN' && session?.user){
-        currentUser=session.user;
-      }
+  db.auth.onAuthStateChange((event,session)=>{
+   if(event==='SIGNED_OUT'){
+    currentUser=null;
+    lockScreen();
+   }else if(event==='SIGNED_IN'&&session?.user){
+    currentUser=session.user;
+   }
+  });
 
-      // Token refresh never unlocks the app.
-    });
-
-    showLockedScreen();
-
-  }catch(e){
-    $('authTitle').textContent='Connection Error';
-    $('authDescription').textContent=
-      'Unable to initialize the administrator app.';
-
-    $('authStatus').textContent=e.message;
-  }
+  lockScreen();
+ }catch(e){
+  $('authTitle').textContent='Connection Error';
+  $('authStatus').textContent=e.message;
+ }
 }
 
-async function verifyAdmin(){
-  const {data,error}=await db.rpc('dluxe_is_admin');
+$('authForm').onsubmit=async e=>{
+ e.preventDefault();
+ if(!db||authBusy)return;
 
-  if(error) throw Error(error.message);
+ authBusy=true;
+ const g=generation;
+ $('authSubmit').disabled=true;
+ $('authStatus').textContent='Verifying administrator…';
 
-  if(data!==true){
-    throw Error(
-      'This account is not authorized as a D-LUXE administrator.'
-    );
-  }
-}
-
-$('authForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-
-  if(authBusy||!db) return;
-
-  authBusy=true;
-
-  const attemptGeneration=lockGeneration;
-  const button=$('authSubmit');
-
-  button.disabled=true;
-  $('authStatus').textContent='Verifying administrator access…';
-
+ try{
+  const email=currentUser?.email||$('authEmail').value.trim();
   const password=$('authPassword').value;
 
-  const email=currentUser
-    ? currentUser.email
-    : $('authEmail').value.trim();
+  if(!email||!password)throw Error('Enter your credentials.');
 
-  try{
-    if(!email||!password){
-      throw Error('Enter your administrator credentials.');
-    }
+  const previousId=currentUser?.id;
 
-    // A fresh password check is required for each unlock.
-    const {data,error}=await db.auth.signInWithPassword({
-      email,
-      password
-    });
+  const {data,error}=await db.auth.signInWithPassword({
+   email,password
+  });
 
-    if(error) throw Error(error.message);
+  if(error)throw Error(error.message);
 
-    if(!data?.user){
-      throw Error('Unable to verify administrator account.');
-    }
-
-    // Prevent a different account from silently replacing
-    // the account currently being unlocked.
-    if(currentUser && currentUser.id!==data.user.id){
-      await db.auth.signOut();
-      currentUser=null;
-      throw Error('Account changed. Please sign in again.');
-    }
-
-    currentUser=data.user;
-
-    await verifyAdmin();
-
-    // If the app went into the background during login,
-    // require a new unlock rather than showing private data.
-    if(
-      attemptGeneration!==lockGeneration ||
-      document.visibilityState==='hidden'
-    ){
-      showLockedScreen();
-      return;
-    }
-
-    authorized=true;
-    unlocked=true;
-
-    $('authPassword').value='';
-    $('authStatus').textContent='';
-
-    $('authView').classList.add('hidden');
-    $('appView').classList.remove('hidden');
-    $('logout').classList.remove('hidden');
-
-    await loadRequests();
-
-  }catch(err){
-    unlocked=false;
-    authorized=false;
-
-    $('authStatus').textContent=err.message;
-    $('authPassword').value='';
-  }finally{
-    authBusy=false;
-    button.disabled=false;
+  if(previousId&&previousId!==data.user.id){
+   await db.auth.signOut();
+   currentUser=null;
+   throw Error('Account changed. Sign in again.');
   }
-});
+
+  currentUser=data.user;
+
+  const check=await db.rpc('dluxe_is_admin');
+
+  if(check.error)throw Error(check.error.message);
+  if(check.data!==true)
+   throw Error('Account is not authorized as administrator.');
+
+  if(g!==generation||document.visibilityState==='hidden'){
+   lockScreen();return;
+  }
+
+  authorized=true;unlocked=true;
+  $('authPassword').value='';
+  $('authView').classList.add('hidden');
+  $('appView').classList.remove('hidden');
+  $('logout').classList.remove('hidden');
+
+  await refreshAll();
+ }catch(err){
+  unlocked=false;authorized=false;
+  $('authStatus').textContent=err.message;
+  $('authPassword').value='';
+ }finally{
+  authBusy=false;
+  $('authSubmit').disabled=false;
+ }
+};
 
 async function signOut(){
-  lockApp();
-
-  if(db){
-    await db.auth.signOut();
-  }
-
-  currentUser=null;
-  showLockedScreen();
+ lockScreen();
+ if(db)await db.auth.signOut();
+ currentUser=null;
+ lockScreen();
 }
-
 $('logout').onclick=signOut;
 $('switchAccount').onclick=signOut;
 
-// Lock immediately whenever the PWA is backgrounded.
 document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='hidden'){
-    lockApp();
-  }
+ if(document.visibilityState==='hidden')lockApp();
+});
+window.addEventListener('pagehide',lockApp);
+window.addEventListener('pageshow',e=>{
+ if(e.persisted)lockScreen();
 });
 
-// Additional protection when the browser page is hidden.
-window.addEventListener('pagehide',()=>{
-  lockApp();
-});
+$('tabs').onclick=e=>{
+ if(!unlocked)return;
+ const b=e.target.closest('button[data-page]');
+ if(!b)return;
+ document.querySelectorAll('.page').forEach(p=>{
+  p.classList.toggle('hidden',p.id!==b.dataset.page);
+ });
+ document.querySelectorAll('#tabs button').forEach(x=>{
+  x.classList.toggle('active',x===b);
+ });
+};
 
-// Do not restore an unlocked dashboard from page history.
-window.addEventListener('pageshow',event=>{
-  if(event.persisted){
-    showLockedScreen();
-  }
-});
+async function refreshAll(){
+ if(!unlocked)return;
+ const g=generation;
+ $('appStatus').textContent='Loading business data…';
 
-$('tabs').addEventListener('click',e=>{
-  if(!unlocked) return;
+ const results=await Promise.all([
+  db.from('dluxe_requests').select('*')
+   .order('created_at',{ascending:false}).limit(200),
+  db.from('dluxe_quotes').select('*')
+   .order('created_at',{ascending:false}).limit(200),
+  db.from('dluxe_jobs').select('*')
+   .order('created_at',{ascending:false}).limit(200),
+  db.from('dluxe_services').select('*')
+   .order('sort_order',{ascending:true}).limit(100)
+ ]);
 
-  const b=e.target.closest('button[data-page]');
+ if(!active(g))return;
 
-  if(!b) return;
+ const errors=results.map((r,i)=>
+  r.error?['Requests','Quotes','Jobs','Services'][i]+
+   ': '+r.error.message:null
+ ).filter(Boolean);
 
-  document.querySelectorAll('.page').forEach(p=>{
-    p.classList.toggle('hidden',p.id!==b.dataset.page);
-  });
+ [requests,quotes,jobs,services]=results.map(r=>r.data||[]);
 
-  document.querySelectorAll('#tabs button').forEach(x=>{
-    x.classList.toggle('active',x===b);
-  });
-});
+ renderDashboard();
+ renderRequests();
+ renderQuoteOptions();
+ renderQuotes();
+ renderJobOptions();
+ renderJobs();
+ renderPricing();
 
-async function loadRequests(){
-  if(!unlocked||!authorized) return;
-
-  const generation=lockGeneration;
-
-  status('Loading requests…');
-
-  const {data,error}=await db
-    .from('dluxe_requests')
-    .select(
-      'id,created_at,client_name,phone,email,'+
-      'vehicle_make,vehicle_model,vehicle_size,'+
-      'services,estimated_price,client_notes,status,admin_notes'
-    )
-    .order('created_at',{ascending:false})
-    .limit(200);
-
-  if(
-    generation!==lockGeneration ||
-    !unlocked ||
-    !authorized
-  ) return;
-
-  if(error){
-    status('Could not load requests: '+error.message);
-    return;
-  }
-
-  rows=data||[];
-
-  renderDashboard();
-  renderRequests();
-
-  status('Updated '+new Date().toLocaleTimeString());
+ $('appStatus').textContent=errors.length
+  ? errors.join(' | ')
+  : 'Business data updated '+new Date().toLocaleTimeString();
 }
 
+$('refreshAll').onclick=refreshAll;
+$('refreshRequests').onclick=refreshAll;
+
 function renderDashboard(){
-  const n=s=>rows.filter(r=>r.status===s).length;
+ $('statNew').textContent=requests.filter(
+  r=>r.status==='New'
+ ).length;
 
-  $('statNew').textContent=n('New');
+ $('statActive').textContent=jobs.filter(
+  j=>!['Completed','Cancelled'].includes(j.status)
+ ).length;
 
-  $('statActive').textContent=rows.filter(
-    r=>['Contacted','Booked','In Progress'].includes(r.status)
-  ).length;
+ $('statDone').textContent=jobs.filter(
+  j=>j.status==='Completed'
+ ).length;
 
-  $('statDone').textContent=n('Completed');
+ const accepted=quotes.filter(q=>q.status==='Accepted');
+ $('statAccepted').textContent=accepted.length;
 
-  $('statValue').textContent=money(
-    rows.reduce(
-      (sum,r)=>sum+(Number(r.estimated_price)||0),
-      0
-    )
-  );
+ $('pipeline').textContent=
+  'Accepted quotation value: '+
+  money(accepted.reduce((s,q)=>s+Number(q.total||0),0));
 
-  $('recent').innerHTML=rows.slice(0,5).map(r=>`
-    <p>
-      ${esc(r.client_name)} ·
-      ${esc(r.vehicle_make)}
-      ${esc(r.vehicle_model)} ·
-      <span class="gold">${esc(r.status)}</span>
-    </p>
-  `).join('')||'<p class="muted">No requests yet.</p>';
+ $('recent').innerHTML=requests.slice(0,5).map(r=>`
+  <p>${esc(r.client_name)} ·
+  ${esc(r.vehicle_make)} ${esc(r.vehicle_model)}
+  · <span class="gold">${esc(r.status)}</span></p>
+ `).join('')||'<p class="muted">No requests yet.</p>';
 }
 
 function renderRequests(){
-  if(!unlocked) return;
+ const filter=$('requestFilter').value;
+ const list=$('requestList');
+ list.replaceChildren();
 
-  const filter=$('statusFilter').value;
+ const items=requests.filter(r=>!filter||r.status===filter);
 
-  const items=rows.filter(
-    r=>!filter||r.status===filter
-  );
+ if(!items.length){
+  list.textContent='No matching requests.';
+  return;
+ }
 
-  $('requestList').replaceChildren();
+ for(const r of items){
+  const box=document.createElement('article');
+  box.className='entry';
 
-  if(!items.length){
-    $('requestList').textContent='No matching requests.';
-    return;
-  }
+  const selected=Array.isArray(r.services)
+   ? r.services.map(s=>
+      typeof s==='string'?s:s.name||'Service'
+     ).join(', ')
+   : '';
 
-  for(const r of items){
-    const box=document.createElement('article');
+  box.innerHTML=`
+   <div class="row">
+    <strong>${esc(r.client_name)}</strong>
+    <span class="tag">${esc(r.status)}</span>
+   </div>
+   <p>${esc(r.vehicle_make)} ${esc(r.vehicle_model)}</p>
+   <p>${esc(selected)}</p>
+   <p class="gold">${money(r.estimated_price)} starting estimate</p>
+   <details>
+    <summary>Customer details and actions</summary>
+    <p>Phone:
+     <a href="tel:${encodeURIComponent(r.phone||'')}">
+      ${esc(r.phone)}
+     </a>
+    </p>
+    <p>Email: ${esc(r.email||'Not supplied')}</p>
+    <p style="white-space:pre-wrap">
+     ${esc(r.client_notes||'No client notes')}
+    </p>
+    <label>Request status
+     <select class="requestStatus">
+      ${statuses.map(s=>`
+       <option ${s===r.status?'selected':''}>${s}</option>
+      `).join('')}
+     </select>
+    </label>
+    <label>Private admin notes
+     <textarea class="requestNotes"></textarea>
+    </label>
+    <div class="row">
+     <button class="saveRequest">Save Changes</button>
+     <button class="secondary loadPhotos">Load Photos</button>
+     <button class="secondary useRequest">Create Quote</button>
+    </div>
+    <div class="photos"></div>
+    <p class="message"></p>
+   </details>
+  `;
 
-    box.className='request';
+  box.querySelector('.requestNotes').value=r.admin_notes||'';
 
-    const services=Array.isArray(r.services)
-      ? r.services.map(s=>
-          typeof s==='string'
-            ? s
-            : s.name||'Service'
-        ).join(', ')
-      : '';
+  box.querySelector('.saveRequest').onclick=async()=>{
+   if(!unlocked)return;
+   const g=generation;
+   const b=box.querySelector('.saveRequest');
+   b.disabled=true;
 
-    box.innerHTML=`
-      <div class="row">
-        <h3>${esc(r.client_name)}</h3>
-        <span class="tag">${esc(r.status)}</span>
-      </div>
+   const {error}=await db.from('dluxe_requests')
+    .update({
+     status:box.querySelector('.requestStatus').value,
+     admin_notes:box.querySelector('.requestNotes')
+      .value.slice(0,10000)
+    }).eq('id',r.id);
 
-      <p>
-        ${esc(r.vehicle_make)}
-        ${esc(r.vehicle_model)} ·
-        ${esc(r.vehicle_size||'Size unspecified')}
-      </p>
+   if(!active(g))return;
+   b.disabled=false;
 
-      <p>${esc(services)}</p>
+   box.querySelector('.message').textContent=
+    error?error.message:'Saved successfully';
 
-      <p>
-        <strong>${money(r.estimated_price)}</strong>
-        starting estimate
-      </p>
+   if(!error)await refreshAll();
+  };
 
-      <p class="muted">
-        ${esc(new Date(r.created_at).toLocaleString())}
-      </p>
+  box.querySelector('.loadPhotos').onclick=()=>{
+   loadPhotos(
+    r.id,box.querySelector('.photos'),
+    box.querySelector('.message')
+   );
+  };
 
-      <details>
-        <summary>Open request details</summary>
+  box.querySelector('.useRequest').onclick=()=>{
+   $('quoteRequest').value=r.id;
+   importRequest();
+   document.querySelector('[data-page="quotes"]').click();
+  };
 
-        <p>
-          Phone:
-          <a href="tel:${encodeURIComponent(r.phone||'')}">
-            ${esc(r.phone)}
-          </a>
-        </p>
-
-        <p>Email: ${esc(r.email||'Not provided')}</p>
-
-        <p style="white-space:pre-wrap">
-          ${esc(r.client_notes||'No notes')}
-        </p>
-
-        <label>Job status
-          <select class="jobStatus">
-            ${[
-              'New',
-              'Contacted',
-              'Booked',
-              'In Progress',
-              'Completed',
-              'Cancelled'
-            ].map(s=>`
-              <option ${s===r.status?'selected':''}>
-                ${s}
-              </option>
-            `).join('')}
-          </select>
-        </label>
-
-        <label>Private admin notes
-          <textarea class="adminNotes"></textarea>
-        </label>
-
-        <div class="row">
-          <button class="save">Save changes</button>
-          <button class="secondary viewPhotos">
-            Load private photos
-          </button>
-        </div>
-
-        <div class="photos"></div>
-        <p class="message"></p>
-      </details>
-    `;
-
-    box.querySelector('.adminNotes').value=
-      r.admin_notes||'';
-
-    box.querySelector('.save').onclick=async()=>{
-      if(!unlocked||!authorized) return;
-
-      const generation=lockGeneration;
-      const b=box.querySelector('.save');
-
-      b.disabled=true;
-
-      const {error}=await db
-        .from('dluxe_requests')
-        .update({
-          status:box.querySelector('.jobStatus').value,
-          admin_notes:box.querySelector('.adminNotes')
-            .value.slice(0,10000)
-        })
-        .eq('id',r.id);
-
-      if(generation!==lockGeneration||!unlocked) return;
-
-      box.querySelector('.message').textContent=
-        error?error.message:'Changes saved';
-
-      b.disabled=false;
-
-      if(!error){
-        await loadRequests();
-      }
-    };
-
-    box.querySelector('.viewPhotos').onclick=()=>{
-      if(!unlocked||!authorized) return;
-
-      loadPhotos(
-        r.id,
-        box.querySelector('.photos'),
-        box.querySelector('.message')
-      );
-    };
-
-    $('requestList').append(box);
-  }
+  list.append(box);
+ }
 }
+
+$('requestFilter').onchange=renderRequests;
 
 async function loadPhotos(id,target,message){
-  if(!unlocked||!authorized) return;
+ if(!unlocked)return;
+ const g=generation;
+ target.replaceChildren();
+ message.textContent='Loading photos…';
 
-  const generation=lockGeneration;
+ const {data,error}=await db.from('dluxe_request_images')
+  .select('file_path').eq('request_id',id).limit(20);
 
-  target.replaceChildren();
-  message.textContent='Loading photos…';
+ if(!active(g))return;
+ if(error){
+  message.textContent=error.message;return;
+ }
+ if(!data?.length){
+  message.textContent='No photos attached.';return;
+ }
 
-  const {data,error}=await db
-    .from('dluxe_request_images')
-    .select('file_path')
-    .eq('request_id',id)
-    .limit(20);
+ let count=0;
+ for(const f of data){
+  if(!active(g))return;
 
-  if(generation!==lockGeneration||!unlocked) return;
+  const result=await db.storage.from('dluxe-request-images')
+   .createSignedUrl(f.file_path,120);
 
-  if(error){
-    message.textContent=error.message;
-    return;
-  }
+  if(!active(g))return;
+  if(result.error||!result.data?.signedUrl)continue;
 
-  if(!data?.length){
-    message.textContent='No photos attached.';
-    return;
-  }
+  const a=document.createElement('a');
+  a.href=result.data.signedUrl;
+  a.target='_blank';
+  a.rel='noopener noreferrer';
 
-  let loaded=0;
-
-  for(const item of data){
-    if(generation!==lockGeneration||!unlocked) return;
-
-    const {data:link,error:linkError}=await db
-      .storage
-      .from('dluxe-request-images')
-      .createSignedUrl(item.file_path,120);
-
-    if(generation!==lockGeneration||!unlocked) return;
-
-    if(linkError||!link?.signedUrl) continue;
-
-    const a=document.createElement('a');
-
-    a.href=link.signedUrl;
-    a.target='_blank';
-    a.rel='noopener noreferrer';
-
-    const img=document.createElement('img');
-
-    img.src=link.signedUrl;
-    img.alt='Customer vehicle photo';
-
-    a.append(img);
-    target.append(a);
-
-    loaded++;
-  }
-
-  message.textContent=loaded
-    ? 'Photo links expire after 2 minutes.'
-    : 'Unable to open photos. Check storage permissions.';
+  const img=document.createElement('img');
+  img.src=result.data.signedUrl;
+  img.alt='Client vehicle photo';
+  a.append(img);target.append(a);
+  count++;
+ }
+ message.textContent=count
+  ? 'Photo links expire after 2 minutes.'
+  : 'Unable to load photos.';
 }
 
-$('refresh').onclick=loadRequests;
-$('refreshRequests').onclick=loadRequests;
-$('statusFilter').onchange=renderRequests;
-
-function calcQuote(){
-  const v=id=>Math.max(0,Number($(id).value)||0);
-
-  const total=
-    v('qService')+
-    v('qKm')*3.2+
-    v('qExtra');
-
-  const costs=
-    v('qMaterials')+
-    v('qCosts')+
-    v('qTravelCost');
-
-  $('qTotal').textContent=
-    'Estimated quote: '+money(total);
-
-  $('qProfit').textContent=
-    'Estimated gross profit: '+money(total-costs);
+function fillSelect(id,items,placeholder){
+ const el=$(id);
+ el.replaceChildren(new Option(placeholder,''));
+ for(const item of items){
+  el.add(new Option(item.label,item.value));
+ }
 }
 
-[
-  'qService','qKm','qExtra',
-  'qMaterials','qCosts','qTravelCost'
-].forEach(id=>{
-  $(id).oninput=calcQuote;
+function renderQuoteOptions(){
+ fillSelect('quoteRequest',requests.map(r=>({
+  value:r.id,
+  label:r.client_name+' — '+(r.vehicle_model||'Vehicle')
+ })), 'Manual quotation');
+
+ fillSelect('qService',services.filter(s=>s.active).map(s=>({
+  value:s.id,label:s.service_name+' — '+money(s.base_price)
+ })), 'Select service');
+
+ updateUnitPrice();
+}
+
+function importRequest(){
+ const r=requests.find(x=>x.id===$('quoteRequest').value);
+ if(!r)return;
+
+ $('qName').value=r.client_name||'';
+ $('qPhone').value=r.phone||'';
+ $('qEmail').value=r.email||'';
+ $('qMake').value=r.vehicle_make||'';
+ $('qModel').value=r.vehicle_model||'';
+
+ const sizes=['Small','Medium','Large','XL/Luxury'];
+ if(sizes.includes(r.vehicle_size))
+  $('qSize').value=r.vehicle_size;
+
+ updateUnitPrice();
+}
+
+$('quoteRequest').onchange=importRequest;
+
+function updateUnitPrice(){
+ const s=services.find(x=>x.id===$('qService').value);
+ if(!s)return;
+ const size=$('qSize').value;
+ const p=s.vehicle_prices?.[size]??s.base_price;
+ $('qUnit').value=Number(p)||0;
+}
+
+$('qService').onchange=updateUnitPrice;
+$('qSize').onchange=updateUnitPrice;
+
+$('addItem').onclick=()=>{
+ const s=services.find(x=>x.id===$('qService').value);
+ if(!s){
+  $('quoteMessage').textContent='Select a service first.';
+  return;
+ }
+
+ const quantity=Math.floor(num('qQty'));
+ if(quantity<1||quantity>99){
+  $('quoteMessage').textContent='Quantity must be 1–99.';
+  return;
+ }
+
+ if(quoteItems.length>=30){
+  $('quoteMessage').textContent='Maximum 30 quotation lines.';
+  return;
+ }
+
+ quoteItems.push({
+  service_id:s.id,
+  description:s.service_name,
+  quantity,
+  unit_price:num('qUnit')
+ });
+
+ $('quoteMessage').textContent='';
+ renderQuoteItems();
+};
+
+function totals(){
+ const subtotal=quoteItems.reduce(
+  (sum,i)=>sum+i.quantity*i.unit_price,0
+ );
+ const travel=num('qKm')*3.2;
+ const discount=num('qDiscount');
+ const total=Math.max(0,subtotal+travel-discount);
+ const profit=total-num('qMaterials')-num('qLabour');
+ return {subtotal,total,profit};
+}
+
+function renderQuoteItems(){
+ const target=$('quoteItems');
+ target.replaceChildren();
+
+ quoteItems.forEach((item,index)=>{
+  const div=document.createElement('div');
+  div.className='entry row';
+
+  const text=document.createElement('span');
+  text.textContent=
+   item.description+' × '+item.quantity+
+   ' — '+money(item.quantity*item.unit_price);
+
+  const b=document.createElement('button');
+  b.className='secondary';
+  b.textContent='Remove';
+  b.onclick=()=>{
+   quoteItems.splice(index,1);
+   renderQuoteItems();
+  };
+
+  div.append(text,b);
+  target.append(div);
+ });
+
+ const t=totals();
+ $('quoteTotal').textContent='Total: '+money(t.total);
+ $('quoteProfit').textContent=
+  'Estimated gross profit: '+money(t.profit);
+}
+
+['qKm','qMaterials','qLabour','qDiscount'].forEach(id=>{
+ $(id).oninput=renderQuoteItems;
 });
 
-calcQuote();
+$('saveQuote').onclick=async()=>{
+ if(!unlocked)return;
+ if(!$('qName').value.trim()||!quoteItems.length){
+  $('quoteMessage').textContent=
+   'Enter a client name and add at least one service.';
+  return;
+ }
 
-function calcVoltage(){
-  const p=Number($('watts').value);
-  const r=Number($('ohms').value);
+ const g=generation;
+ const b=$('saveQuote');
+ b.disabled=true;
 
-  $('voltage').textContent=
-    p>0&&r>0
-      ? `Theoretical target: ${Math.sqrt(p*r).toFixed(2)} V AC RMS`
-      : 'Enter positive RMS power and impedance';
+ const t=totals();
+ const quoteNumber='DLQ-'+Date.now().toString(36).toUpperCase()+
+  '-'+crypto.randomUUID().slice(0,6).toUpperCase();
+
+ const record={
+  quote_number:quoteNumber,
+  request_id:$('quoteRequest').value||null,
+  client_name:$('qName').value.trim(),
+  client_phone:$('qPhone').value.trim(),
+  client_email:$('qEmail').value.trim(),
+  vehicle_make:$('qMake').value.trim(),
+  vehicle_model:$('qModel').value.trim(),
+  vehicle_registration:$('qReg').value.trim(),
+  status:'Draft',
+  items:quoteItems,
+  materials_cost:num('qMaterials'),
+  labour_cost:num('qLabour'),
+  travel_km:num('qKm'),
+  travel_rate:3.2,
+  discount:num('qDiscount'),
+  subtotal:t.subtotal,
+  total:t.total,
+  estimated_profit:t.profit,
+  notes:$('qNotes').value.trim(),
+  valid_until:$('qValid').value||null,
+  created_by:currentUser.id
+ };
+
+ const {error}=await db.from('dluxe_quotes').insert(record);
+ if(!active(g))return;
+
+ b.disabled=false;
+ $('quoteMessage').textContent=error
+  ? error.message
+  : 'Quotation saved: '+quoteNumber;
+
+ if(!error){
+  quoteItems=[];
+  renderQuoteItems();
+  await refreshAll();
+ }
+};
+
+function renderQuotes(){
+ const list=$('quoteList');
+ list.replaceChildren();
+
+ if(!quotes.length){
+  list.textContent='No saved quotations yet.';
+  return;
+ }
+
+ for(const q of quotes){
+  const box=document.createElement('div');
+  box.className='entry';
+
+  box.innerHTML=`
+   <strong>${esc(q.quote_number)}</strong>
+   <p>${esc(q.client_name)} ·
+   ${esc(q.vehicle_make)} ${esc(q.vehicle_model)}</p>
+   <p class="gold">${money(q.total)}</p>
+   <p>Status: ${esc(q.status)}</p>
+   <details>
+    <summary>View quotation</summary>
+    <div class="lines"></div>
+    <p>Travel: ${money(Number(q.travel_km)*Number(q.travel_rate))}</p>
+    <p>Discount: ${money(q.discount)}</p>
+    <p style="white-space:pre-wrap">${esc(q.notes||'')}</p>
+    <label>Quotation status
+     <select class="quoteStatus">
+      ${['Draft','Sent','Accepted','Declined','Expired']
+       .map(s=>`<option ${q.status===s?'selected':''}>${s}</option>`)
+       .join('')}
+     </select>
+    </label>
+    <button class="updateQuote">Update Status</button>
+    <p class="message"></p>
+   </details>
+  `;
+
+  const lines=box.querySelector('.lines');
+  for(const item of (Array.isArray(q.items)?q.items:[])){
+   const p=document.createElement('p');
+   p.textContent=(item.description||'Service')+
+    ' × '+item.quantity+' — '+
+    money(Number(item.quantity)*Number(item.unit_price));
+   lines.append(p);
+  }
+
+  box.querySelector('.updateQuote').onclick=async()=>{
+   if(!unlocked)return;
+   const g=generation;
+   const b=box.querySelector('.updateQuote');
+   b.disabled=true;
+
+   const {error}=await db.from('dluxe_quotes')
+    .update({status:box.querySelector('.quoteStatus').value})
+    .eq('id',q.id);
+
+   if(!active(g))return;
+   b.disabled=false;
+
+   box.querySelector('.message').textContent=
+    error?error.message:'Status updated';
+
+   if(!error)await refreshAll();
+  };
+
+  list.append(box);
+ }
 }
 
+function renderJobOptions(){
+ fillSelect('jobQuote',quotes.filter(q=>
+  q.status==='Accepted' &&
+  !jobs.some(j=>j.quote_id===q.id)
+ ).map(q=>({
+  value:q.id,
+  label:q.quote_number+' — '+q.client_name
+ })), 'Select accepted quotation');
+}
+
+$('createJob').onclick=async()=>{
+ if(!unlocked)return;
+
+ const q=quotes.find(x=>x.id===$('jobQuote').value);
+ if(!q){
+  $('jobMessage').textContent=
+   'Select an accepted quotation first.';
+  return;
+ }
+
+ const g=generation;
+ const b=$('createJob');
+ b.disabled=true;
+
+ const jobNumber='DLJ-'+Date.now().toString(36).toUpperCase()+
+  '-'+crypto.randomUUID().slice(0,6).toUpperCase();
+
+ const record={
+  job_number:jobNumber,
+  quote_id:q.id,
+  request_id:q.request_id,
+  client_name:q.client_name,
+  client_phone:q.client_phone,
+  vehicle_make:q.vehicle_make,
+  vehicle_model:q.vehicle_model,
+  vehicle_registration:q.vehicle_registration,
+  job_type:$('jobType').value,
+  status:'Scheduled',
+  scheduled_date:$('jobDate').value||null,
+  quoted_amount:q.total,
+  technician_notes:$('jobNotes').value.trim(),
+  checklist:[],
+  parts_used:[],
+  created_by:currentUser.id
+ };
+
+ const {error}=await db.from('dluxe_jobs').insert(record);
+ if(!active(g))return;
+
+ b.disabled=false;
+ $('jobMessage').textContent=error
+  ? error.message
+  : 'Job card created: '+jobNumber;
+
+ if(!error)await refreshAll();
+};
+
+function renderJobs(){
+ const list=$('jobList');
+ list.replaceChildren();
+
+ if(!jobs.length){
+  list.textContent='No job cards yet.';
+  return;
+ }
+
+ const options=[
+  'Scheduled','In Progress','Awaiting Parts',
+  'Quality Check','Completed','Cancelled'
+ ];
+
+ for(const j of jobs){
+  const box=document.createElement('div');
+  box.className='entry';
+
+  box.innerHTML=`
+   <strong>${esc(j.job_number)}</strong>
+   <p>${esc(j.client_name)} ·
+   ${esc(j.vehicle_make)} ${esc(j.vehicle_model)}</p>
+   <p>${esc(j.job_type)} ·
+   <span class="gold">${esc(j.status)}</span></p>
+   <p>Quoted: ${money(j.quoted_amount)}</p>
+   <details>
+    <summary>Manage job</summary>
+    <label>Status
+     <select class="jobStatus">
+      ${options.map(s=>`
+       <option ${j.status===s?'selected':''}>${s}</option>
+      `).join('')}
+     </select>
+    </label>
+    <label>Scheduled date
+     <input class="jobDate" type="date">
+    </label>
+    <label>Actual job cost (R)
+     <input class="jobCost" type="number" min="0" step="0.01">
+    </label>
+    <label>Technician notes
+     <textarea class="jobNotes"></textarea>
+    </label>
+    <button class="saveJob">Save Job</button>
+    <p class="message"></p>
+   </details>
+  `;
+
+  box.querySelector('.jobDate').value=j.scheduled_date||'';
+  box.querySelector('.jobCost').value=j.actual_cost||0;
+  box.querySelector('.jobNotes').value=j.technician_notes||'';
+
+  box.querySelector('.saveJob').onclick=async()=>{
+   if(!unlocked)return;
+   const g=generation;
+   const b=box.querySelector('.saveJob');
+   b.disabled=true;
+
+   const newStatus=box.querySelector('.jobStatus').value;
+
+   const changes={
+    status:newStatus,
+    scheduled_date:box.querySelector('.jobDate').value||null,
+    actual_cost:Math.max(0,
+     Number(box.querySelector('.jobCost').value)||0),
+    technician_notes:box.querySelector('.jobNotes')
+     .value.slice(0,5000),
+    completed_at:newStatus==='Completed'
+     ? (j.completed_at||new Date().toISOString())
+     : null
+   };
+
+   const {error}=await db.from('dluxe_jobs')
+    .update(changes).eq('id',j.id);
+
+   if(!active(g))return;
+   b.disabled=false;
+
+   box.querySelector('.message').textContent=
+    error?error.message:'Job saved';
+
+   if(!error)await refreshAll();
+  };
+
+  list.append(box);
+ }
+}
+
+function renderPricing(){
+ const list=$('priceList');
+ list.replaceChildren();
+
+ for(const s of services){
+  const box=document.createElement('div');
+  box.className='entry';
+
+  const title=document.createElement('h3');
+  title.textContent=s.service_name;
+
+  const category=document.createElement('p');
+  category.className='muted';
+  category.textContent=s.category;
+
+  const label=document.createElement('label');
+  label.textContent='Base price (R)';
+
+  const input=document.createElement('input');
+  input.type='number';input.min='0';input.step='0.01';
+  input.value=s.base_price;
+
+  const sizeInputs={};
+  const prices=s.vehicle_prices||{};
+
+  const wrapper=document.createElement('div');
+  wrapper.className='split';
+
+  for(const size of Object.keys(prices)){
+   const l=document.createElement('label');
+   l.textContent=size+' price (R)';
+   const inp=document.createElement('input');
+   inp.type='number';inp.min='0';inp.step='0.01';
+   inp.value=prices[size];
+   l.append(inp);wrapper.append(l);
+   sizeInputs[size]=inp;
+  }
+
+  const b=document.createElement('button');
+  b.textContent='Save Price';
+
+  const msg=document.createElement('p');
+  msg.className='message';
+
+  b.onclick=async()=>{
+   if(!unlocked)return;
+   const g=generation;
+   b.disabled=true;
+
+   const updatedPrices={};
+   for(const [size,inp] of Object.entries(sizeInputs)){
+    updatedPrices[size]=Math.max(0,Number(inp.value)||0);
+   }
+
+   const {error}=await db.from('dluxe_services')
+    .update({
+     base_price:Math.max(0,Number(input.value)||0),
+     vehicle_prices:updatedPrices
+    }).eq('id',s.id);
+
+   if(!active(g))return;
+   b.disabled=false;
+
+   msg.textContent=error?error.message:'Price saved';
+
+   if(!error)await refreshAll();
+  };
+
+  label.append(input);
+  box.append(title,category,label,wrapper,b,msg);
+  list.append(box);
+ }
+}
+
+function calcVoltage(){
+ const p=num('watts'),r=num('ohms');
+ $('voltage').textContent=p>0&&r>0
+  ? 'Theoretical reference: '+Math.sqrt(p*r).toFixed(2)+' V AC RMS'
+  : 'Enter positive RMS power and impedance.';
+}
 $('watts').oninput=calcVoltage;
 $('ohms').oninput=calcVoltage;
 calcVoltage();
 
 $('boxPlan').onclick=()=>{
-  const w=Number($('bootW').value);
-  const h=Number($('bootH').value);
-  const d=Number($('bootD').value);
+ const w=num('bootW'),h=num('bootH'),d=num('bootD');
 
-  const lines=[
-    `Subwoofer: ${$('subModel').value||'Model not provided'}`,
-    `Quantity: ${$('subQty').value}`,
-    `Driver diameter: ${$('subDiameter').value} inches`,
-    `Preferred enclosure: ${$('boxType').value}`,
-    `Bass goal: ${$('bass').value}`
-  ];
+ const lines=[
+  'Subwoofer: '+($('subModel').value||'Not specified'),
+  'Quantity: '+num('subQty'),
+  'Driver size: '+num('subDiameter')+' inches',
+  'Bass goal: '+$('bass').value,
+  'Enclosure preference: '+$('boxType').value
+ ];
 
-  if(w>0&&h>0&&d>0){
-    lines.push(
-      `Measured space: ${w} × ${h} × ${d} cm`,
-      `Maximum rectangular space: ${(w*h*d/1000).toFixed(1)} L`,
-      'This is gross space, NOT usable enclosure volume.'
-    );
-  }else{
-    lines.push(
-      'Measure available width, height and depth.'
-    );
-  }
-
+ if(w&&h&&d){
   lines.push(
-    'NEXT: Obtain manufacturer T/S parameters, '+
-    'recommended net air volume, driver/port displacement '+
-    'and target tuning before cutting panels.'
+   'Available rectangular space: '+(w*h*d/1000).toFixed(1)+' L',
+   'This is gross space, NOT usable enclosure volume.'
   );
+ }else{
+  lines.push('Measure the available boot dimensions.');
+ }
 
-  $('boxResult').textContent=lines.join('\n');
+ lines.push(
+  'Obtain manufacturer T/S parameters, recommended '+
+  'net volume, displacement and target tuning before '+
+  'producing a final cutting plan.'
+ );
+
+ $('boxResult').textContent=lines.join('\n');
 };
 
+renderQuoteItems();
 init();
 </script>
 </body>
