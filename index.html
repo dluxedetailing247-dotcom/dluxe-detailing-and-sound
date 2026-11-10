@@ -6,406 +6,454 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090b10">
 <link rel="manifest" href="./manifest.json">
-<title>D-LUXE | Premium Command Centre</title>
+<title>D-LUXE | Premium Command Centre V3</title>
 <style>
 :root{
- color-scheme:dark;--bg:#090b10;--panel:#171b25;
- --gold:#e5b84d;--muted:#aeb6c4;--line:#353c49
+color-scheme:dark;
+--bg:#090b10;--panel:#171c27;
+--gold:#e7b94e;--line:#354051;
+--muted:#abb5c5;--ink:#f6f7fb
 }
 *{box-sizing:border-box}
 body{
- margin:0;color:#f7f8fa;font:15px system-ui,Arial;
- background:radial-gradient(circle at top right,#332818,#090b10 48%);
- min-height:100vh
+margin:0;min-height:100vh;
+background:radial-gradient(circle at 100% 0,#352817,#090b10 48%);
+color:var(--ink);font:15px system-ui,Arial,sans-serif
 }
 header{
- padding:20px 16px;border-bottom:1px solid var(--line);
- display:flex;justify-content:space-between;align-items:center;gap:10px
+padding:19px 17px;border-bottom:1px solid var(--line);
+display:flex;justify-content:space-between;
+align-items:center;gap:12px
 }
-h1{font-size:22px;margin:4px 0}
-h2{font-size:20px}h3{font-size:16px}
-.brand{color:var(--gold);letter-spacing:2px;font-size:11px;font-weight:800}
-.gold{color:var(--gold)}.muted,small{color:var(--muted)}
-main{max-width:1150px;margin:auto;padding:15px}
+.brand{
+font-size:11px;letter-spacing:2px;
+color:var(--gold);font-weight:800
+}
+h1{font-size:23px;margin:4px 0}
+h2{font-size:21px}
+h3{font-size:17px}
+.muted,small{color:var(--muted)}
+.gold{color:var(--gold)}
+nav{
+display:flex;gap:8px;overflow:auto;
+padding:12px 15px;border-bottom:1px solid var(--line)
+}
+nav button{
+white-space:nowrap;background:#252c39;color:#fff
+}
+nav button.active{
+background:var(--gold);color:#181207
+}
+main{max-width:1150px;margin:auto;padding:16px}
 .card{
- background:linear-gradient(145deg,#1b202b,#11151d);
- border:1px solid var(--line);border-radius:18px;
- padding:17px;margin:12px 0
+background:linear-gradient(145deg,#1b202c,#11151d);
+border:1px solid var(--line);
+border-radius:19px;padding:17px;margin:13px 0
 }
-.grid{
- display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
- gap:12px
+.grid,.split{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:12px
 }
 .grid .card{margin:0}
-.stat{font-size:28px;font-weight:800;color:var(--gold)}
-button,input,select,textarea{
- font:inherit;border-radius:10px;padding:12px
-}
-button{
- background:var(--gold);border:0;color:#17120a;
- font-weight:750;cursor:pointer
-}
-button.secondary{background:#303746;color:white}
-button:disabled{opacity:.55;cursor:wait}
-input,select,textarea{
- width:100%;background:#0b0e15;color:white;
- border:1px solid #424b5b;margin:6px 0 12px
-}
-textarea{min-height:90px}
-label{display:block;font-size:13px;color:var(--muted)}
-nav{
- display:flex;gap:7px;overflow-x:auto;padding:12px 15px;
- border-bottom:1px solid var(--line)
-}
-nav button{white-space:nowrap;background:#242a35;color:white}
-nav button.active{background:var(--gold);color:#17120a}
-.hidden{display:none!important}
+.stat{font-size:30px;font-weight:800;color:var(--gold)}
 .row{
- display:flex;gap:10px;align-items:center;
- justify-content:space-between;flex-wrap:wrap
-}
-.split{
- display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
- gap:13px
+display:flex;align-items:center;
+justify-content:space-between;flex-wrap:wrap;gap:10px
 }
 .entry{
- background:#10141c;border:1px solid #3a424e;
- border-radius:13px;padding:14px;margin:10px 0
+background:#10151e;border:1px solid #374354;
+border-radius:13px;padding:14px;margin:11px 0
 }
-.tag{color:var(--gold);font-weight:750}
-.note{font-size:12px;line-height:1.6;color:var(--muted)}
-.message{min-height:22px;color:var(--gold);overflow-wrap:anywhere}
-.photos{display:flex;gap:10px;flex-wrap:wrap}
-.photos img{
- width:130px;height:105px;object-fit:cover;
- border:1px solid var(--line);border-radius:10px
+.tag{color:var(--gold);font-weight:700}
+.hidden{display:none!important}
+button,input,select,textarea{
+font:inherit;border-radius:11px;padding:12px
+}
+button{
+background:var(--gold);border:0;color:#181207;
+font-weight:750;cursor:pointer
+}
+button.secondary{background:#303849;color:white}
+button:disabled{opacity:.5;cursor:wait}
+input,select,textarea{
+width:100%;background:#0c1018;color:#fff;
+border:1px solid #455064;margin:6px 0 12px
+}
+label{display:block;font-size:13px;color:var(--muted)}
+textarea{min-height:88px}
+.message{
+min-height:22px;color:var(--gold);
+overflow-wrap:anywhere
+}
+.note{
+font-size:12px;line-height:1.6;color:var(--muted)
 }
 a{color:var(--gold)}
+details{margin-top:10px}
+summary{cursor:pointer;color:var(--gold);padding:8px 0}
+hr{
+border:0;border-top:1px solid var(--line);
+margin:16px 0
+}
+.photos{display:flex;gap:10px;flex-wrap:wrap}
+.photos img{
+width:135px;height:108px;object-fit:cover;
+border:1px solid var(--line);border-radius:11px
+}
+pre{white-space:pre-wrap;overflow-wrap:anywhere}
 .authScreen{
- min-height:calc(100dvh - 85px);display:flex;
- align-items:center;justify-content:center;padding:20px
+min-height:calc(100dvh - 85px);
+display:flex;align-items:center;
+justify-content:center;padding:20px
 }
 .authCard{
- width:100%;max-width:440px;padding:27px;
- background:linear-gradient(150deg,#20212b,#101219);
- border:1px solid #58482a;border-radius:25px;
- box-shadow:0 20px 70px #0008
+width:100%;max-width:445px;padding:28px;
+background:linear-gradient(150deg,#20212b,#101219);
+border:1px solid #58482a;border-radius:25px;
+box-shadow:0 20px 70px #0008
 }
 .authCard h2,.authCard p{text-align:center}
 .authCard button{width:100%;margin-top:6px}
 .lockIcon{
- width:76px;height:76px;margin:0 auto 20px;
- display:grid;place-items:center;border-radius:22px;
- background:#3b301b;color:var(--gold);font-size:36px
+width:76px;height:76px;margin:0 auto 20px;
+display:grid;place-items:center;border-radius:22px;
+background:#3b301b;color:var(--gold);font-size:37px
 }
 .authEmail{
- background:#10141c;border:1px solid var(--line);
- padding:12px;border-radius:10px;text-align:center;
- overflow-wrap:anywhere;margin:15px 0
+background:#10141c;border:1px solid var(--line);
+padding:12px;border-radius:10px;
+text-align:center;overflow-wrap:anywhere;margin:15px 0
 }
-details{margin-top:12px}
-summary{cursor:pointer;color:var(--gold);padding:7px 0}
-hr{border:0;border-top:1px solid var(--line);margin:15px 0}
-pre{white-space:pre-wrap;overflow-wrap:anywhere}
+.mini{font-size:12px}
+.pill{
+display:inline-block;padding:5px 9px;
+border-radius:999px;background:#303849;
+color:var(--gold);font-size:12px
+}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.actions button{flex:1;min-width:110px}
+@media(max-width:420px){
+header{padding:16px 12px}
+main{padding:12px}
+.card{padding:14px}
+.grid,.split{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
+
 <header>
- <div>
-  <div class="brand">D-LUXE DETAILING & SOUND</div>
-  <h1>Command Centre</h1>
- </div>
- <button id="logout" class="secondary hidden">Sign out</button>
+<div>
+<div class="brand">D-LUXE DETAILING &amp; SOUND</div>
+<h1>Command Centre <span class="pill">V3</span></h1>
+</div>
+<button id="logout" class="secondary hidden">Sign out</button>
 </header>
 
 <section id="authView" class="authScreen">
- <div class="authCard">
-  <div class="lockIcon">◆</div>
-  <p class="brand">PRIVATE ADMINISTRATOR ACCESS</p>
-  <h2 id="authTitle">D-LUXE Secure Access</h2>
-  <p id="authDescription" class="muted">Connecting securely…</p>
-  <div id="savedEmail" class="authEmail hidden"></div>
-  <form id="authForm" class="hidden">
-   <label id="emailLabel">Administrator email
-    <input id="authEmail" type="email" autocomplete="username">
-   </label>
-   <label>Administrator password
-    <input id="authPassword" type="password"
-     autocomplete="current-password" required>
-   </label>
-   <button id="authSubmit" type="submit">Secure Sign In</button>
-  </form>
-  <button id="switchAccount" class="secondary hidden">
-   Sign out and change account
-  </button>
-  <p id="authStatus" class="message" role="status"></p>
-  <p class="note">
-   Protected by Supabase Authentication and
-   administrator-only database permissions.
-  </p>
- </div>
+<div class="authCard">
+<div class="lockIcon">◆</div>
+<p class="brand">PRIVATE ADMINISTRATOR ACCESS</p>
+<h2 id="authTitle">D-LUXE Secure Access</h2>
+<p id="authDescription" class="muted">Connecting securely…</p>
+<div id="savedEmail" class="authEmail hidden"></div>
+<form id="authForm" class="hidden">
+<label id="emailLabel">Administrator email
+<input id="authEmail" type="email" autocomplete="username">
+</label>
+<label>Administrator password
+<input id="authPassword" type="password"
+autocomplete="current-password" required>
+</label>
+<button id="authSubmit" type="submit">Secure Sign In</button>
+</form>
+<button id="switchAccount" class="secondary hidden">
+Sign out and change account
+</button>
+<p id="authStatus" class="message" role="status"></p>
+<p class="note">
+Protected by Supabase Authentication,
+administrator permissions and automatic App Lock.
+</p>
+</div>
 </section>
 
 <div id="appView" class="hidden">
 <nav id="tabs">
- <button data-page="dashboard" class="active">Overview</button>
- <button data-page="requests">Requests</button>
- <button data-page="quotes">Quotations</button>
- <button data-page="jobs">Job Cards</button>
- <button data-page="pricing">Pricing</button>
- <button data-page="sound">Sound Tools</button>
- <button data-page="business">Business</button>
+<button class="active" data-page="dashboard">Overview</button>
+<button data-page="requests">Requests</button>
+<button data-page="quotes">Quotations</button>
+<button data-page="jobs">Job Cards</button>
+<button data-page="pricing">Pricing</button>
+<button data-page="sound">Sound Tools</button>
+<button data-page="business">Business</button>
 </nav>
 
 <main>
+
 <section id="dashboard" class="page">
- <h2>Business Overview</h2>
- <div class="grid">
-  <div class="card">New Requests<div id="statNew" class="stat">—</div></div>
-  <div class="card">Active Jobs<div id="statActive" class="stat">—</div></div>
-  <div class="card">Completed Jobs<div id="statDone" class="stat">—</div></div>
-  <div class="card">Accepted Quotes<div id="statAccepted" class="stat">—</div></div>
- </div>
- <div class="card">
-  <h3>Business Pipeline</h3>
-  <p id="pipeline"></p>
-  <p class="note">
-   Accepted quotation value is not collected revenue.
-   Financial totals are calculated from saved records.
-  </p>
-  <button id="refreshAll">Refresh Dashboard</button>
- </div>
- <div class="card">
-  <h3>Recent Client Requests</h3>
-  <div id="recent"></div>
- </div>
+<h2>Business overview</h2>
+<div class="grid">
+<div class="card">
+New requests
+<div class="stat" id="statNew">—</div>
+</div>
+<div class="card">
+Active job cards
+<div class="stat" id="statActive">—</div>
+</div>
+<div class="card">
+Completed jobs
+<div class="stat" id="statDone">—</div>
+</div>
+<div class="card">
+Accepted quotations
+<div class="stat" id="statAccepted">—</div>
+</div>
+</div>
+<div class="card">
+<h3>Business pipeline</h3>
+<p id="pipeline">—</p>
+<p class="note">
+Accepted quotation value is not confirmed or collected revenue.
+</p>
+<button id="refreshAll">Refresh dashboard</button>
+</div>
+<div class="card">
+<h3>Recent requests</h3>
+<div id="recent"></div>
+</div>
 </section>
 
 <section id="requests" class="page hidden">
- <div class="row">
-  <h2>Client Requests</h2>
-  <button id="refreshRequests">Refresh</button>
- </div>
- <label>Filter status
-  <select id="requestFilter">
-   <option value="">All</option>
-   <option>New</option><option>Contacted</option>
-   <option>Booked</option><option>In Progress</option>
-   <option>Completed</option><option>Cancelled</option>
-  </select>
- </label>
- <div id="requestList"></div>
+<div class="row">
+<h2>Client requests</h2>
+<button id="refreshRequests">Refresh</button>
+</div>
+<label>Filter status
+<select id="requestFilter">
+<option value="">All requests</option>
+<option>New</option>
+<option>Contacted</option>
+<option>Booked</option>
+<option>In Progress</option>
+<option>Completed</option>
+<option>Cancelled</option>
+</select>
+</label>
+<div id="requestList"></div>
 </section>
 
 <section id="quotes" class="page hidden">
- <h2>Quotation Builder</h2>
- <div class="card">
-  <label>Import an existing client request
-   <select id="quoteRequest"><option value="">Manual quotation</option></select>
-  </label>
-  <div class="split">
-   <label>Client name
-    <input id="qName" maxlength="150">
-   </label>
-   <label>Phone
-    <input id="qPhone" type="tel" maxlength="40">
-   </label>
-   <label>Email
-    <input id="qEmail" type="email" maxlength="200">
-   </label>
-   <label>Vehicle make
-    <input id="qMake" maxlength="100">
-   </label>
-   <label>Vehicle model
-    <input id="qModel" maxlength="100">
-   </label>
-   <label>Registration
-    <input id="qReg" maxlength="40">
-   </label>
-  </div>
-  <hr>
-  <h3>Add Service</h3>
-  <div class="split">
-   <label>Service
-    <select id="qService"></select>
-   </label>
-   <label>Vehicle size
-    <select id="qSize">
-     <option>Small</option><option>Medium</option>
-     <option>Large</option><option>XL/Luxury</option>
-    </select>
-   </label>
-   <label>Quantity
-    <input id="qQty" type="number" min="1" max="99" value="1">
-   </label>
-   <label>Unit price (R)
-    <input id="qUnit" type="number" min="0" step="0.01">
-   </label>
-  </div>
-  <button id="addItem">Add to Quotation</button>
-  <div id="quoteItems"></div>
-  <hr>
-  <div class="split">
-   <label>Materials cost (R)
-    <input id="qMaterials" type="number" min="0" value="0">
-   </label>
-   <label>Labour cost (R)
-    <input id="qLabour" type="number" min="0" value="0">
-   </label>
-   <label>Billable travel distance (km)
-    <input id="qKm" type="number" min="0" value="0">
-   </label>
-   <label>Discount (R)
-    <input id="qDiscount" type="number" min="0" value="0">
-   </label>
-   <label>Quote valid until
-    <input id="qValid" type="date">
-   </label>
-  </div>
-  <label>Quotation notes
-   <textarea id="qNotes" maxlength="5000"></textarea>
-  </label>
-  <h3 id="quoteTotal" class="gold">Total: R0</h3>
-  <p id="quoteProfit"></p>
-  <p class="note">
-   R3.20/km travel charge. Estimated profit deducts
-   entered material and labour costs, but not unentered
-   overhead, tax or other expenses. Check VAT treatment
-   before issuing a formal quotation.
-  </p>
-  <button id="saveQuote">Save Quotation</button>
-  <p id="quoteMessage" class="message"></p>
- </div>
- <div class="card">
-  <h3>Saved Quotations</h3>
-  <div id="quoteList"></div>
- </div>
+<h2>Quotation builder</h2>
+<div class="card">
+<label>Import existing request
+<select id="quoteRequest">
+<option value="">Manual quotation</option>
+</select>
+</label>
+<div class="split">
+<label>Client name<input id="qName" maxlength="150"></label>
+<label>Phone<input id="qPhone" type="tel" maxlength="40"></label>
+<label>Email<input id="qEmail" type="email" maxlength="200"></label>
+<label>Vehicle make<input id="qMake" maxlength="100"></label>
+<label>Vehicle model<input id="qModel" maxlength="100"></label>
+<label>Registration<input id="qReg" maxlength="40"></label>
+</div>
+<hr>
+<h3>Add services</h3>
+<div class="split">
+<label>Service<select id="qService"></select></label>
+<label>Vehicle size
+<select id="qSize">
+<option>Small</option>
+<option>Medium</option>
+<option>Large</option>
+<option>XL/Luxury</option>
+</select>
+</label>
+<label>Quantity
+<input id="qQty" type="number" min="1" max="99" value="1">
+</label>
+<label>Unit price (R)
+<input id="qUnit" type="number" min="0" step="0.01" value="0">
+</label>
+</div>
+<button id="addItem">Add service</button>
+<div id="quoteItems"></div>
+<hr>
+<div class="split">
+<label>Materials cost (R)
+<input id="qMaterials" type="number" min="0" step="0.01" value="0">
+</label>
+<label>Labour cost (R)
+<input id="qLabour" type="number" min="0" step="0.01" value="0">
+</label>
+<label>Billable travel (km)
+<input id="qKm" type="number" min="0" step="0.1" value="0">
+</label>
+<label>Discount (R)
+<input id="qDiscount" type="number" min="0" step="0.01" value="0">
+</label>
+<label>Valid until
+<input id="qValid" type="date">
+</label>
+</div>
+<label>Quotation notes
+<textarea id="qNotes" maxlength="5000"></textarea>
+</label>
+<h3 id="quoteTotal" class="gold">Total: R0.00</h3>
+<p id="quoteProfit"></p>
+<p class="note">
+Travel charged at R3.20 per billable kilometre.
+Profit estimate excludes unentered overhead,
+tax and other expenses.
+Confirm VAT treatment before issuing formal quotes.
+</p>
+<button id="saveQuote">Save quotation</button>
+<p id="quoteMessage" class="message"></p>
+</div>
+<div class="card">
+<h3>Saved quotations</h3>
+<div id="quoteList"></div>
+</div>
 </section>
 
 <section id="jobs" class="page hidden">
- <h2>Job Management</h2>
- <div class="card">
-  <h3>Create Job Card</h3>
-  <label>Accepted quotation
-   <select id="jobQuote">
-    <option value="">Select accepted quotation</option>
-   </select>
-  </label>
-  <label>Job type
-   <select id="jobType">
-    <option>Detailing</option>
-    <option>Sound Installation</option>
-    <option>Custom Subwoofer Box</option>
-    <option>Combined</option>
-   </select>
-  </label>
-  <label>Scheduled date
-   <input id="jobDate" type="date">
-  </label>
-  <label>Technician notes
-   <textarea id="jobNotes" maxlength="5000"></textarea>
-  </label>
-  <button id="createJob">Create Job Card</button>
-  <p id="jobMessage" class="message"></p>
- </div>
- <div class="card">
-  <h3>Saved Job Cards</h3>
-  <div id="jobList"></div>
- </div>
+<h2>Job management</h2>
+<div class="card">
+<h3>Create job card</h3>
+<label>Accepted quotation
+<select id="jobQuote">
+<option value="">Select accepted quotation</option>
+</select>
+</label>
+<label>Job type
+<select id="jobType">
+<option>Detailing</option>
+<option>Sound Installation</option>
+<option>Custom Subwoofer Box</option>
+<option>Combined</option>
+</select>
+</label>
+<label>Scheduled date
+<input id="jobDate" type="date">
+</label>
+<label>Technician notes
+<textarea id="jobNotes" maxlength="5000"></textarea>
+</label>
+<button id="createJob">Create job card</button>
+<p id="jobMessage" class="message"></p>
+</div>
+<div class="card">
+<h3>Saved job cards</h3>
+<div id="jobList"></div>
+</div>
 </section>
 
 <section id="pricing" class="page hidden">
- <h2>Service Pricing</h2>
- <p class="note">
-  These are your internal starting prices. Changes here
-  do not automatically update the public client website.
- </p>
- <div id="priceList"></div>
+<h2>Service pricing</h2>
+<p class="note">
+Internal starting prices.
+Changing these does not automatically update
+prices shown on the client website.
+Quote prices remain editable for each job.
+</p>
+<div id="priceList"></div>
 </section>
 
 <section id="sound" class="page hidden">
- <h2>Professional Sound Tools</h2>
- <div class="card">
-  <h3>Amplifier Voltage Reference</h3>
-  <div class="split">
-   <label>Target RMS power (W)
-    <input id="watts" type="number" min="1" value="300">
-   </label>
-   <label>Final load impedance (Ω)
-    <input id="ohms" type="number" min="0.1" step="0.1" value="4">
-   </label>
-  </div>
-  <h3 id="voltage" class="gold"></h3>
-  <p class="note">
-   Theoretical V = √(P × R). Verify actual RMS power,
-   coil wiring, impedance, amplifier stability and
-   clipping using appropriate measuring equipment.
-  </p>
- </div>
- <div class="card">
-  <h3>Custom Subwoofer Box Planning</h3>
-  <div class="split">
-   <label>Exact subwoofer model
-    <input id="subModel">
-   </label>
-   <label>Number of subwoofers
-    <input id="subQty" type="number" min="1" value="1">
-   </label>
-   <label>Subwoofer size (inches)
-    <input id="subDiameter" type="number" min="4" value="12">
-   </label>
-   <label>Available width (cm)
-    <input id="bootW" type="number" min="1">
-   </label>
-   <label>Available height (cm)
-    <input id="bootH" type="number" min="1">
-   </label>
-   <label>Available depth (cm)
-    <input id="bootD" type="number" min="1">
-   </label>
-   <label>Bass goal
-    <select id="bass">
-     <option>Deep daily bass</option>
-     <option>Hard-hitting daily bass</option>
-     <option>Balanced / SQL</option>
-     <option>Show / SPL</option>
-    </select>
-   </label>
-   <label>Enclosure type
-    <select id="boxType">
-     <option>Ported</option><option>Sealed</option>
-     <option>Not decided</option>
-    </select>
-   </label>
-  </div>
-  <button id="boxPlan">Generate Planning Brief</button>
-  <pre id="boxResult"></pre>
-  <p class="note">
-   This is a planning tool, not a final cut list.
-   Manufacturer T/S data, net volume, port displacement,
-   tuning and vehicle clearances are required for a
-   safe final design.
-  </p>
- </div>
+<h2>Sound installation tools</h2>
+<div class="card">
+<h3>Amplifier voltage reference</h3>
+<div class="split">
+<label>Target RMS watts
+<input id="watts" type="number" min="1" value="300">
+</label>
+<label>Final load impedance (ohms)
+<input id="ohms" type="number" min="0.1" step="0.1" value="4">
+</label>
+</div>
+<h3 id="voltage" class="gold"></h3>
+<p class="note">
+V = √(RMS watts × ohms).
+This is theoretical only.
+Verify amplifier stability, final speaker impedance
+and distortion using suitable test equipment.
+Do not use advertised peak-watt ratings as RMS values.
+</p>
+</div>
+<div class="card">
+<h3>Custom subwoofer box planning</h3>
+<div class="split">
+<label>Exact subwoofer make and model
+<input id="subModel" placeholder="Manufacturer and model">
+</label>
+<label>Number of subwoofers
+<input id="subQty" type="number" min="1" max="8" value="1">
+</label>
+<label>Subwoofer diameter (inches)
+<input id="subDiameter" type="number" min="4" value="12">
+</label>
+<label>Available width (cm)
+<input id="bootW" type="number" min="1">
+</label>
+<label>Available height (cm)
+<input id="bootH" type="number" min="1">
+</label>
+<label>Available depth (cm)
+<input id="bootD" type="number" min="1">
+</label>
+<label>Bass preference
+<select id="bass">
+<option>Deep daily bass</option>
+<option>Hard-hitting daily bass</option>
+<option>Balanced / SQL</option>
+<option>Show / SPL</option>
+</select>
+</label>
+<label>Enclosure type
+<select id="boxType">
+<option>Ported</option>
+<option>Sealed</option>
+<option>Not decided</option>
+</select>
+</label>
+</div>
+<button id="boxPlan">Generate planning brief</button>
+<pre id="boxResult"></pre>
+<p class="note">
+A final cut list requires manufacturer
+Thiele/Small specifications, recommended net air volume,
+subwoofer displacement, port design, panel thickness
+and physical clearance measurements.
+</p>
+</div>
 </section>
 
 <section id="business" class="page hidden">
- <h2>Business Profile</h2>
- <div class="card">
-  <h3>D-LUXE DETAILING & SOUND</h3>
-  <p>Phone: <a href="tel:0817663556">081 766 3556</a></p>
-  <p>Email:
-   <a href="mailto:dluxedetailing247@gmail.com">
-    dluxedetailing247@gmail.com
-   </a>
-  </p>
-  <p>Travel charge: R3.20 per billable kilometre.</p>
-  <p>Services: detailing, sound installations and custom boxes.</p>
-  <p class="note">
-   Prices are estimates subject to inspection and
-   confirmed job requirements.
-  </p>
- </div>
+<h2>Business information</h2>
+<div class="card">
+<h3>D-LUXE DETAILING &amp; SOUND</h3>
+<p>Call:
+<a href="tel:0817663556">081 766 3556</a>
+</p>
+<p>Email:
+<a href="mailto:dluxedetailing247@gmail.com">
+dluxedetailing247@gmail.com
+</a>
+</p>
+<p>Travel rate: R3.20/km where applicable.</p>
+<p>
+Services: vehicle detailing,
+sound installations and custom subwoofer boxes.
+</p>
+<p class="note">
+Pricing is subject to vehicle inspection,
+scope, materials and final customer approval.
+</p>
+</div>
 </section>
 
 <p id="appStatus" class="message" role="status"></p>
@@ -417,24 +465,27 @@ import {createClient} from
 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
 const $=id=>document.getElementById(id);
-
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({
- '&':'&amp;','<':'&lt;','>':'&gt;',
- '"':'&quot;',"'":'&#39;'
+'&':'&amp;','<':'&lt;','>':'&gt;',
+'"':'&quot;',"'":'&#39;'
 }[c]));
 
 const money=n=>new Intl.NumberFormat('en-ZA',{
- style:'currency',currency:'ZAR'
+style:'currency',currency:'ZAR'
 }).format(Number(n)||0);
 
 const num=id=>{
- const n=Number($(id).value);
- return Number.isFinite(n)?Math.max(0,n):0;
+const n=Number($(id).value);
+return Number.isFinite(n)?Math.max(0,n):0
 };
 
-const statuses=[
- 'New','Contacted','Booked','In Progress',
- 'Completed','Cancelled'
+const reqStatuses=[
+'New','Contacted','Booked',
+'In Progress','Completed','Cancelled'
+];
+const jobStatuses=[
+'Scheduled','In Progress','Awaiting Parts',
+'Quality Check','Completed','Cancelled'
 ];
 
 let db,currentUser=null;
@@ -442,904 +493,914 @@ let unlocked=false,authorized=false,authBusy=false;
 let generation=0;
 let requests=[],quotes=[],jobs=[],services=[],quoteItems=[];
 
-function clearPrivate(){
- requests=[];quotes=[];jobs=[];services=[];quoteItems=[];
- for(const id of [
-  'requestList','quoteList','jobList','priceList',
-  'recent','quoteItems'
- ]) $(id).replaceChildren();
- $('appStatus').textContent='';
+function wipe(){
+requests=[];quotes=[];jobs=[];services=[];quoteItems=[];
+for(const id of [
+'requestList','quoteList','jobList',
+'priceList','recent','quoteItems'
+])$(id).replaceChildren();
+$('appStatus').textContent='';
+for(const id of [
+'statNew','statActive','statDone','statAccepted'
+])$(id).textContent='—';
+$('pipeline').textContent='—';
 }
 
 function lockScreen(){
- unlocked=false;authorized=false;generation++;
- clearPrivate();
- $('appView').classList.add('hidden');
- $('logout').classList.add('hidden');
- $('authView').classList.remove('hidden');
- $('authPassword').value='';
- $('authStatus').textContent='';
+unlocked=false;authorized=false;generation++;
+wipe();
+$('appView').classList.add('hidden');
+$('logout').classList.add('hidden');
+$('authView').classList.remove('hidden');
+$('authPassword').value='';
+$('authStatus').textContent='';
 
- if(currentUser){
-  $('authTitle').textContent='Command Centre Locked';
-  $('authDescription').textContent=
-   'Verify your administrator password to continue.';
-  $('savedEmail').textContent=currentUser.email||'Administrator';
-  $('savedEmail').classList.remove('hidden');
-  $('emailLabel').classList.add('hidden');
-  $('authEmail').required=false;
-  $('authSubmit').textContent='Unlock Command Centre';
-  $('switchAccount').classList.remove('hidden');
- }else{
-  $('authTitle').textContent='Administrator Sign In';
-  $('authDescription').textContent=
-   'Sign in to your private business platform.';
-  $('savedEmail').classList.add('hidden');
-  $('emailLabel').classList.remove('hidden');
-  $('authEmail').required=true;
-  $('authSubmit').textContent='Secure Sign In';
-  $('switchAccount').classList.add('hidden');
- }
- $('authForm').classList.remove('hidden');
+if(currentUser){
+$('authTitle').textContent='Command Centre Locked';
+$('authDescription').textContent=
+'Verify your administrator password to continue.';
+$('savedEmail').textContent=currentUser.email||'Administrator';
+$('savedEmail').classList.remove('hidden');
+$('emailLabel').classList.add('hidden');
+$('authEmail').required=false;
+$('authSubmit').textContent='Unlock Command Centre';
+$('switchAccount').classList.remove('hidden');
+}else{
+$('authTitle').textContent='Administrator Sign In';
+$('authDescription').textContent=
+'Sign in to your private business platform.';
+$('savedEmail').classList.add('hidden');
+$('emailLabel').classList.remove('hidden');
+$('authEmail').required=true;
+$('authSubmit').textContent='Secure Sign In';
+$('switchAccount').classList.add('hidden');
 }
-
-function lockApp(){
- if(unlocked)lockScreen();
+$('authForm').classList.remove('hidden');
 }
 
 function active(g){
- return unlocked&&authorized&&generation===g&&
-  document.visibilityState!=='hidden';
+return unlocked&&authorized&&generation===g&&
+document.visibilityState!=='hidden';
 }
 
 async function init(){
- try{
-  const r=await fetch('./public-config.json',{cache:'no-store'});
-  if(!r.ok)throw Error('Cannot load public-config.json');
+try{
+const r=await fetch('./public-config.json',{
+cache:'no-store'
+});
+if(!r.ok)throw Error('Cannot load public-config.json');
+const c=await r.json();
+const url=c.supabaseUrl||c.supabase_url;
+const key=c.supabaseAnonKey||c.supabaseKey||
+c.supabase_anon_key;
+if(!url||!key||key.includes('insert here'))
+throw Error('Incomplete public Supabase configuration');
 
-  const c=await r.json();
-  const url=c.supabaseUrl||c.supabase_url;
-  const key=c.supabaseAnonKey||c.supabaseKey||
-   c.supabase_anon_key;
+db=createClient(url,key,{
+auth:{
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:false
+}
+});
 
-  if(!url||!key||key.includes('insert here'))
-   throw Error('Incomplete public Supabase configuration.');
+const {data,error}=await db.auth.getUser();
+if(!error&&data?.user)currentUser=data.user;
 
-  db=createClient(url,key,{
-   auth:{
-    persistSession:true,
-    autoRefreshToken:true,
-    detectSessionInUrl:false
-   }
-  });
-
-  const {data,error}=await db.auth.getUser();
-  if(!error&&data?.user)currentUser=data.user;
-
-  db.auth.onAuthStateChange((event,session)=>{
-   if(event==='SIGNED_OUT'){
-    currentUser=null;
-    lockScreen();
-   }else if(event==='SIGNED_IN'&&session?.user){
-    currentUser=session.user;
-   }
-  });
-
-  lockScreen();
- }catch(e){
-  $('authTitle').textContent='Connection Error';
-  $('authStatus').textContent=e.message;
- }
+db.auth.onAuthStateChange((event,session)=>{
+if(event==='SIGNED_OUT'){
+currentUser=null;
+lockScreen();
+}else if(event==='SIGNED_IN'&&session?.user){
+currentUser=session.user;
+}
+});
+lockScreen();
+}catch(e){
+$('authTitle').textContent='Connection Error';
+$('authStatus').textContent=e.message;
+}
 }
 
 $('authForm').onsubmit=async e=>{
- e.preventDefault();
- if(!db||authBusy)return;
+e.preventDefault();
+if(!db||authBusy)return;
+authBusy=true;
+const g=generation;
+$('authSubmit').disabled=true;
+$('authStatus').textContent='Verifying administrator…';
 
- authBusy=true;
- const g=generation;
- $('authSubmit').disabled=true;
- $('authStatus').textContent='Verifying administrator…';
+try{
+const email=currentUser?.email||$('authEmail').value.trim();
+const password=$('authPassword').value;
+if(!email||!password)
+throw Error('Enter your credentials');
 
- try{
-  const email=currentUser?.email||$('authEmail').value.trim();
-  const password=$('authPassword').value;
+const previousId=currentUser?.id;
+const {data,error}=await db.auth.signInWithPassword({
+email,password
+});
+if(error)throw Error(error.message);
+if(!data?.user)
+throw Error('Sign in did not return an account');
 
-  if(!email||!password)throw Error('Enter your credentials.');
+if(previousId&&previousId!==data.user.id){
+await db.auth.signOut();
+currentUser=null;
+throw Error('Account changed. Sign in again.');
+}
 
-  const previousId=currentUser?.id;
+currentUser=data.user;
+const check=await db.rpc('dluxe_is_admin');
+if(check.error)throw Error(check.error.message);
+if(check.data!==true)
+throw Error('Account is not authorized as administrator');
 
-  const {data,error}=await db.auth.signInWithPassword({
-   email,password
-  });
+if(g!==generation||
+document.visibilityState==='hidden'){
+lockScreen();return;
+}
 
-  if(error)throw Error(error.message);
-
-  if(previousId&&previousId!==data.user.id){
-   await db.auth.signOut();
-   currentUser=null;
-   throw Error('Account changed. Sign in again.');
-  }
-
-  currentUser=data.user;
-
-  const check=await db.rpc('dluxe_is_admin');
-
-  if(check.error)throw Error(check.error.message);
-  if(check.data!==true)
-   throw Error('Account is not authorized as administrator.');
-
-  if(g!==generation||document.visibilityState==='hidden'){
-   lockScreen();return;
-  }
-
-  authorized=true;unlocked=true;
-  $('authPassword').value='';
-  $('authView').classList.add('hidden');
-  $('appView').classList.remove('hidden');
-  $('logout').classList.remove('hidden');
-
-  await refreshAll();
- }catch(err){
-  unlocked=false;authorized=false;
-  $('authStatus').textContent=err.message;
-  $('authPassword').value='';
- }finally{
-  authBusy=false;
-  $('authSubmit').disabled=false;
- }
+authorized=true;unlocked=true;
+$('authPassword').value='';
+$('authView').classList.add('hidden');
+$('appView').classList.remove('hidden');
+$('logout').classList.remove('hidden');
+await refreshAll();
+}catch(err){
+unlocked=false;authorized=false;
+$('authStatus').textContent=err.message;
+$('authPassword').value='';
+}finally{
+authBusy=false;
+$('authSubmit').disabled=false;
+}
 };
 
 async function signOut(){
- lockScreen();
- if(db)await db.auth.signOut();
- currentUser=null;
- lockScreen();
+lockScreen();
+if(db)await db.auth.signOut();
+currentUser=null;
+lockScreen();
 }
+
 $('logout').onclick=signOut;
 $('switchAccount').onclick=signOut;
 
 document.addEventListener('visibilitychange',()=>{
- if(document.visibilityState==='hidden')lockApp();
+if(document.visibilityState==='hidden'&&unlocked)
+lockScreen();
 });
-window.addEventListener('pagehide',lockApp);
+window.addEventListener('pagehide',()=>{
+if(unlocked)lockScreen();
+});
 window.addEventListener('pageshow',e=>{
- if(e.persisted)lockScreen();
+if(e.persisted)lockScreen();
 });
 
 $('tabs').onclick=e=>{
- if(!unlocked)return;
- const b=e.target.closest('button[data-page]');
- if(!b)return;
- document.querySelectorAll('.page').forEach(p=>{
-  p.classList.toggle('hidden',p.id!==b.dataset.page);
- });
- document.querySelectorAll('#tabs button').forEach(x=>{
-  x.classList.toggle('active',x===b);
- });
+if(!unlocked)return;
+const b=e.target.closest('button[data-page]');
+if(!b)return;
+document.querySelectorAll('.page').forEach(p=>
+p.classList.toggle('hidden',p.id!==b.dataset.page)
+);
+document.querySelectorAll('#tabs button').forEach(x=>
+x.classList.toggle('active',x===b)
+);
 };
 
 async function refreshAll(){
- if(!unlocked)return;
- const g=generation;
- $('appStatus').textContent='Loading business data…';
+if(!unlocked)return;
+const g=generation;
+$('appStatus').textContent='Loading business data…';
 
- const results=await Promise.all([
-  db.from('dluxe_requests').select('*')
-   .order('created_at',{ascending:false}).limit(200),
-  db.from('dluxe_quotes').select('*')
-   .order('created_at',{ascending:false}).limit(200),
-  db.from('dluxe_jobs').select('*')
-   .order('created_at',{ascending:false}).limit(200),
-  db.from('dluxe_services').select('*')
-   .order('sort_order',{ascending:true}).limit(100)
- ]);
+const results=await Promise.all([
+db.from('dluxe_requests').select('*')
+.order('created_at',{ascending:false}).limit(200),
+db.from('dluxe_quotes').select('*')
+.order('created_at',{ascending:false}).limit(200),
+db.from('dluxe_jobs').select('*')
+.order('created_at',{ascending:false}).limit(200),
+db.from('dluxe_services').select('*')
+.order('sort_order',{ascending:true}).limit(100)
+]);
 
- if(!active(g))return;
+if(!active(g))return;
 
- const errors=results.map((r,i)=>
-  r.error?['Requests','Quotes','Jobs','Services'][i]+
-   ': '+r.error.message:null
- ).filter(Boolean);
+const errors=results.map((r,i)=>
+r.error?
+['Requests','Quotations','Jobs','Services'][i]+
+': '+r.error.message:null
+).filter(Boolean);
 
- [requests,quotes,jobs,services]=results.map(r=>r.data||[]);
+[requests,quotes,jobs,services]=
+results.map(r=>r.data||[]);
 
- renderDashboard();
- renderRequests();
- renderQuoteOptions();
- renderQuotes();
- renderJobOptions();
- renderJobs();
- renderPricing();
+renderDashboard();
+renderRequests();
+renderQuoteOptions();
+renderQuotes();
+renderJobOptions();
+renderJobs();
+renderPricing();
 
- $('appStatus').textContent=errors.length
-  ? errors.join(' | ')
-  : 'Business data updated '+new Date().toLocaleTimeString();
+$('appStatus').textContent=errors.length?
+errors.join(' | '):
+'Updated '+new Date().toLocaleTimeString();
 }
 
 $('refreshAll').onclick=refreshAll;
 $('refreshRequests').onclick=refreshAll;
 
 function renderDashboard(){
- $('statNew').textContent=requests.filter(
-  r=>r.status==='New'
- ).length;
+$('statNew').textContent=requests.filter(
+r=>r.status==='New'
+).length;
+$('statActive').textContent=jobs.filter(
+j=>!['Completed','Cancelled'].includes(j.status)
+).length;
+$('statDone').textContent=jobs.filter(
+j=>j.status==='Completed'
+).length;
 
- $('statActive').textContent=jobs.filter(
-  j=>!['Completed','Cancelled'].includes(j.status)
- ).length;
+const accepted=quotes.filter(q=>q.status==='Accepted');
+$('statAccepted').textContent=accepted.length;
+$('pipeline').textContent=
+'Accepted quotation value: '+
+money(accepted.reduce(
+(s,q)=>s+Number(q.total||0),0
+));
 
- $('statDone').textContent=jobs.filter(
-  j=>j.status==='Completed'
- ).length;
-
- const accepted=quotes.filter(q=>q.status==='Accepted');
- $('statAccepted').textContent=accepted.length;
-
- $('pipeline').textContent=
-  'Accepted quotation value: '+
-  money(accepted.reduce((s,q)=>s+Number(q.total||0),0));
-
- $('recent').innerHTML=requests.slice(0,5).map(r=>`
-  <p>${esc(r.client_name)} ·
-  ${esc(r.vehicle_make)} ${esc(r.vehicle_model)}
-  · <span class="gold">${esc(r.status)}</span></p>
- `).join('')||'<p class="muted">No requests yet.</p>';
+$('recent').innerHTML=requests.slice(0,5).map(r=>`
+<p>${esc(r.client_name)} ·
+${esc(r.vehicle_make)} ${esc(r.vehicle_model)}
+· <span class="gold">${esc(r.status)}</span></p>
+`).join('')||'<p class="muted">No requests yet.</p>';
 }
 
 function renderRequests(){
- const filter=$('requestFilter').value;
- const list=$('requestList');
- list.replaceChildren();
+const filter=$('requestFilter').value;
+const list=$('requestList');
+list.replaceChildren();
 
- const items=requests.filter(r=>!filter||r.status===filter);
+const items=requests.filter(
+r=>!filter||r.status===filter
+);
+if(!items.length){
+list.textContent='No matching requests.';
+return;
+}
 
- if(!items.length){
-  list.textContent='No matching requests.';
-  return;
- }
+for(const r of items){
+const box=document.createElement('article');
+box.className='entry';
+const selected=Array.isArray(r.services)?
+r.services.map(s=>
+typeof s==='string'?s:
+s.name||s.service_name||'Service'
+).join(', '):'';
 
- for(const r of items){
-  const box=document.createElement('article');
-  box.className='entry';
+box.innerHTML=`
+<div class="row">
+<strong>${esc(r.client_name)}</strong>
+<span class="tag">${esc(r.status)}</span>
+</div>
+<p>${esc(r.vehicle_make)} ${esc(r.vehicle_model)}
+· ${esc(r.vehicle_size||'Size not supplied')}</p>
+<p>${esc(selected)}</p>
+<p class="gold">
+${money(r.estimated_price)} starting estimate
+</p>
+<p class="muted mini">
+${esc(new Date(r.created_at).toLocaleString())}
+</p>
+<details>
+<summary>Customer details and actions</summary>
+<p>Phone:
+<a href="tel:${encodeURIComponent(r.phone||'')}">
+${esc(r.phone||'Not supplied')}</a></p>
+<p>Email: ${esc(r.email||'Not supplied')}</p>
+<p style="white-space:pre-wrap">
+${esc(r.client_notes||'No client notes')}</p>
+<label>Request status
+<select class="requestStatus">
+${reqStatuses.map(s=>`
+<option ${s===r.status?'selected':''}>${s}</option>
+`).join('')}
+</select>
+</label>
+<label>Private admin notes
+<textarea class="requestNotes"></textarea>
+</label>
+<div class="actions">
+<button class="saveRequest">Save changes</button>
+<button class="secondary loadPhotos">Load photos</button>
+<button class="secondary useRequest">Create quote</button>
+</div>
+<div class="photos"></div>
+<p class="message"></p>
+</details>`;
 
-  const selected=Array.isArray(r.services)
-   ? r.services.map(s=>
-      typeof s==='string'?s:s.name||'Service'
-     ).join(', ')
-   : '';
+box.querySelector('.requestNotes').value=r.admin_notes||'';
 
-  box.innerHTML=`
-   <div class="row">
-    <strong>${esc(r.client_name)}</strong>
-    <span class="tag">${esc(r.status)}</span>
-   </div>
-   <p>${esc(r.vehicle_make)} ${esc(r.vehicle_model)}</p>
-   <p>${esc(selected)}</p>
-   <p class="gold">${money(r.estimated_price)} starting estimate</p>
-   <details>
-    <summary>Customer details and actions</summary>
-    <p>Phone:
-     <a href="tel:${encodeURIComponent(r.phone||'')}">
-      ${esc(r.phone)}
-     </a>
-    </p>
-    <p>Email: ${esc(r.email||'Not supplied')}</p>
-    <p style="white-space:pre-wrap">
-     ${esc(r.client_notes||'No client notes')}
-    </p>
-    <label>Request status
-     <select class="requestStatus">
-      ${statuses.map(s=>`
-       <option ${s===r.status?'selected':''}>${s}</option>
-      `).join('')}
-     </select>
-    </label>
-    <label>Private admin notes
-     <textarea class="requestNotes"></textarea>
-    </label>
-    <div class="row">
-     <button class="saveRequest">Save Changes</button>
-     <button class="secondary loadPhotos">Load Photos</button>
-     <button class="secondary useRequest">Create Quote</button>
-    </div>
-    <div class="photos"></div>
-    <p class="message"></p>
-   </details>
-  `;
+box.querySelector('.saveRequest').onclick=async()=>{
+if(!unlocked)return;
+const g=generation;
+const b=box.querySelector('.saveRequest');
+b.disabled=true;
+const {error}=await db.from('dluxe_requests')
+.update({
+status:box.querySelector('.requestStatus').value,
+admin_notes:box.querySelector('.requestNotes')
+.value.slice(0,10000)
+}).eq('id',r.id);
+if(!active(g))return;
+b.disabled=false;
+box.querySelector('.message').textContent=
+error?error.message:'Saved';
+if(!error)await refreshAll();
+};
 
-  box.querySelector('.requestNotes').value=r.admin_notes||'';
+box.querySelector('.loadPhotos').onclick=()=>
+loadPhotos(
+r.id,
+box.querySelector('.photos'),
+box.querySelector('.message')
+);
 
-  box.querySelector('.saveRequest').onclick=async()=>{
-   if(!unlocked)return;
-   const g=generation;
-   const b=box.querySelector('.saveRequest');
-   b.disabled=true;
-
-   const {error}=await db.from('dluxe_requests')
-    .update({
-     status:box.querySelector('.requestStatus').value,
-     admin_notes:box.querySelector('.requestNotes')
-      .value.slice(0,10000)
-    }).eq('id',r.id);
-
-   if(!active(g))return;
-   b.disabled=false;
-
-   box.querySelector('.message').textContent=
-    error?error.message:'Saved successfully';
-
-   if(!error)await refreshAll();
-  };
-
-  box.querySelector('.loadPhotos').onclick=()=>{
-   loadPhotos(
-    r.id,box.querySelector('.photos'),
-    box.querySelector('.message')
-   );
-  };
-
-  box.querySelector('.useRequest').onclick=()=>{
-   $('quoteRequest').value=r.id;
-   importRequest();
-   document.querySelector('[data-page="quotes"]').click();
-  };
-
-  list.append(box);
- }
+box.querySelector('.useRequest').onclick=()=>{
+$('quoteRequest').value=r.id;
+importRequest();
+document.querySelector('[data-page="quotes"]').click();
+};
+list.append(box);
+}
 }
 
 $('requestFilter').onchange=renderRequests;
 
 async function loadPhotos(id,target,message){
- if(!unlocked)return;
- const g=generation;
- target.replaceChildren();
- message.textContent='Loading photos…';
+if(!unlocked)return;
+const g=generation;
+target.replaceChildren();
+message.textContent='Loading photos…';
 
- const {data,error}=await db.from('dluxe_request_images')
-  .select('file_path').eq('request_id',id).limit(20);
+const {data,error}=await db.from('dluxe_request_images')
+.select('file_path').eq('request_id',id).limit(20);
+if(!active(g))return;
+if(error){
+message.textContent=error.message;return;
+}
+if(!data?.length){
+message.textContent='No photos attached.';return;
+}
 
- if(!active(g))return;
- if(error){
-  message.textContent=error.message;return;
- }
- if(!data?.length){
-  message.textContent='No photos attached.';return;
- }
+let count=0;
+for(const f of data){
+if(!active(g))return;
+const result=await db.storage
+.from('dluxe-request-images')
+.createSignedUrl(f.file_path,120);
+if(!active(g))return;
+if(result.error||!result.data?.signedUrl)continue;
 
- let count=0;
- for(const f of data){
-  if(!active(g))return;
+const a=document.createElement('a');
+a.href=result.data.signedUrl;
+a.target='_blank';
+a.rel='noopener noreferrer';
 
-  const result=await db.storage.from('dluxe-request-images')
-   .createSignedUrl(f.file_path,120);
-
-  if(!active(g))return;
-  if(result.error||!result.data?.signedUrl)continue;
-
-  const a=document.createElement('a');
-  a.href=result.data.signedUrl;
-  a.target='_blank';
-  a.rel='noopener noreferrer';
-
-  const img=document.createElement('img');
-  img.src=result.data.signedUrl;
-  img.alt='Client vehicle photo';
-  a.append(img);target.append(a);
-  count++;
- }
- message.textContent=count
-  ? 'Photo links expire after 2 minutes.'
-  : 'Unable to load photos.';
+const img=document.createElement('img');
+img.src=result.data.signedUrl;
+img.alt='Client vehicle photo';
+a.append(img);target.append(a);
+count++;
+}
+message.textContent=count?
+'Photo links expire after 2 minutes.':
+'Unable to load photos.';
 }
 
 function fillSelect(id,items,placeholder){
- const el=$(id);
- el.replaceChildren(new Option(placeholder,''));
- for(const item of items){
-  el.add(new Option(item.label,item.value));
- }
+const el=$(id);
+el.replaceChildren(new Option(placeholder,''));
+for(const item of items)
+el.add(new Option(item.label,item.value));
 }
 
 function renderQuoteOptions(){
- fillSelect('quoteRequest',requests.map(r=>({
-  value:r.id,
-  label:r.client_name+' — '+(r.vehicle_model||'Vehicle')
- })), 'Manual quotation');
+const prior=$('quoteRequest').value;
+fillSelect('quoteRequest',requests.map(r=>({
+value:r.id,
+label:r.client_name+' — '+(r.vehicle_model||'Vehicle')
+})),'Manual quotation');
 
- fillSelect('qService',services.filter(s=>s.active).map(s=>({
-  value:s.id,label:s.service_name+' — '+money(s.base_price)
- })), 'Select service');
+if(requests.some(r=>r.id===prior))
+$('quoteRequest').value=prior;
 
- updateUnitPrice();
+const old=$('qService').value;
+fillSelect('qService',services.filter(
+s=>s.active
+).map(s=>({
+value:s.id,
+label:s.service_name+' — '+money(s.base_price)
+})),'Select service');
+
+if(services.some(s=>s.id===old))
+$('qService').value=old;
+updateUnitPrice();
 }
 
 function importRequest(){
- const r=requests.find(x=>x.id===$('quoteRequest').value);
- if(!r)return;
+const r=requests.find(
+x=>x.id===$('quoteRequest').value
+);
+if(!r)return;
+$('qName').value=r.client_name||'';
+$('qPhone').value=r.phone||'';
+$('qEmail').value=r.email||'';
+$('qMake').value=r.vehicle_make||'';
+$('qModel').value=r.vehicle_model||'';
 
- $('qName').value=r.client_name||'';
- $('qPhone').value=r.phone||'';
- $('qEmail').value=r.email||'';
- $('qMake').value=r.vehicle_make||'';
- $('qModel').value=r.vehicle_model||'';
-
- const sizes=['Small','Medium','Large','XL/Luxury'];
- if(sizes.includes(r.vehicle_size))
-  $('qSize').value=r.vehicle_size;
-
- updateUnitPrice();
+if(['Small','Medium','Large','XL/Luxury']
+.includes(r.vehicle_size))
+$('qSize').value=r.vehicle_size;
+updateUnitPrice();
 }
 
 $('quoteRequest').onchange=importRequest;
 
 function updateUnitPrice(){
- const s=services.find(x=>x.id===$('qService').value);
- if(!s)return;
- const size=$('qSize').value;
- const p=s.vehicle_prices?.[size]??s.base_price;
- $('qUnit').value=Number(p)||0;
+const s=services.find(
+x=>x.id===$('qService').value
+);
+if(!s)return;
+const p=s.vehicle_prices?.[$('qSize').value]??
+s.base_price;
+$('qUnit').value=Number(p)||0;
 }
 
 $('qService').onchange=updateUnitPrice;
 $('qSize').onchange=updateUnitPrice;
 
 $('addItem').onclick=()=>{
- const s=services.find(x=>x.id===$('qService').value);
- if(!s){
-  $('quoteMessage').textContent='Select a service first.';
-  return;
- }
-
- const quantity=Math.floor(num('qQty'));
- if(quantity<1||quantity>99){
-  $('quoteMessage').textContent='Quantity must be 1–99.';
-  return;
- }
-
- if(quoteItems.length>=30){
-  $('quoteMessage').textContent='Maximum 30 quotation lines.';
-  return;
- }
-
- quoteItems.push({
-  service_id:s.id,
-  description:s.service_name,
-  quantity,
-  unit_price:num('qUnit')
- });
-
- $('quoteMessage').textContent='';
- renderQuoteItems();
+const s=services.find(
+x=>x.id===$('qService').value
+);
+if(!s){
+$('quoteMessage').textContent='Select a service first.';
+return;
+}
+const quantity=Math.floor(num('qQty'));
+if(quantity<1||quantity>99){
+$('quoteMessage').textContent=
+'Quantity must be between 1 and 99.';
+return;
+}
+if(quoteItems.length>=30){
+$('quoteMessage').textContent=
+'Maximum 30 quotation lines.';
+return;
+}
+quoteItems.push({
+service_id:s.id,
+description:s.service_name,
+quantity,
+unit_price:num('qUnit')
+});
+$('quoteMessage').textContent='';
+renderQuoteItems();
 };
 
 function totals(){
- const subtotal=quoteItems.reduce(
-  (sum,i)=>sum+i.quantity*i.unit_price,0
- );
- const travel=num('qKm')*3.2;
- const discount=num('qDiscount');
- const total=Math.max(0,subtotal+travel-discount);
- const profit=total-num('qMaterials')-num('qLabour');
- return {subtotal,total,profit};
+const subtotal=quoteItems.reduce(
+(sum,i)=>sum+i.quantity*i.unit_price,0
+);
+const travel=num('qKm')*3.2;
+const discount=num('qDiscount');
+const total=Math.max(0,subtotal+travel-discount);
+const profit=total-num('qMaterials')-num('qLabour');
+return{subtotal,total,profit};
 }
 
 function renderQuoteItems(){
- const target=$('quoteItems');
- target.replaceChildren();
+const target=$('quoteItems');
+target.replaceChildren();
 
- quoteItems.forEach((item,index)=>{
-  const div=document.createElement('div');
-  div.className='entry row';
-
-  const text=document.createElement('span');
-  text.textContent=
-   item.description+' × '+item.quantity+
-   ' — '+money(item.quantity*item.unit_price);
-
-  const b=document.createElement('button');
-  b.className='secondary';
-  b.textContent='Remove';
-  b.onclick=()=>{
-   quoteItems.splice(index,1);
-   renderQuoteItems();
-  };
-
-  div.append(text,b);
-  target.append(div);
- });
-
- const t=totals();
- $('quoteTotal').textContent='Total: '+money(t.total);
- $('quoteProfit').textContent=
-  'Estimated gross profit: '+money(t.profit);
-}
-
-['qKm','qMaterials','qLabour','qDiscount'].forEach(id=>{
- $(id).oninput=renderQuoteItems;
+quoteItems.forEach((item,index)=>{
+const div=document.createElement('div');
+div.className='entry row';
+const label=document.createElement('span');
+label.textContent=item.description+' × '+
+item.quantity+' — '+
+money(item.quantity*item.unit_price);
+const b=document.createElement('button');
+b.className='secondary';
+b.textContent='Remove';
+b.onclick=()=>{
+quoteItems.splice(index,1);
+renderQuoteItems();
+};
+div.append(label,b);
+target.append(div);
 });
 
+const t=totals();
+$('quoteTotal').textContent='Total: '+money(t.total);
+$('quoteProfit').textContent=
+'Estimated gross profit: '+money(t.profit);
+}
+
+for(const id of [
+'qKm','qMaterials','qLabour','qDiscount'
+])$(id).oninput=renderQuoteItems;
+
 $('saveQuote').onclick=async()=>{
- if(!unlocked)return;
- if(!$('qName').value.trim()||!quoteItems.length){
-  $('quoteMessage').textContent=
-   'Enter a client name and add at least one service.';
-  return;
- }
+if(!unlocked)return;
+if(!$('qName').value.trim()||!quoteItems.length){
+$('quoteMessage').textContent=
+'Enter a client name and add at least one service.';
+return;
+}
 
- const g=generation;
- const b=$('saveQuote');
- b.disabled=true;
+const g=generation;
+const b=$('saveQuote');
+b.disabled=true;
+const t=totals();
 
- const t=totals();
- const quoteNumber='DLQ-'+Date.now().toString(36).toUpperCase()+
-  '-'+crypto.randomUUID().slice(0,6).toUpperCase();
+const quoteNumber='DLQ-'+
+Date.now().toString(36).toUpperCase()+'-'+
+crypto.randomUUID().slice(0,6).toUpperCase();
 
- const record={
-  quote_number:quoteNumber,
-  request_id:$('quoteRequest').value||null,
-  client_name:$('qName').value.trim(),
-  client_phone:$('qPhone').value.trim(),
-  client_email:$('qEmail').value.trim(),
-  vehicle_make:$('qMake').value.trim(),
-  vehicle_model:$('qModel').value.trim(),
-  vehicle_registration:$('qReg').value.trim(),
-  status:'Draft',
-  items:quoteItems,
-  materials_cost:num('qMaterials'),
-  labour_cost:num('qLabour'),
-  travel_km:num('qKm'),
-  travel_rate:3.2,
-  discount:num('qDiscount'),
-  subtotal:t.subtotal,
-  total:t.total,
-  estimated_profit:t.profit,
-  notes:$('qNotes').value.trim(),
-  valid_until:$('qValid').value||null,
-  created_by:currentUser.id
- };
+const record={
+quote_number:quoteNumber,
+request_id:$('quoteRequest').value||null,
+client_name:$('qName').value.trim(),
+client_phone:$('qPhone').value.trim(),
+client_email:$('qEmail').value.trim(),
+vehicle_make:$('qMake').value.trim(),
+vehicle_model:$('qModel').value.trim(),
+vehicle_registration:$('qReg').value.trim(),
+status:'Draft',
+items:quoteItems,
+materials_cost:num('qMaterials'),
+labour_cost:num('qLabour'),
+travel_km:num('qKm'),
+travel_rate:3.2,
+discount:num('qDiscount'),
+subtotal:t.subtotal,
+total:t.total,
+estimated_profit:t.profit,
+notes:$('qNotes').value.trim(),
+valid_until:$('qValid').value||null,
+created_by:currentUser.id
+};
 
- const {error}=await db.from('dluxe_quotes').insert(record);
- if(!active(g))return;
+const {error}=await db.from('dluxe_quotes')
+.insert(record);
+if(!active(g))return;
+b.disabled=false;
+$('quoteMessage').textContent=error?
+error.message:'Quotation saved: '+quoteNumber;
 
- b.disabled=false;
- $('quoteMessage').textContent=error
-  ? error.message
-  : 'Quotation saved: '+quoteNumber;
-
- if(!error){
-  quoteItems=[];
-  renderQuoteItems();
-  await refreshAll();
- }
+if(!error){
+quoteItems=[];
+renderQuoteItems();
+await refreshAll();
+}
 };
 
 function renderQuotes(){
- const list=$('quoteList');
- list.replaceChildren();
+const list=$('quoteList');
+list.replaceChildren();
+if(!quotes.length){
+list.textContent='No saved quotations yet.';
+return;
+}
 
- if(!quotes.length){
-  list.textContent='No saved quotations yet.';
-  return;
- }
+for(const q of quotes){
+const box=document.createElement('div');
+box.className='entry';
+box.innerHTML=`
+<strong>${esc(q.quote_number)}</strong>
+<p>${esc(q.client_name)} ·
+${esc(q.vehicle_make)} ${esc(q.vehicle_model)}</p>
+<p class="gold">${money(q.total)}</p>
+<p>Status: ${esc(q.status)}</p>
+<details>
+<summary>View quotation</summary>
+<div class="lines"></div>
+<p>Travel:
+${money(Number(q.travel_km)*Number(q.travel_rate))}
+</p>
+<p>Discount: ${money(q.discount)}</p>
+<p style="white-space:pre-wrap">
+${esc(q.notes||'')}</p>
+<label>Quotation status
+<select class="quoteStatus">
+${['Draft','Sent','Accepted','Declined','Expired']
+.map(s=>`
+<option ${q.status===s?'selected':''}>${s}</option>
+`).join('')}
+</select>
+</label>
+<button class="updateQuote">Update status</button>
+<p class="message"></p>
+</details>`;
 
- for(const q of quotes){
-  const box=document.createElement('div');
-  box.className='entry';
+for(const item of (
+Array.isArray(q.items)?q.items:[]
+)){
+const p=document.createElement('p');
+p.textContent=(item.description||'Service')+
+' × '+item.quantity+' — '+
+money(Number(item.quantity)*Number(item.unit_price));
+box.querySelector('.lines').append(p);
+}
 
-  box.innerHTML=`
-   <strong>${esc(q.quote_number)}</strong>
-   <p>${esc(q.client_name)} ·
-   ${esc(q.vehicle_make)} ${esc(q.vehicle_model)}</p>
-   <p class="gold">${money(q.total)}</p>
-   <p>Status: ${esc(q.status)}</p>
-   <details>
-    <summary>View quotation</summary>
-    <div class="lines"></div>
-    <p>Travel: ${money(Number(q.travel_km)*Number(q.travel_rate))}</p>
-    <p>Discount: ${money(q.discount)}</p>
-    <p style="white-space:pre-wrap">${esc(q.notes||'')}</p>
-    <label>Quotation status
-     <select class="quoteStatus">
-      ${['Draft','Sent','Accepted','Declined','Expired']
-       .map(s=>`<option ${q.status===s?'selected':''}>${s}</option>`)
-       .join('')}
-     </select>
-    </label>
-    <button class="updateQuote">Update Status</button>
-    <p class="message"></p>
-   </details>
-  `;
-
-  const lines=box.querySelector('.lines');
-  for(const item of (Array.isArray(q.items)?q.items:[])){
-   const p=document.createElement('p');
-   p.textContent=(item.description||'Service')+
-    ' × '+item.quantity+' — '+
-    money(Number(item.quantity)*Number(item.unit_price));
-   lines.append(p);
-  }
-
-  box.querySelector('.updateQuote').onclick=async()=>{
-   if(!unlocked)return;
-   const g=generation;
-   const b=box.querySelector('.updateQuote');
-   b.disabled=true;
-
-   const {error}=await db.from('dluxe_quotes')
-    .update({status:box.querySelector('.quoteStatus').value})
-    .eq('id',q.id);
-
-   if(!active(g))return;
-   b.disabled=false;
-
-   box.querySelector('.message').textContent=
-    error?error.message:'Status updated';
-
-   if(!error)await refreshAll();
-  };
-
-  list.append(box);
- }
+box.querySelector('.updateQuote').onclick=async()=>{
+if(!unlocked)return;
+const g=generation;
+const b=box.querySelector('.updateQuote');
+b.disabled=true;
+const {error}=await db.from('dluxe_quotes')
+.update({
+status:box.querySelector('.quoteStatus').value
+}).eq('id',q.id);
+if(!active(g))return;
+b.disabled=false;
+box.querySelector('.message').textContent=
+error?error.message:'Status updated';
+if(!error)await refreshAll();
+};
+list.append(box);
+}
 }
 
 function renderJobOptions(){
- fillSelect('jobQuote',quotes.filter(q=>
-  q.status==='Accepted' &&
-  !jobs.some(j=>j.quote_id===q.id)
- ).map(q=>({
-  value:q.id,
-  label:q.quote_number+' — '+q.client_name
- })), 'Select accepted quotation');
+const old=$('jobQuote').value;
+const available=quotes.filter(q=>
+q.status==='Accepted'&&
+!jobs.some(j=>j.quote_id===q.id)
+);
+fillSelect('jobQuote',available.map(q=>({
+value:q.id,
+label:q.quote_number+' — '+q.client_name
+})),'Select accepted quotation');
+
+if(available.some(q=>q.id===old))
+$('jobQuote').value=old;
 }
 
 $('createJob').onclick=async()=>{
- if(!unlocked)return;
+if(!unlocked)return;
+const q=quotes.find(x=>
+x.id===$('jobQuote').value&&
+x.status==='Accepted'
+);
+if(!q){
+$('jobMessage').textContent=
+'Select an accepted quotation first.';
+return;
+}
+if(jobs.some(j=>j.quote_id===q.id)){
+$('jobMessage').textContent=
+'A job already exists for this quotation.';
+return;
+}
 
- const q=quotes.find(x=>x.id===$('jobQuote').value);
- if(!q){
-  $('jobMessage').textContent=
-   'Select an accepted quotation first.';
-  return;
- }
+const g=generation;
+const b=$('createJob');
+b.disabled=true;
+const jobNumber='DLJ-'+
+Date.now().toString(36).toUpperCase()+'-'+
+crypto.randomUUID().slice(0,6).toUpperCase();
 
- const g=generation;
- const b=$('createJob');
- b.disabled=true;
+const record={
+job_number:jobNumber,
+quote_id:q.id,
+request_id:q.request_id,
+client_name:q.client_name,
+client_phone:q.client_phone,
+vehicle_make:q.vehicle_make,
+vehicle_model:q.vehicle_model,
+vehicle_registration:q.vehicle_registration,
+job_type:$('jobType').value,
+status:'Scheduled',
+scheduled_date:$('jobDate').value||null,
+quoted_amount:q.total,
+technician_notes:$('jobNotes').value.trim(),
+checklist:[],
+parts_used:[],
+created_by:currentUser.id
+};
 
- const jobNumber='DLJ-'+Date.now().toString(36).toUpperCase()+
-  '-'+crypto.randomUUID().slice(0,6).toUpperCase();
-
- const record={
-  job_number:jobNumber,
-  quote_id:q.id,
-  request_id:q.request_id,
-  client_name:q.client_name,
-  client_phone:q.client_phone,
-  vehicle_make:q.vehicle_make,
-  vehicle_model:q.vehicle_model,
-  vehicle_registration:q.vehicle_registration,
-  job_type:$('jobType').value,
-  status:'Scheduled',
-  scheduled_date:$('jobDate').value||null,
-  quoted_amount:q.total,
-  technician_notes:$('jobNotes').value.trim(),
-  checklist:[],
-  parts_used:[],
-  created_by:currentUser.id
- };
-
- const {error}=await db.from('dluxe_jobs').insert(record);
- if(!active(g))return;
-
- b.disabled=false;
- $('jobMessage').textContent=error
-  ? error.message
-  : 'Job card created: '+jobNumber;
-
- if(!error)await refreshAll();
+const {error}=await db.from('dluxe_jobs')
+.insert(record);
+if(!active(g))return;
+b.disabled=false;
+$('jobMessage').textContent=error?
+error.message:'Job card created: '+jobNumber;
+if(!error)await refreshAll();
 };
 
 function renderJobs(){
- const list=$('jobList');
- list.replaceChildren();
+const list=$('jobList');
+list.replaceChildren();
+if(!jobs.length){
+list.textContent='No job cards yet.';
+return;
+}
 
- if(!jobs.length){
-  list.textContent='No job cards yet.';
-  return;
- }
+for(const j of jobs){
+const box=document.createElement('div');
+box.className='entry';
+box.innerHTML=`
+<strong>${esc(j.job_number)}</strong>
+<p>${esc(j.client_name)} ·
+${esc(j.vehicle_make)} ${esc(j.vehicle_model)}</p>
+<p>${esc(j.job_type)} ·
+<span class="gold">${esc(j.status)}</span></p>
+<p>Quoted: ${money(j.quoted_amount)}</p>
+<details>
+<summary>Manage job</summary>
+<label>Status
+<select class="jobStatus">
+${jobStatuses.map(s=>`
+<option ${j.status===s?'selected':''}>${s}</option>
+`).join('')}
+</select>
+</label>
+<label>Scheduled date
+<input class="jobDate" type="date">
+</label>
+<label>Actual job cost (R)
+<input class="jobCost" type="number" min="0" step="0.01">
+</label>
+<label>Technician notes
+<textarea class="jobNotes"></textarea>
+</label>
+<button class="saveJob">Save job</button>
+<p class="message"></p>
+</details>`;
 
- const options=[
-  'Scheduled','In Progress','Awaiting Parts',
-  'Quality Check','Completed','Cancelled'
- ];
+box.querySelector('.jobDate').value=j.scheduled_date||'';
+box.querySelector('.jobCost').value=j.actual_cost||0;
+box.querySelector('.jobNotes').value=
+j.technician_notes||'';
 
- for(const j of jobs){
-  const box=document.createElement('div');
-  box.className='entry';
+box.querySelector('.saveJob').onclick=async()=>{
+if(!unlocked)return;
+const g=generation;
+const b=box.querySelector('.saveJob');
+b.disabled=true;
+const newStatus=box.querySelector('.jobStatus').value;
 
-  box.innerHTML=`
-   <strong>${esc(j.job_number)}</strong>
-   <p>${esc(j.client_name)} ·
-   ${esc(j.vehicle_make)} ${esc(j.vehicle_model)}</p>
-   <p>${esc(j.job_type)} ·
-   <span class="gold">${esc(j.status)}</span></p>
-   <p>Quoted: ${money(j.quoted_amount)}</p>
-   <details>
-    <summary>Manage job</summary>
-    <label>Status
-     <select class="jobStatus">
-      ${options.map(s=>`
-       <option ${j.status===s?'selected':''}>${s}</option>
-      `).join('')}
-     </select>
-    </label>
-    <label>Scheduled date
-     <input class="jobDate" type="date">
-    </label>
-    <label>Actual job cost (R)
-     <input class="jobCost" type="number" min="0" step="0.01">
-    </label>
-    <label>Technician notes
-     <textarea class="jobNotes"></textarea>
-    </label>
-    <button class="saveJob">Save Job</button>
-    <p class="message"></p>
-   </details>
-  `;
+const changes={
+status:newStatus,
+scheduled_date:
+box.querySelector('.jobDate').value||null,
+actual_cost:Math.max(0,
+Number(box.querySelector('.jobCost').value)||0
+),
+technician_notes:
+box.querySelector('.jobNotes').value.slice(0,5000),
+completed_at:newStatus==='Completed'?
+(j.completed_at||new Date().toISOString()):null
+};
 
-  box.querySelector('.jobDate').value=j.scheduled_date||'';
-  box.querySelector('.jobCost').value=j.actual_cost||0;
-  box.querySelector('.jobNotes').value=j.technician_notes||'';
-
-  box.querySelector('.saveJob').onclick=async()=>{
-   if(!unlocked)return;
-   const g=generation;
-   const b=box.querySelector('.saveJob');
-   b.disabled=true;
-
-   const newStatus=box.querySelector('.jobStatus').value;
-
-   const changes={
-    status:newStatus,
-    scheduled_date:box.querySelector('.jobDate').value||null,
-    actual_cost:Math.max(0,
-     Number(box.querySelector('.jobCost').value)||0),
-    technician_notes:box.querySelector('.jobNotes')
-     .value.slice(0,5000),
-    completed_at:newStatus==='Completed'
-     ? (j.completed_at||new Date().toISOString())
-     : null
-   };
-
-   const {error}=await db.from('dluxe_jobs')
-    .update(changes).eq('id',j.id);
-
-   if(!active(g))return;
-   b.disabled=false;
-
-   box.querySelector('.message').textContent=
-    error?error.message:'Job saved';
-
-   if(!error)await refreshAll();
-  };
-
-  list.append(box);
- }
+const {error}=await db.from('dluxe_jobs')
+.update(changes).eq('id',j.id);
+if(!active(g))return;
+b.disabled=false;
+box.querySelector('.message').textContent=
+error?error.message:'Job saved';
+if(!error)await refreshAll();
+};
+list.append(box);
+}
 }
 
 function renderPricing(){
- const list=$('priceList');
- list.replaceChildren();
+const list=$('priceList');
+list.replaceChildren();
+if(!services.length){
+list.textContent=
+'No services found. Check Supabase service table permissions.';
+return;
+}
 
- for(const s of services){
-  const box=document.createElement('div');
-  box.className='entry';
+for(const s of services){
+const box=document.createElement('div');
+box.className='entry';
+const title=document.createElement('h3');
+title.textContent=s.service_name;
 
-  const title=document.createElement('h3');
-  title.textContent=s.service_name;
+const category=document.createElement('p');
+category.className='muted';
+category.textContent=s.category;
 
-  const category=document.createElement('p');
-  category.className='muted';
-  category.textContent=s.category;
+const label=document.createElement('label');
+label.textContent='Base price (R)';
+const input=document.createElement('input');
+input.type='number';
+input.min='0';
+input.step='0.01';
+input.value=s.base_price;
 
-  const label=document.createElement('label');
-  label.textContent='Base price (R)';
+const sizeInputs={};
+const prices=s.vehicle_prices||{};
+const wrapper=document.createElement('div');
+wrapper.className='split';
 
-  const input=document.createElement('input');
-  input.type='number';input.min='0';input.step='0.01';
-  input.value=s.base_price;
+for(const size of Object.keys(prices)){
+const l=document.createElement('label');
+l.textContent=size+' price (R)';
+const inp=document.createElement('input');
+inp.type='number';
+inp.min='0';
+inp.step='0.01';
+inp.value=prices[size];
+l.append(inp);
+wrapper.append(l);
+sizeInputs[size]=inp;
+}
 
-  const sizeInputs={};
-  const prices=s.vehicle_prices||{};
+const b=document.createElement('button');
+b.textContent='Save price';
+const msg=document.createElement('p');
+msg.className='message';
 
-  const wrapper=document.createElement('div');
-  wrapper.className='split';
+b.onclick=async()=>{
+if(!unlocked)return;
+const g=generation;
+b.disabled=true;
+const updatedPrices={};
 
-  for(const size of Object.keys(prices)){
-   const l=document.createElement('label');
-   l.textContent=size+' price (R)';
-   const inp=document.createElement('input');
-   inp.type='number';inp.min='0';inp.step='0.01';
-   inp.value=prices[size];
-   l.append(inp);wrapper.append(l);
-   sizeInputs[size]=inp;
-  }
+for(const [size,inp] of Object.entries(sizeInputs))
+updatedPrices[size]=Math.max(0,Number(inp.value)||0);
 
-  const b=document.createElement('button');
-  b.textContent='Save Price';
+const {error}=await db.from('dluxe_services')
+.update({
+base_price:Math.max(0,Number(input.value)||0),
+vehicle_prices:updatedPrices
+}).eq('id',s.id);
 
-  const msg=document.createElement('p');
-  msg.className='message';
+if(!active(g))return;
+b.disabled=false;
+msg.textContent=error?error.message:'Price saved';
+if(!error)await refreshAll();
+};
 
-  b.onclick=async()=>{
-   if(!unlocked)return;
-   const g=generation;
-   b.disabled=true;
-
-   const updatedPrices={};
-   for(const [size,inp] of Object.entries(sizeInputs)){
-    updatedPrices[size]=Math.max(0,Number(inp.value)||0);
-   }
-
-   const {error}=await db.from('dluxe_services')
-    .update({
-     base_price:Math.max(0,Number(input.value)||0),
-     vehicle_prices:updatedPrices
-    }).eq('id',s.id);
-
-   if(!active(g))return;
-   b.disabled=false;
-
-   msg.textContent=error?error.message:'Price saved';
-
-   if(!error)await refreshAll();
-  };
-
-  label.append(input);
-  box.append(title,category,label,wrapper,b,msg);
-  list.append(box);
- }
+label.append(input);
+box.append(title,category,label,wrapper,b,msg);
+list.append(box);
+}
 }
 
 function calcVoltage(){
- const p=num('watts'),r=num('ohms');
- $('voltage').textContent=p>0&&r>0
-  ? 'Theoretical reference: '+Math.sqrt(p*r).toFixed(2)+' V AC RMS'
-  : 'Enter positive RMS power and impedance.';
+const p=num('watts'),r=num('ohms');
+$('voltage').textContent=p>0&&r>0?
+'Theoretical target: '+
+Math.sqrt(p*r).toFixed(2)+' V AC RMS':
+'Enter positive RMS power and impedance';
 }
+
 $('watts').oninput=calcVoltage;
 $('ohms').oninput=calcVoltage;
 calcVoltage();
 
 $('boxPlan').onclick=()=>{
- const w=num('bootW'),h=num('bootH'),d=num('bootD');
+const w=num('bootW');
+const h=num('bootH');
+const d=num('bootD');
 
- const lines=[
-  'Subwoofer: '+($('subModel').value||'Not specified'),
-  'Quantity: '+num('subQty'),
-  'Driver size: '+num('subDiameter')+' inches',
-  'Bass goal: '+$('bass').value,
-  'Enclosure preference: '+$('boxType').value
- ];
+const lines=[
+'Subwoofer: '+($('subModel').value||'Not specified'),
+'Quantity: '+num('subQty'),
+'Driver diameter: '+num('subDiameter')+' inches',
+'Bass goal: '+$('bass').value,
+'Enclosure preference: '+$('boxType').value
+];
 
- if(w&&h&&d){
-  lines.push(
-   'Available rectangular space: '+(w*h*d/1000).toFixed(1)+' L',
-   'This is gross space, NOT usable enclosure volume.'
-  );
- }else{
-  lines.push('Measure the available boot dimensions.');
- }
+if(w&&h&&d){
+lines.push(
+'Available rectangular space: '+
+(w*h*d/1000).toFixed(1)+' L',
+'This is gross space, NOT usable enclosure volume.'
+);
+}else{
+lines.push('Measure the available boot dimensions.');
+}
 
- lines.push(
-  'Obtain manufacturer T/S parameters, recommended '+
-  'net volume, displacement and target tuning before '+
-  'producing a final cutting plan.'
- );
+lines.push(
+'NEXT: Obtain manufacturer T/S parameters, '+
+'recommended net volume, displacement, '+
+'port geometry and target tuning before '+
+'producing a cutting plan.'
+);
 
- $('boxResult').textContent=lines.join('\n');
+$('boxResult').textContent=lines.join('\n');
 };
 
 renderQuoteItems();
