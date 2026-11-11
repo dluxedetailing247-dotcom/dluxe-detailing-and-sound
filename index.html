@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090b10">
 <link rel="manifest" href="./manifest.json">
-<title>D-LUXE | Premium Command Centre V3</title>
+<title>D-LUXE | Premium Command Centre V4</title>
 <style>
 :root{
 color-scheme:dark;
@@ -139,6 +139,65 @@ main{padding:12px}
 .card{padding:14px}
 .grid,.split{grid-template-columns:1fr}
 }
+
+/* V4 calendar and customer directory */
+.calendarGrid{
+display:grid;
+grid-template-columns:repeat(7,minmax(0,1fr));
+gap:6px
+}
+.calendarWeekday{
+text-align:center;font-size:11px;
+font-weight:800;color:var(--muted);padding:5px 0
+}
+.calendarDay{
+padding:8px 3px;min-height:70px;
+border-radius:12px;border:1px solid #344051;
+background:#111720;color:var(--ink);
+display:flex;flex-direction:column;
+align-items:flex-start;justify-content:space-between;
+gap:6px;font-weight:600
+}
+.calendarDay.isSelected{
+border:2px solid var(--gold);
+background:#342818;color:white
+}
+.calendarDay.isToday .calendarDate{
+color:var(--gold);font-weight:900
+}
+.calendarDay.isOtherMonth{
+opacity:.3;pointer-events:none
+}
+.calendarDay .calendarCount{
+font-size:10px;color:var(--gold);white-space:nowrap
+}
+.calendarDate{font-size:14px}
+.calendarDay.hasBooking{background:#202737}
+.calendarDay.isSelected.hasBooking{background:#342818}
+.calendarToolbar{
+display:flex;align-items:center;
+justify-content:space-between;gap:8px;flex-wrap:wrap
+}
+.calendarToolbar button{padding:9px 13px}
+.calendarToolbar h3{margin:0}
+.inlineNote{
+font-size:12px;color:var(--muted);line-height:1.5
+}
+.customerSearch{
+position:sticky;top:0;background:#11151d;
+z-index:1;padding:4px 0
+}
+.metaRow{
+display:flex;flex-wrap:wrap;gap:7px;margin:8px 0
+}
+.metaRow .pill{color:#e3e6ed}
+.entry:target{border-color:var(--gold)}
+@media(max-width:420px){
+.calendarGrid{gap:3px}
+.calendarDay{min-height:62px;padding:6px 3px}
+.calendarDate{font-size:12px}
+.calendarDay .calendarCount{font-size:9px}
+}
 </style>
 </head>
 <body>
@@ -146,7 +205,7 @@ main{padding:12px}
 <header>
 <div>
 <div class="brand">D-LUXE DETAILING &amp; SOUND</div>
-<h1>Command Centre <span class="pill">V3</span></h1>
+<h1>Command Centre <span class="pill">V4</span></h1>
 </div>
 <button id="logout" class="secondary hidden">Sign out</button>
 </header>
@@ -185,6 +244,8 @@ administrator permissions and automatic App Lock.
 <button data-page="requests">Requests</button>
 <button data-page="quotes">Quotations</button>
 <button data-page="jobs">Job Cards</button>
+<button data-page="calendar">Calendar</button>
+<button data-page="customers">Customers</button>
 <button data-page="pricing">Pricing</button>
 <button data-page="sound">Sound Tools</button>
 <button data-page="business">Business</button>
@@ -340,6 +401,18 @@ Confirm VAT treatment before issuing formal quotes.
 <label>Scheduled date
 <input id="jobDate" type="date">
 </label>
+<div class="split">
+<label>Start time (optional)
+<input id="jobStart" type="time" step="900">
+</label>
+<label>Finish time (optional)
+<input id="jobEnd" type="time" step="900">
+</label>
+</div>
+<p class="inlineNote">
+For timed bookings, choose a date and both times.
+All times are South African local time (SAST).
+</p>
 <label>Technician notes
 <textarea id="jobNotes" maxlength="5000"></textarea>
 </label>
@@ -352,13 +425,74 @@ Confirm VAT treatment before issuing formal quotes.
 </div>
 </section>
 
+<section id="calendar" class="page hidden">
+<h2>Booking calendar</h2>
+<div class="card">
+<div class="calendarToolbar">
+<button type="button" class="secondary" id="calPrev"
+aria-label="Previous month">‹</button>
+<h3 id="calendarMonth">Calendar</h3>
+<button type="button" class="secondary" id="calNext"
+aria-label="Next month">›</button>
+<button type="button" class="secondary" id="calToday">
+Today
+</button>
+</div>
+<p class="inlineNote">
+Appointments are displayed in South African time.
+Tap a date to see its jobs.
+Overlapping bookings are flagged in the selected-day list.
+</p>
+<div id="calendarGrid" class="calendarGrid"></div>
+</div>
+<div class="card">
+<div class="row">
+<h3 id="calendarDayTitle">Selected date</h3>
+<button type="button" class="secondary" id="calOpenJobs">
+Open Job Cards
+</button>
+</div>
+<div id="calendarDayList"></div>
+</div>
+<p class="inlineNote">
+The calendar currently displays the jobs loaded in the admin
+dashboard (latest 200). An existing job with only a scheduled
+date appears as an all-day entry.
+Cross-device double-booking is not yet enforced at database level.
+</p>
+</section>
+
+<section id="customers" class="page hidden">
+<h2>Customer manager</h2>
+<div class="card">
+<label>Find a customer, phone number or vehicle
+<input id="customerSearch" type="search" maxlength="120"
+placeholder="Search name, phone, email, vehicle…"
+autocomplete="off">
+</label>
+<p class="inlineNote">
+Customer history is built from existing requests,
+quotes and job cards.
+Records are grouped by matching phone number,
+then email where possible.
+A shared phone number may combine records from different people.
+</p>
+<p id="customerSummary" class="gold"></p>
+</div>
+<div id="customerList"></div>
+<p class="inlineNote">
+Showing records currently loaded by the admin
+(latest 200 from each business table).
+Older history will require a paginated search upgrade.
+</p>
+</section>
+
 <section id="pricing" class="page hidden">
 <h2>Service pricing</h2>
 <p class="note">
-Internal starting prices.
-Changing these does not automatically update
-prices shown on the client website.
-Quote prices remain editable for each job.
+Official starting prices. Your client website reads current
+active service prices after refresh. Saved quotations
+remain unchanged until you edit them separately.
 </p>
 <div id="priceList"></div>
 </section>
@@ -491,14 +625,118 @@ const jobStatuses=[
 let db,currentUser=null;
 let unlocked=false,authorized=false,authBusy=false;
 let generation=0;
-let requests=[],quotes=[],jobs=[],services=[],quoteItems=[];
+let requests=[],quotes=[],jobs=[],services=[],quoteItems[];
+
+const SA_ZONE='Africa/Johannesburg';
+const todaySA=()=>dateSA(new Date());
+let calendarSelected=todaySA();
+let calendarYear=Number(calendarSelected.slice(0,4));
+let calendarMonthIndex=Number(calendarSelected.slice(5,7))-1;
+
+function dateSA(value){
+const d=value instanceof Date?value:new Date(value);
+if(!Number.isFinite(d.getTime()))return '';
+const parts=new Intl.DateTimeFormat('en-GB',{
+timeZone:SA_ZONE,year:'numeric',month:'2-digit',day:'2-digit'
+}).formatToParts(d);
+const get=t=>parts.find(x=>x.type===t)?.value||'';
+return `${get('year')}-${get('month')}-${get('day')}`;
+}
+
+function timeSA(value){
+if(!value)return '';
+const d=new Date(value);
+if(!Number.isFinite(d.getTime()))return '';
+const parts=new Intl.DateTimeFormat('en-GB',{
+timeZone:SA_ZONE,hour:'2-digit',minute:'2-digit',hourCycle:'h23'
+}).formatToParts(d);
+const get=t=>parts.find(x=>x.type===t)?.value||'';
+return `${get('hour')}:${get('minute')}`;
+}
+
+function localSchedule(date,start,end){
+if(!start&&!end)return {
+scheduled_date:date||null,
+scheduled_start_at:null,
+scheduled_end_at:null
+};
+if(!date||!start||!end)
+throw Error('Choose a date and both start and finish times.');
+if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||
+!/^\d{2}:\d{2}$/.test(start)||
+!/^\d{2}:\d{2}$/.test(end))
+throw Error('Invalid appointment date or time.');
+
+const startDate=new Date(`${date}T${start}:00+02:00`);
+const endDate=new Date(`${date}T${end}:00+02:00`);
+
+if(!Number.isFinite(startDate.getTime())||
+!Number.isFinite(endDate.getTime())||
+endDate<=startDate||
+dateSA(startDate)!==date||
+dateSA(endDate)!==date)
+throw Error(
+'Finish time must be later than start time on the same day.'
+);
+
+return {
+scheduled_date:date,
+scheduled_start_at:startDate.toISOString(),
+scheduled_end_at:endDate.toISOString()
+};
+}
+
+function conflictingJobs(schedule,excludeId=''){
+if(!schedule.scheduled_start_at)return [];
+const start=Date.parse(schedule.scheduled_start_at);
+const end=Date.parse(schedule.scheduled_end_at);
+return jobs.filter(j=>
+j.id!==excludeId&&
+j.scheduled_start_at&&
+j.scheduled_end_at&&
+!['Cancelled','Completed'].includes(j.status)&&
+Date.parse(j.scheduled_start_at)<end&&
+Date.parse(j.scheduled_end_at)>start
+);
+}
+
+function jobDateKey(j){
+return j.scheduled_date||
+(j.scheduled_start_at?dateSA(j.scheduled_start_at):'');
+}
+
+function navigateTo(page){
+const button=document.querySelector(
+`#tabs button[data-page="${page}"]`
+);
+if(button)button.click();
+}
+
+function navigateToJob(id){
+navigateTo('jobs');
+const card=Array.from(
+document.querySelectorAll('#jobList .entry')
+).find(element=>element.dataset.jobId===id);
+
+if(card){
+card.querySelector('details')?.setAttribute('open','');
+card.scrollIntoView({behavior:'smooth',block:'center'});
+card.style.borderColor='var(--gold)';
+setTimeout(()=>{
+card.style.borderColor='';
+},2500);
+}
+}
 
 function wipe(){
 requests=[];quotes=[];jobs=[];services=[];quoteItems=[];
 for(const id of [
 'requestList','quoteList','jobList',
-'priceList','recent','quoteItems'
+'priceList','recent','quoteItems',
+'calendarGrid','calendarDayList','customerList'
 ])$(id).replaceChildren();
+$('customerSearch').value='';
+$('customerSummary').textContent='';
 $('appStatus').textContent='';
 for(const id of [
 'statNew','statActive','statDone','statAccepted'
@@ -553,6 +791,7 @@ const c=await r.json();
 const url=c.supabaseUrl||c.supabase_url;
 const key=c.supabaseAnonKey||c.supabaseKey||
 c.supabase_anon_key;
+
 if(!url||!key||key.includes('insert here'))
 throw Error('Incomplete public Supabase configuration');
 
@@ -703,6 +942,8 @@ renderQuoteOptions();
 renderQuotes();
 renderJobOptions();
 renderJobs();
+renderCalendar();
+renderCustomers();
 renderPricing();
 
 $('appStatus').textContent=errors.length?
@@ -1169,9 +1410,30 @@ $('jobMessage').textContent=
 return;
 }
 
+let schedule;
+try{
+schedule=localSchedule(
+$('jobDate').value,
+$('jobStart').value,
+$('jobEnd').value
+);
+}catch(error){
+$('jobMessage').textContent=error.message;
+return;
+}
+
+const conflicts=conflictingJobs(schedule);
+if(conflicts.length){
+$('jobMessage').textContent='Booking conflicts with '+
+conflicts.map(j=>j.job_number).join(', ')+
+'. Choose another time or adjust the existing job.';
+return;
+}
+
 const g=generation;
 const b=$('createJob');
 b.disabled=true;
+
 const jobNumber='DLJ-'+
 Date.now().toString(36).toUpperCase()+'-'+
 crypto.randomUUID().slice(0,6).toUpperCase();
@@ -1187,7 +1449,7 @@ vehicle_model:q.vehicle_model,
 vehicle_registration:q.vehicle_registration,
 job_type:$('jobType').value,
 status:'Scheduled',
-scheduled_date:$('jobDate').value||null,
+...schedule,
 quoted_amount:q.total,
 technician_notes:$('jobNotes').value.trim(),
 checklist:[],
@@ -1207,6 +1469,7 @@ if(!error)await refreshAll();
 function renderJobs(){
 const list=$('jobList');
 list.replaceChildren();
+
 if(!jobs.length){
 list.textContent='No job cards yet.';
 return;
@@ -1215,6 +1478,8 @@ return;
 for(const j of jobs){
 const box=document.createElement('div');
 box.className='entry';
+box.dataset.jobId=j.id;
+
 box.innerHTML=`
 <strong>${esc(j.job_number)}</strong>
 <p>${esc(j.client_name)} ·
@@ -1234,6 +1499,14 @@ ${jobStatuses.map(s=>`
 <label>Scheduled date
 <input class="jobDate" type="date">
 </label>
+<div class="split">
+<label>Start time (SAST, optional)
+<input class="jobStart" type="time" step="900">
+</label>
+<label>Finish time (SAST, optional)
+<input class="jobEnd" type="time" step="900">
+</label>
+</div>
 <label>Actual job cost (R)
 <input class="jobCost" type="number" min="0" step="0.01">
 </label>
@@ -1244,13 +1517,35 @@ ${jobStatuses.map(s=>`
 <p class="message"></p>
 </details>`;
 
-box.querySelector('.jobDate').value=j.scheduled_date||'';
+box.querySelector('.jobDate').value=jobDateKey(j)||'';
+box.querySelector('.jobStart').value=timeSA(j.scheduled_start_at);
+box.querySelector('.jobEnd').value=timeSA(j.scheduled_end_at);
 box.querySelector('.jobCost').value=j.actual_cost||0;
-box.querySelector('.jobNotes').value=
-j.technician_notes||'';
+box.querySelector('.jobNotes').value=j.technician_notes||'';
 
 box.querySelector('.saveJob').onclick=async()=>{
 if(!unlocked)return;
+
+let schedule;
+try{
+schedule=localSchedule(
+box.querySelector('.jobDate').value,
+box.querySelector('.jobStart').value,
+box.querySelector('.jobEnd').value
+);
+}catch(error){
+box.querySelector('.message').textContent=error.message;
+return;
+}
+
+const conflicts=conflictingJobs(schedule,j.id);
+if(conflicts.length){
+box.querySelector('.message').textContent=
+'Time conflict with '+
+conflicts.map(item=>item.job_number).join(', ');
+return;
+}
+
 const g=generation;
 const b=box.querySelector('.saveJob');
 b.disabled=true;
@@ -1258,10 +1553,9 @@ const newStatus=box.querySelector('.jobStatus').value;
 
 const changes={
 status:newStatus,
-scheduled_date:
-box.querySelector('.jobDate').value||null,
-actual_cost:Math.max(0,
-Number(box.querySelector('.jobCost').value)||0
+...schedule,
+actual_cost:Math.max(
+0,Number(box.querySelector('.jobCost').value)||0
 ),
 technician_notes:
 box.querySelector('.jobNotes').value.slice(0,5000),
@@ -1271,19 +1565,429 @@ completed_at:newStatus==='Completed'?
 
 const {error}=await db.from('dluxe_jobs')
 .update(changes).eq('id',j.id);
+
 if(!active(g))return;
 b.disabled=false;
 box.querySelector('.message').textContent=
 error?error.message:'Job saved';
 if(!error)await refreshAll();
 };
+
 list.append(box);
 }
 }
 
+function calendarDateString(year,monthIndex,day){
+return new Date(Date.UTC(year,monthIndex,day))
+.toISOString().slice(0,10);
+}
+
+function formatCalendarDay(iso){
+return new Intl.DateTimeFormat('en-ZA',{
+timeZone:'UTC',
+day:'numeric',
+month:'long',
+year:'numeric'
+}).format(new Date(`${iso}T12:00:00Z`));
+}
+
+function renderCalendar(){
+if(!unlocked)return;
+
+const monthLabel=new Intl.DateTimeFormat('en-ZA',{
+timeZone:'UTC',
+month:'long',
+year:'numeric'
+}).format(
+new Date(Date.UTC(calendarYear,calendarMonthIndex,1))
+);
+
+$('calendarMonth').textContent=monthLabel;
+const grid=$('calendarGrid');
+grid.replaceChildren();
+
+for(const name of [
+'Mon','Tue','Wed','Thu','Fri','Sat','Sun'
+]){
+const head=document.createElement('div');
+head.className='calendarWeekday';
+head.textContent=name;
+grid.append(head);
+}
+
+const first=new Date(
+Date.UTC(calendarYear,calendarMonthIndex,1)
+);
+const offset=(first.getUTCDay()+6)%7;
+const length=new Date(
+Date.UTC(calendarYear,calendarMonthIndex+1,0)
+).getUTCDate();
+
+const byDate=new Map();
+for(const j of jobs){
+const date=jobDateKey(j);
+if(!date)continue;
+byDate.set(date,(byDate.get(date)||0)+1);
+}
+
+for(let i=0;i<offset+length;i++){
+if(i<offset){
+const empty=document.createElement('div');
+grid.append(empty);
+continue;
+}
+
+const day=i-offset+1;
+const key=calendarDateString(
+calendarYear,calendarMonthIndex,day
+);
+const count=byDate.get(key)||0;
+
+const button=document.createElement('button');
+button.type='button';
+button.className='calendarDay'+
+(key===calendarSelected?' isSelected':'')+
+(key===todaySA()?' isToday':'')+
+(count?' hasBooking':'');
+
+button.setAttribute(
+'aria-label',
+formatCalendarDay(key)+`, ${count} jobs`
+);
+
+const date=document.createElement('span');
+date.className='calendarDate';
+date.textContent=String(day);
+
+const countTag=document.createElement('span');
+countTag.className='calendarCount';
+countTag.textContent=count?
+count+' job'+(count===1?'':'s'):'';
+
+button.append(date,countTag);
+button.onclick=()=>{
+calendarSelected=key;
+renderCalendar();
+};
+grid.append(button);
+}
+renderCalendarDay();
+}
+
+function renderCalendarDay(){
+$('calendarDayTitle').textContent=
+formatCalendarDay(calendarSelected);
+
+const list=$('calendarDayList');
+list.replaceChildren();
+
+const items=jobs.filter(
+j=>jobDateKey(j)===calendarSelected
+).sort((a,b)=>
+String(a.scheduled_start_at||'').localeCompare(
+String(b.scheduled_start_at||'')
+)
+);
+
+if(!items.length){
+list.textContent='No jobs scheduled for this date.';
+return;
+}
+
+for(const j of items){
+const entry=document.createElement('article');
+entry.className='entry';
+
+const time=j.scheduled_start_at?
+`${timeSA(j.scheduled_start_at)}–${timeSA(j.scheduled_end_at)} SAST`:
+'All-day / time not set';
+
+const overlaps=j.scheduled_start_at?
+conflictingJobs(j,j.id):[];
+
+entry.innerHTML=`
+<div class="row">
+<strong>${esc(j.client_name)}</strong>
+<span class="pill">${esc(j.status)}</span>
+</div>
+<p class="gold">${esc(time)}</p>
+<p>${esc(j.job_type)} ·
+${esc(j.vehicle_make||'')} ${esc(j.vehicle_model||'')}</p>
+<p class="inlineNote">${esc(j.job_number)}</p>
+${overlaps.length?
+'<p style="color:#ffb3a6">⚠ Overlaps another active booking</p>':
+''}
+`;
+
+const b=document.createElement('button');
+b.className='secondary';
+b.textContent='Open job card';
+b.onclick=()=>navigateToJob(j.id);
+entry.append(b);
+list.append(entry);
+}
+}
+
+$('calPrev').onclick=()=>{
+const date=new Date(
+Date.UTC(calendarYear,calendarMonthIndex-1,1)
+);
+calendarYear=date.getUTCFullYear();
+calendarMonthIndex=date.getUTCMonth();
+calendarSelected=calendarDateString(
+calendarYear,calendarMonthIndex,1
+);
+renderCalendar();
+};
+
+$('calNext').onclick=()=>{
+const date=new Date(
+Date.UTC(calendarYear,calendarMonthIndex+1,1)
+);
+calendarYear=date.getUTCFullYear();
+calendarMonthIndex=date.getUTCMonth();
+calendarSelected=calendarDateString(
+calendarYear,calendarMonthIndex,1
+);
+renderCalendar();
+};
+
+$('calToday').onclick=()=>{
+calendarSelected=todaySA();
+calendarYear=Number(calendarSelected.slice(0,4));
+calendarMonthIndex=Number(calendarSelected.slice(5,7))-1;
+renderCalendar();
+};
+
+$('calOpenJobs').onclick=()=>navigateTo('jobs');
+
+function normalizePhone(value){
+let digits=String(value||'').replace(/\D/g,'');
+if(digits.startsWith('0027'))digits=digits.slice(2);
+if(/^0[0-9]{9}$/.test(digits))
+digits='27'+digits.slice(1);
+return digits;
+}
+
+function whatsappUrl(value){
+const phone=normalizePhone(value);
+return /^27[0-9]{9}$/.test(phone)?
+'https://wa.me/'+phone:null;
+}
+
+function renderCustomers(){
+if(!unlocked)return;
+
+const clients=new Map();
+
+function include(source,row,phone,email,name,vehicle,at){
+const normalized=normalizePhone(phone);
+const address=String(email||'').trim().toLowerCase();
+const key=normalized?'phone:'+normalized:
+address?'email:'+address:source+':'+row.id;
+
+if(!clients.has(key))
+clients.set(key,{
+name:'',
+phone:'',
+email:'',
+vehicles:new Set(),
+requests:[],
+quotes:[],
+jobs:[],
+latest:'',
+lastTime:0
+});
+
+const c=clients.get(key);
+const stamp=Date.parse(at)||0;
+
+if(stamp>=c.lastTime&&name)
+c.name=String(name);
+
+c.lastTime=Math.max(c.lastTime,stamp);
+if(phone)c.phone=String(phone);
+if(email)c.email=String(email);
+if(vehicle.trim())c.vehicles.add(vehicle.trim());
+c[source].push(row);
+}
+
+requests.forEach(r=>
+include(
+'requests',r,r.phone,r.email,r.client_name,
+[r.vehicle_make,r.vehicle_model].filter(Boolean).join(' '),
+r.created_at
+)
+);
+
+quotes.forEach(q=>
+include(
+'quotes',q,q.client_phone,q.client_email,q.client_name,
+[q.vehicle_make,q.vehicle_model].filter(Boolean).join(' '),
+q.created_at
+)
+);
+
+jobs.forEach(j=>
+include(
+'jobs',j,j.client_phone,'',j.client_name,
+[j.vehicle_make,j.vehicle_model].filter(Boolean).join(' '),
+j.created_at
+)
+);
+
+const all=[...clients.values()].sort(
+(a,b)=>b.lastTime-a.lastTime
+);
+
+const needle=$('customerSearch').value.trim().toLowerCase();
+const results=all.filter(c=>
+[c.name,c.phone,c.email,...c.vehicles]
+.join(' ').toLowerCase().includes(needle)
+);
+
+$('customerSummary').textContent=
+`${results.length} customer group${results.length===1?'':'s'}`+
+(needle?` matching search (of ${all.length})`:
+' from loaded records');
+
+const list=$('customerList');
+list.replaceChildren();
+
+if(!results.length){
+list.textContent='No customers matched your search.';
+return;
+}
+
+for(const c of results){
+const card=document.createElement('article');
+card.className='entry';
+const latest=new Date(c.lastTime);
+const recent=Number.isFinite(latest.getTime())?
+latest.toLocaleDateString('en-ZA',{
+timeZone:SA_ZONE
+}):'Not available';
+
+card.innerHTML=`
+<div class="row">
+<h3>${esc(c.name||'Customer')}</h3>
+<span class="pill">Last activity: ${esc(recent)}</span>
+</div>
+<p>📞 ${esc(c.phone||'No contact number')}</p>
+<p>✉ ${esc(c.email||'No email provided')}</p>
+<p class="muted">
+${esc([...c.vehicles].join(', ')||'No vehicle specified')}
+</p>
+<div class="metaRow">
+<span class="pill">${c.requests.length} requests</span>
+<span class="pill">${c.quotes.length} quotes</span>
+<span class="pill">${c.jobs.length} jobs</span>
+</div>
+<details>
+<summary>View customer history</summary>
+<div class="history"></div>
+</details>
+`;
+
+const actions=document.createElement('div');
+actions.className='actions';
+
+if(c.phone){
+const call=document.createElement('a');
+call.textContent='Call customer';
+call.href='tel:'+encodeURIComponent(c.phone);
+actions.append(call);
+
+const wa=whatsappUrl(c.phone);
+if(wa){
+const a=document.createElement('a');
+a.href=wa;
+a.target='_blank';
+a.rel='noopener noreferrer';
+a.textContent='WhatsApp';
+actions.append(a);
+}
+}
+
+if(c.email){
+const mail=document.createElement('a');
+mail.href='mailto:'+encodeURIComponent(c.email);
+mail.textContent='Email';
+actions.append(mail);
+}
+
+if(actions.childElementCount)
+card.insertBefore(
+actions,card.querySelector('details')
+);
+
+const history=card.querySelector('.history');
+
+for(const r of c.requests){
+const item=document.createElement('div');
+item.className='entry';
+
+item.innerHTML=`
+<strong>Request</strong> · ${esc(r.status)} ·
+${esc(new Date(r.created_at).toLocaleDateString('en-ZA'))}
+<p>${esc(
+[r.vehicle_make,r.vehicle_model].filter(Boolean).join(' ')
+)}</p>
+`;
+
+const b=document.createElement('button');
+b.className='secondary';
+b.textContent='Open Requests';
+b.onclick=()=>navigateTo('requests');
+item.append(b);
+history.append(item);
+}
+
+for(const q of c.quotes){
+const item=document.createElement('div');
+item.className='entry';
+
+item.innerHTML=`
+<strong>Quotation ${esc(q.quote_number)}</strong>
+<p>${esc(q.status)} · ${money(q.total)}</p>
+`;
+
+const b=document.createElement('button');
+b.className='secondary';
+b.textContent='Open Quotations';
+b.onclick=()=>navigateTo('quotes');
+item.append(b);
+history.append(item);
+}
+
+for(const j of c.jobs){
+const item=document.createElement('div');
+item.className='entry';
+
+item.innerHTML=`
+<strong>Job ${esc(j.job_number)}</strong>
+<p>${esc(j.status)} · ${esc(j.job_type)} ·
+${esc(jobDateKey(j)||'Not scheduled')}</p>
+`;
+
+const b=document.createElement('button');
+b.className='secondary';
+b.textContent='Open Job Card';
+b.onclick=()=>navigateToJob(j.id);
+item.append(b);
+history.append(item);
+}
+
+list.append(card);
+}
+}
+
+$('customerSearch').oninput=renderCustomers;
+
 function renderPricing(){
 const list=$('priceList');
 list.replaceChildren();
+
 if(!services.length){
 list.textContent=
 'No services found. Check Supabase service table permissions.';
@@ -1293,6 +1997,7 @@ return;
 for(const s of services){
 const box=document.createElement('div');
 box.className='entry';
+
 const title=document.createElement('h3');
 title.textContent=s.service_name;
 
@@ -1302,6 +2007,7 @@ category.textContent=s.category;
 
 const label=document.createElement('label');
 label.textContent='Base price (R)';
+
 const input=document.createElement('input');
 input.type='number';
 input.min='0';
@@ -1316,11 +2022,13 @@ wrapper.className='split';
 for(const size of Object.keys(prices)){
 const l=document.createElement('label');
 l.textContent=size+' price (R)';
+
 const inp=document.createElement('input');
 inp.type='number';
 inp.min='0';
 inp.step='0.01';
 inp.value=prices[size];
+
 l.append(inp);
 wrapper.append(l);
 sizeInputs[size]=inp;
@@ -1328,6 +2036,7 @@ sizeInputs[size]=inp;
 
 const b=document.createElement('button');
 b.textContent='Save price';
+
 const msg=document.createElement('p');
 msg.className='message';
 
@@ -1335,10 +2044,12 @@ b.onclick=async()=>{
 if(!unlocked)return;
 const g=generation;
 b.disabled=true;
-const updatedPrices={};
 
+const updatedPrices={};
 for(const [size,inp] of Object.entries(sizeInputs))
-updatedPrices[size]=Math.max(0,Number(inp.value)||0);
+updatedPrices[size]=Math.max(
+0,Number(inp.value)||0
+);
 
 const {error}=await db.from('dluxe_services')
 .update({
@@ -1348,12 +2059,16 @@ vehicle_prices:updatedPrices
 
 if(!active(g))return;
 b.disabled=false;
-msg.textContent=error?error.message:'Price saved';
+msg.textContent=error?
+error.message:'Price saved';
+
 if(!error)await refreshAll();
 };
 
 label.append(input);
-box.append(title,category,label,wrapper,b,msg);
+box.append(
+title,category,label,wrapper,b,msg
+);
 list.append(box);
 }
 }
@@ -1390,7 +2105,9 @@ lines.push(
 'This is gross space, NOT usable enclosure volume.'
 );
 }else{
-lines.push('Measure the available boot dimensions.');
+lines.push(
+'Measure the available boot dimensions.'
+);
 }
 
 lines.push(
